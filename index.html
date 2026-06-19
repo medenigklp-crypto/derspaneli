@@ -60,7 +60,6 @@
     };
     
     const DersPanel = () => {
-        // Tüm State Tanımlamaları En Üst Sıraya Alındı (Çökme Engellendi)
         const [ogrenciler, setOgrenciler] = useState([]);
         const [odevler, setOdevler] = useState([]);
         const [dersler, setDersler] = useState([]);
@@ -68,23 +67,14 @@
         const [isPremium, setIsPremium] = useState(false);
         const [activeTab, setActiveTab] = useState('program');
         const [showMoney, setShowMoney] = useState(true);
-        const [dersFiltre, setDersFiltre] = useState("tum");
         const [seciliOgrenci, setSeciliOgrenci] = useState("tum");
         const [showOgrenciModal, setShowOgrenciModal] = useState(false);
-        const [showDersModal, setShowDersModal] = useState(false);
         const [showOdevModal, setShowOdevModal] = useState(false);
         const [showOdevSoru, setShowOdevSoru] = useState(false);
         const [showUpgrade, setShowUpgrade] = useState(false);
-        const [showHatirlatPopup, setShowHatirlatPopup] = useState(false);
-        const [hatirlatmaListesi, setHatirlatmaListesi] = useState([]);
-        const [tekrarEt, setTekrarEt] = useState(false);
-        const [editId, setEditId] = useState(null);
-        const [editingId, setEditingId] = useState(null);
-        const [hatirlatmaPlan, setHatirlatmaPlan] = useState(null);
 
         const [ogrenciForm, setOgrenciForm] = useState({ ad: '', telefon: '', sinif: '', ucret: '' });
         const [odevForm, setOdevForm] = useState({ ogrenciId: '', konu: '', aciklama: '', durum: "yapilmadi" });
-        const [dersForm, setDersForm] = useState({ ogrenciId: '', tarih: '', baslangic: '', bitis: '', sure: 1, konu: '', ucret: '', odendi: false });
         const [programForm, setProgramForm] = useState({ ogrenciId: "", gun: "", basSaat: "", basDakika: "", bitSaat: "", bitDakika: "" });
         const [seciliTarih, setSeciliTarih] = useState(() => new Date().toISOString().split("T")[0]);
         const [popup, setPopup] = useState({ show: false, message: "", type: "info" });
@@ -99,12 +89,6 @@
         const bugunStr = normalizeDate(new Date());
         const LIMITS = { student: 5, homework: 10, program: 5, lesson: 5 };
         const saatler = Array.from({ length: 15 }, (_, i) => 8 + i);
-        const dakikalar = [0, 15, 30, 45];
-
-        const showPopup = (message, type = "info") => {
-            setPopup({ show: true, message, type });
-            setTimeout(() => setPopup({ show: false, message: "", type: "info" }), 2000);
-        };
 
         const canAdd = (type) => {
             if (isPremium) return true;
@@ -120,7 +104,7 @@
                 setOgrenciler(JSON.parse(localStorage.getItem("derspanel_ogrenciler") || "[]"));
                 setOdevler(JSON.parse(localStorage.getItem("derspanel_odevler") || "[]"));
                 setDersler(JSON.parse(localStorage.getItem("derspanel_dersler") || "[]"));
-            } catch (err) { console.error("Veri yükleme hatası", err); }
+            } catch (err) { console.error(err); }
         }, []);
 
         useEffect(() => { localStorage.setItem("derspanel_program", JSON.stringify(dersProgrami)); }, [dersProgrami]);
@@ -133,27 +117,14 @@
             return ogrenci ? ogrenci.ad : 'Bilinmeyen';
         };
 
-        const sendWhatsApp = (telefon, mesaj) => {
-            if (!telefon) return;
-            let temiz = telefon.replace(/\D/g, "");
-            if (temiz.startsWith("0")) temiz = "90" + temiz.substring(1);
-            else if (!temiz.startsWith("90")) temiz = "90" + temiz;
-            window.open(`https://wa.me/${temiz}?text=${encodeURIComponent(mesaj)}`, "_blank");
-        };
-
         const ogrenciKaydet = () => {
             if (!ogrenciForm.ad) return;
-            if (!editingId && !canAdd("student")) { setShowUpgrade(true); return; }
-            if (editingId) {
-                setOgrenciler(ogrenciler.map(o => o.id === editingId ? { ...ogrenciForm, id: editingId } : o));
-            } else {
-                setOgrenciler([...ogrenciler, { ...ogrenciForm, id: Date.now() }]);
-            }
-            setShowOgrenciModal(false); setEditingId(null);
+            if (!canAdd("student")) { setShowUpgrade(true); return; }
+            setOgrenciler([...ogrenciler, { ...ogrenciForm, id: Date.now() }]);
+            setShowOgrenciModal(false);
         };
 
-        const ogrenciSil = (id) => { if(confirm('Silmek istediğinize emin misiniz?')) setOgrenciler(ogrenciler.filter(o => o.id !== id)); };
-        const ogrenciDuzenle = (o) => { setOgrenciForm(o); setEditingId(o.id); setShowOgrenciModal(true); };
+        const ogrenciSil = (id) => { if(confirm('Silinsin mi?')) setOgrenciler(ogrenciler.filter(o => o.id !== id)); };
 
         const odevEkle = () => {
             if (!odevForm.konu || !odevForm.ogrenciId) return;
@@ -162,7 +133,7 @@
             setShowOdevModal(false);
         };
 
-        const odevSil = (id) => { if(confirm('Silinsin mi?')) setOdevler(odevler.filter(o => o.id !== id)); };
+        const odevSil = (id) => { setOdevler(odevler.filter(o => o.id !== id)); };
         const odevDurumDegistir = (id, d) => { setOdevler(odevler.map(o => o.id === id ? {...o, durum: d} : o)); };
 
         const dersGerceklesti = (plan) => {
@@ -174,33 +145,16 @@
         const programKaydet = () => {
             if(!programForm.ogrenciId || !programForm.gun) return;
             if(!canAdd("program")) { setShowUpgrade(true); return; }
-            const bas = `${String(programForm.basSaat).padStart(2,"0")}:${String(programForm.basDakika).padStart(2,"0")}`;
-            const bit = `${String(programForm.bitSaat).padStart(2,"0")}:${String(programForm.bitDakika).padStart(2,"0")}`;
+            const bas = `${String(programForm.basSaat).padStart(2,"0")}:00`;
+            const bit = `${String(programForm.bitSaat).padStart(2,"0")}:00`;
             setDersProgrami([...dersProgrami, { id: Date.now(), ogrenciId: Number(programForm.ogrenciId), gun: programForm.gun, baslangic: bas, bitis: bit, tarih: seciliTarih }]);
             setProgramForm({ ogrenciId: "", gun: "", basSaat: "", basDakika: "", bitSaat: "", bitDakika: "" });
         };
 
         const odemeDurumDegistir = (id) => { setDersler(dersler.map(d => d.id === id ? { ...d, odendi: !d.odendi } : d)); };
 
-        const haftaGunleri = (() => {
-            const secili = new Date(seciliTarih);
-            const gun = secili.getDay();
-            const fark = gun === 0 ? -6 : 1 - gun;
-            const pazartesi = new Date(secili);
-            pazartesi.setDate(secili.getDate() + fark);
-            const gList = [];
-            for (let i = 0; i < 7; i++) {
-                const g = new Date(pazartesi); g.setDate(pazartesi.getDate() + i);
-                gList.push({ tarih: g.toISOString().split("T")[0], ad: ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"][i] });
-            }
-            return gList;
-        })();
-
         const bugunDersler = dersProgrami.filter(p => p.tarih === bugunStr);
-        const yarinStr = normalizeDate(new Date(Date.now() + 86400000));
-        const yarinDersSayisi = dersProgrami.filter(p => p.tarih === yarinStr).length;
         const toplamKazanc = dersler.reduce((sum, d) => sum + Number(d.ucret || 0), 0);
-        const bugunKazanc = dersler.filter(d => d.tarih === bugunStr).reduce((sum, d) => sum + Number(d.ucret || 0), 0);
         const bekleyenOdeme = dersler.filter(d => !d.odendi).reduce((sum, d) => sum + Number(d.ucret || 0), 0);
 
         return (
@@ -208,30 +162,21 @@
                 <div className="bg-white shadow px-4 py-4 sticky top-0 z-10 flex justify-between items-center">
                     <div>
                         <h1 className="text-xl font-bold text-indigo-600">📚 Ders Paneli</h1>
-                        <p className="text-gray-500 text-xs">Yönetim Paneli</p>
+                        <p className="text-gray-500 text-xs">Yönetim Sistemi</p>
                     </div>
                     <button onClick={() => setIsPremium(!isPremium)} className={`text-xs px-3 py-1.5 rounded-lg font-bold ${isPremium ? "bg-purple-600 text-white" : "bg-gray-100 text-gray-700"}`}>
-                        {isPremium ? "💎 Premium" : "🆓 Ücretsiz Sürüm"}
+                        {isPremium ? "💎 Premium" : "🆓 Ücretsiz"}
                     </button>
                 </div>
 
-                <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="p-4 grid grid-cols-2 gap-3">
                     <div className="bg-indigo-600 text-white p-4 rounded-xl shadow">
                         <p className="text-xs opacity-80">Bugünkü Dersler</p>
                         <h3 className="text-xl font-bold">{bugunDersler.length}</h3>
                     </div>
-                    <div className="bg-blue-600 text-white p-4 rounded-xl shadow">
-                        <p className="text-xs opacity-80">Yarınki Dersler</p>
-                        <h3 className="text-xl font-bold">{yarinDersSayisi}</h3>
-                    </div>
                     <div className="bg-green-600 text-white p-4 rounded-xl shadow relative">
-                        <button onClick={() => setShowMoney(!showMoney)} className="absolute top-2 right-2 text-xs">{showMoney ? "👁" : "🙈"}</button>
                         <p className="text-xs opacity-80">Toplam Kazanç</p>
-                        <h3 className="text-xl font-bold">{showMoney ? `₺${toplamKazanc}` : "••••"}</h3>
-                    </div>
-                    <div className="bg-red-600 text-white p-4 rounded-xl shadow">
-                        <p className="text-xs opacity-80">Bekleyen Ödeme</p>
-                        <h3 className="text-xl font-bold">{showMoney ? `₺${bekleyenOdeme}` : "••••"}</h3>
+                        <h3 className="text-xl font-bold">₺{toplamKazanc}</h3>
                     </div>
                 </div>
 
@@ -268,8 +213,8 @@
                                 <option>Pazartesi</option><option>Salı</option><option>Çarşamba</option><option>Perşembe</option><option>Cuma</option><option>Cumartesi</option><option>Pazar</option>
                             </select>
                             <div className="grid grid-cols-2 gap-2 mb-3">
-                                <select onChange={e=>setProgramForm({...programForm, basSaat: e.target.value})} className="text-xs p-2 border rounded bg-white"><option value="">Başl. Saat</option>{saatler.map(s=><option key={s}>{s}</option>)}</select>
-                                <select onChange={e=>setProgramForm({...programForm, bitSaat: e.target.value})} className="text-xs p-2 border rounded bg-white"><option value="">Bitiş Saat</option>{saatler.map(s=><option key={s}>{s}</option>)}</select>
+                                <select onChange={e=>setProgramForm({...programForm, basSat: e.target.value})} className="text-xs p-2 border rounded bg-white"><option value="">Başl. Saat</option>{saatler.map(s=><option key={s}>{s}</option>)}</select>
+                                <select onChange={e=>setProgramForm({...programForm, bitSat: e.target.value})} className="text-xs p-2 border rounded bg-white"><option value="">Bitiş Saat</option>{saatler.map(s=><option key={s}>{s}</option>)}</select>
                             </div>
                             <button onClick={programKaydet} className="w-full bg-indigo-600 text-white text-xs py-2 rounded font-bold shadow">Programa Ekle</button>
                         </div>
@@ -280,7 +225,7 @@
                     <div className="p-4 bg-white m-4 rounded-xl shadow">
                         <div className="flex justify-between items-center mb-3">
                             <h3 className="font-bold text-sm">👨‍🎓 Kayıtlı Öğrenciler</h3>
-                            <button onClick={() => {setOgrenciForm({ad:'',telefon:'',sinif:'',ucret:''}); setEditingId(null); setShowOgrenciModal(true);}} className="bg-indigo-600 text-white text-xs px-3 py-1 rounded shadow">+ Yeni</button>
+                            <button onClick={() => setShowOgrenciModal(true)} className="bg-indigo-600 text-white text-xs px-3 py-1 rounded shadow">+ Yeni</button>
                         </div>
                         <div className="space-y-2">
                             {ogrenciler.map(o => (
@@ -319,7 +264,7 @@
                     <div className="p-4 bg-white m-4 rounded-xl shadow">
                         <div className="flex justify-between items-center mb-3">
                             <h3 className="font-bold text-sm">📚 Ödev Takibi</h3>
-                            <button onClick={() => {setOdevForm({ogrenciId:'',konu:'',aciklama:'',durum:'yapilmadi'}); setShowOdevModal(true);}} className="bg-indigo-600 text-white text-xs px-3 py-1 rounded shadow">+ Ödev Ver</button>
+                            <button onClick={() => setShowOdevModal(true)} className="bg-indigo-600 text-white text-xs px-3 py-1 rounded shadow">+ Ödev Ver</button>
                         </div>
                         <div className="space-y-2">
                             {odevler.map(o => (
@@ -362,11 +307,10 @@
                     </div>
                 )}
 
-                {/* Modallar */}
                 {showOgrenciModal && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                         <div className="bg-white p-4 rounded-xl w-full max-w-xs shadow-2xl">
-                            <h4 className="font-bold text-sm mb-3 text-gray-800">Öğrenci Bilgileri</h4>
+                            <h4 className="font-bold text-sm mb-3">Öğrenci Bilgileri</h4>
                             <input type="text" placeholder="Ad Soyad" value={ogrenciForm.ad} onChange={e=>setOgrenciForm({...ogrenciForm, ad:e.target.value})} className="w-full p-2 border rounded text-xs mb-2 bg-white"/>
                             <input type="number" placeholder="Ders Ücreti (₺)" value={ogrenciForm.ucret} onChange={e=>setOgrenciForm({...ogrenciForm, ucret:e.target.value})} className="w-full p-2 border rounded text-xs mb-2 bg-white"/>
                             <input type="text" placeholder="Sınıfı" value={ogrenciForm.sinif} onChange={e=>setOgrenciForm({...ogrenciForm, sinif:e.target.value})} className="w-full p-2 border rounded text-xs mb-3 bg-white"/>
@@ -392,7 +336,7 @@
                 {showOdevSoru && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                         <div className="bg-white p-5 rounded-xl w-72 text-center shadow-2xl">
-                            <p className="text-sm font-bold text-gray-800 mb-4">Ders tamamlandı. Öğrenciye yeni bir ödev eklemek ister misiniz?</p>
+                            <p className="text-sm font-bold text-gray-800 mb-4">Ders tamamlandı. Yeni bir ödev eklemek ister misiniz?</p>
                             <div className="flex gap-2">
                                 <button onClick={() => { setOdevForm({ ogrenciId: seciliOgrenci, konu: '', aciklama: '', durum: 'yapilmadi' }); setShowOdevSoru(false); setShowOdevModal(true); }} className="bg-green-600 text-white text-xs py-2 rounded flex-1 font-bold">Evet</button>
                                 <button onClick={() => { setShowOdevSoru(false); }} className="bg-gray-300 text-gray-700 text-xs py-2 rounded flex-1">Hayır</button>
@@ -405,7 +349,7 @@
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                         <div className="bg-white p-5 rounded-xl w-72 text-center shadow-2xl">
                             <h3 className="font-bold text-purple-700 text-base mb-1">💎 Limit Sınırı</h3>
-                            <p className="text-xs text-gray-600 mb-4">Ücretsiz deneme sınırına ulaştınız. Sınırsız kullanım için üstteki Premium modunu açabilirsiniz.</p>
+                            <p className="text-xs text-gray-600 mb-4">Ücretsiz sürüm sınırına ulaştınız. Sınırsız kullanım için Premium modunu açabilirsiniz.</p>
                             <button onClick={() => { setIsPremium(true); setShowUpgrade(false); }} className="w-full bg-purple-600 text-white text-xs py-2 rounded font-bold mb-2">Premium Modu Aç</button>
                             <button onClick={() => setShowUpgrade(false)} className="text-xs text-gray-400">Vazgeç</button>
                         </div>
