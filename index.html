@@ -1,386 +1,632 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#4F46E5">
-    <link rel="manifest" href="manifest.json">
-    <title>📚 Ders Paneli</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <link rel="apple-touch-icon" href="icon-180.png">
-    
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        * { -webkit-tap-highlight-color: transparent; }
-        body { overscroll-behavior: none; touch-action: pan-x pan-y; }
-        @media (display-mode: standalone) {
-            body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
-        }
-        #splash {
-            position: fixed; width: 100%; height: 100%; background: #4B2EFF; color: white;
-            display: flex; justify-content: center; align-items: center; font-size: 28px;
-            font-weight: bold; z-index: 9999;
-        }
-        .fade-out { opacity: 0; transition: 0.6s; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#4F46E5">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Ders Paneli</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#EEF2FF;min-height:100vh;padding-bottom:80px;}
+#splash{position:fixed;inset:0;background:#4F46E5;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .6s;}
+#splash h1{color:#fff;font-size:28px;font-weight:bold;}
+.card{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:16px;margin:0 12px 12px;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;}
+.stat{border-radius:16px;padding:16px;color:#fff;position:relative;overflow:hidden;}
+.stat .emoji{position:absolute;right:8px;top:8px;font-size:36px;opacity:.15;}
+.stat p{font-size:11px;opacity:.85;}
+.stat h2{font-size:26px;font-weight:bold;}
+.s1{background:linear-gradient(135deg,#6366f1,#4338ca);}
+.s2{background:linear-gradient(135deg,#3b82f6,#1d4ed8);}
+.s3{background:linear-gradient(135deg,#22c55e,#15803d);}
+.s4{background:linear-gradient(135deg,#ef4444,#b91c1c);}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:12px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.btn:active{opacity:.7;}
+.btn-primary{background:#4F46E5;color:#fff;}
+.btn-dark{background:#1f2937;color:#fff;}
+.btn-green{background:#22c55e;color:#fff;}
+.btn-gray{background:#e5e7eb;color:#374151;}
+.btn-red{background:#ef4444;color:#fff;}
+.btn-yellow{background:#f59e0b;color:#fff;}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:8px;}
+.tabs{display:flex;background:#fff;border-radius:12px;padding:4px;gap:4px;margin:0 12px 12px;}
+.tab{flex:1;padding:8px 4px;border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:#6b7280;}
+.tab.active{background:#4F46E5;color:#fff;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:100;}
+.modal{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;}
+.modal h3{font-size:18px;font-weight:bold;margin-bottom:16px;}
+.form-group{margin-bottom:12px;}
+.form-group label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:4px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1.5px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:14px;outline:none;}
+.form-group input:focus,.form-group select:focus{border-color:#4F46E5;}
+.item{border:1.5px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:8px;}
+.item.paid{border-color:#86efac;background:#f0fdf4;}
+.item.unpaid{border-color:#fca5a5;background:#fff1f2;}
+.item.done{border-color:#86efac;background:#f0fdf4;}
+.flex{display:flex;align-items:center;}
+.flex-between{display:flex;align-items:center;justify-content:space-between;}
+.gap-2{gap:8px;}
+.gap-1{gap:4px;}
+.text-sm{font-size:13px;}
+.text-xs{font-size:11px;}
+.text-gray{color:#6b7280;}
+.text-indigo{color:#4F46E5;}
+.font-bold{font-weight:700;}
+.font-semi{font-weight:600;}
+.mt-1{margin-top:4px;}
+.mt-2{margin-top:8px;}
+.row-btns{display:flex;gap:6px;flex-shrink:0;}
+.empty{text-align:center;padding:32px;color:#9ca3af;font-size:14px;}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:12px;color:#fff;font-size:14px;font-weight:600;z-index:200;pointer-events:none;}
+.progress-bar{background:#e5e7eb;border-radius:99px;height:6px;overflow:hidden;margin-top:4px;}
+.progress-fill{height:6px;border-radius:99px;background:#4F46E5;transition:width .3s;}
+.header{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;}
+.header h1{font-size:20px;font-weight:bold;color:#4F46E5;}
+.header p{font-size:11px;color:#6b7280;}
+.badge{font-size:11px;padding:4px 8px;border-radius:8px;font-weight:600;}
+.badge-free{background:#f3f4f6;color:#374151;}
+.badge-premium{background:#ede9fe;color:#6d28d9;}
+.quick-btns{display:flex;gap:8px;padding:0 12px 12px;flex-wrap:wrap;}
+.quick-btns .btn{flex:1;min-width:80px;font-size:13px;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th,td{border:1px solid #e5e7eb;padding:4px;text-align:center;}
+th{background:#f9fafb;font-weight:600;}
+td.has-lesson{background:#e0e7ff;font-weight:bold;font-size:10px;}
+.week-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.week-nav span{font-size:12px;font-weight:600;color:#374151;}
+.chart-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.chart-label{width:40px;font-size:11px;color:#6b7280;}
+.chart-bar-bg{flex:1;background:#e5e7eb;border-radius:99px;height:8px;overflow:hidden;}
+.chart-bar-fill{height:8px;background:#22c55e;border-radius:99px;}
+.chart-val{width:50px;text-align:right;font-size:11px;font-weight:600;}
+</style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+<body>
 
-<div id="splash">
-  <h1>DERS PANELİ</h1>
-</div>
+<div id="splash"><h1>DERS PANEL&#304;</h1></div>
 
-<div id="root"></div>
-
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-<script type="text/babel">
-    const { useState, useEffect } = React;
-
-    const Icon = ({ name, size = 20, className = "" }) => {
-        const icons = {
-            users: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>,
-            calendar: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>,
-            book: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>,
-            dollar: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>,
-            plus: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>,
-            x: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>,
-            edit: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>,
-            trash: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-        };
-        return icons[name] || null;
-    };
-    
-    const DersPanel = () => {
-        const [ogrenciler, setOgrenciler] = useState([]);
-        const [odevler, setOdevler] = useState([]);
-        const [dersler, setDersler] = useState([]);
-        const [dersProgrami, setDersProgrami] = useState([]);
-        const [isPremium, setIsPremium] = useState(false);
-        const [activeTab, setActiveTab] = useState('program');
-        const [showMoney, setShowMoney] = useState(true);
-        const [seciliOgrenci, setSeciliOgrenci] = useState("tum");
-        const [showOgrenciModal, setShowOgrenciModal] = useState(false);
-        const [showOdevModal, setShowOdevModal] = useState(false);
-        const [showOdevSoru, setShowOdevSoru] = useState(false);
-        const [showUpgrade, setShowUpgrade] = useState(false);
-
-        const [ogrenciForm, setOgrenciForm] = useState({ ad: '', telefon: '', sinif: '', ucret: '' });
-        const [odevForm, setOdevForm] = useState({ ogrenciId: '', konu: '', aciklama: '', durum: "yapilmadi" });
-        const [programForm, setProgramForm] = useState({ ogrenciId: "", gun: "", basSaat: "", basDakika: "", bitSaat: "", bitDakika: "" });
-        const [seciliTarih, setSeciliTarih] = useState(() => new Date().toISOString().split("T")[0]);
-        const [popup, setPopup] = useState({ show: false, message: "", type: "info" });
-
-        const normalizeDate = (date) => {
-            if (!date) return null;
-            const d = new Date(date);
-            if (isNaN(d.getTime())) return null;
-            return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-        };
-
-        const bugunStr = normalizeDate(new Date());
-        const LIMITS = { student: 5, homework: 10, program: 5, lesson: 5 };
-        const saatler = Array.from({ length: 15 }, (_, i) => 8 + i);
-
-        const canAdd = (type) => {
-            if (isPremium) return true;
-            if (type === "student") return ogrenciler.length < LIMITS.student;
-            if (type === "homework") return odevler.length < LIMITS.homework;
-            if (type === "program") return dersProgrami.length < LIMITS.program;
-            return true;
-        };
-
-        useEffect(() => {
-            try {
-                setDersProgrami(JSON.parse(localStorage.getItem("derspanel_program") || "[]"));
-                setOgrenciler(JSON.parse(localStorage.getItem("derspanel_ogrenciler") || "[]"));
-                setOdevler(JSON.parse(localStorage.getItem("derspanel_odevler") || "[]"));
-                setDersler(JSON.parse(localStorage.getItem("derspanel_dersler") || "[]"));
-            } catch (err) { console.error(err); }
-        }, []);
-
-        useEffect(() => { localStorage.setItem("derspanel_program", JSON.stringify(dersProgrami)); }, [dersProgrami]);
-        useEffect(() => { localStorage.setItem("derspanel_ogrenciler", JSON.stringify(ogrenciler)); }, [ogrenciler]);
-        useEffect(() => { localStorage.setItem("derspanel_odevler", JSON.stringify(odevler)); }, [odevler]);
-        useEffect(() => { localStorage.setItem("derspanel_dersler", JSON.stringify(dersler)); }, [dersler]);
-
-        const getOgrenciAd = (id) => {
-            const ogrenci = ogrenciler.find(o => o.id === parseInt(id));
-            return ogrenci ? ogrenci.ad : 'Bilinmeyen';
-        };
-
-        const ogrenciKaydet = () => {
-            if (!ogrenciForm.ad) return;
-            if (!canAdd("student")) { setShowUpgrade(true); return; }
-            setOgrenciler([...ogrenciler, { ...ogrenciForm, id: Date.now() }]);
-            setShowOgrenciModal(false);
-        };
-
-        const ogrenciSil = (id) => { if(confirm('Silinsin mi?')) setOgrenciler(ogrenciler.filter(o => o.id !== id)); };
-
-        const odevEkle = () => {
-            if (!odevForm.konu || !odevForm.ogrenciId) return;
-            if (!canAdd("homework")) { setShowUpgrade(true); return; }
-            setOdevler([...odevler, { ...odevForm, id: Date.now() }]);
-            setShowOdevModal(false);
-        };
-
-        const odevSil = (id) => { setOdevler(odevler.filter(o => o.id !== id)); };
-        const odevDurumDegistir = (id, d) => { setOdevler(odevler.map(o => o.id === id ? {...o, durum: d} : o)); };
-
-        const dersGerceklesti = (plan) => {
-            const ucr = ogrenciler.find(o => o.id === Number(plan.ogrenciId))?.ucret || 0;
-            setDersler([...dersler, { ...plan, id: Date.now(), odendi: false, ucret: ucr, durum: "tamamlandi" }]);
-            setDersProgrami(dersProgrami.filter(p => p.id !== plan.id));
-        };
-
-        const programKaydet = () => {
-            if(!programForm.ogrenciId || !programForm.gun) return;
-            if(!canAdd("program")) { setShowUpgrade(true); return; }
-            const bas = `${String(programForm.basSaat).padStart(2,"0")}:00`;
-            const bit = `${String(programForm.bitSaat).padStart(2,"0")}:00`;
-            setDersProgrami([...dersProgrami, { id: Date.now(), ogrenciId: Number(programForm.ogrenciId), gun: programForm.gun, baslangic: bas, bitis: bit, tarih: seciliTarih }]);
-            setProgramForm({ ogrenciId: "", gun: "", basSaat: "", basDakika: "", bitSaat: "", bitDakika: "" });
-        };
-
-        const odemeDurumDegistir = (id) => { setDersler(dersler.map(d => d.id === id ? { ...d, odendi: !d.odendi } : d)); };
-
-        const bugunDersler = dersProgrami.filter(p => p.tarih === bugunStr);
-        const toplamKazanc = dersler.reduce((sum, d) => sum + Number(d.ucret || 0), 0);
-        const bekleyenOdeme = dersler.filter(d => !d.odendi).reduce((sum, d) => sum + Number(d.ucret || 0), 0);
-
-        return (
-            <div className="min-h-screen pb-20">
-                <div className="bg-white shadow px-4 py-4 sticky top-0 z-10 flex justify-between items-center">
-                    <div>
-                        <h1 className="text-xl font-bold text-indigo-600">📚 Ders Paneli</h1>
-                        <p className="text-gray-500 text-xs">Yönetim Sistemi</p>
-                    </div>
-                    <button onClick={() => setIsPremium(!isPremium)} className={`text-xs px-3 py-1.5 rounded-lg font-bold ${isPremium ? "bg-purple-600 text-white" : "bg-gray-100 text-gray-700"}`}>
-                        {isPremium ? "💎 Premium" : "🆓 Ücretsiz"}
-                    </button>
-                </div>
-
-                <div className="p-4 grid grid-cols-2 gap-3">
-                    <div className="bg-indigo-600 text-white p-4 rounded-xl shadow">
-                        <p className="text-xs opacity-80">Bugünkü Dersler</p>
-                        <h3 className="text-xl font-bold">{bugunDersler.length}</h3>
-                    </div>
-                    <div className="bg-green-600 text-white p-4 rounded-xl shadow relative">
-                        <p className="text-xs opacity-80">Toplam Kazanç</p>
-                        <h3 className="text-xl font-bold">₺{toplamKazanc}</h3>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-5 gap-1 px-2 mb-4">
-                    {['program', 'ogrenciler', 'dersler', 'odevler', 'muhasebe'].map(t => (
-                        <button key={t} onClick={() => setActiveTab(t)} className={`py-2 text-[10px] font-bold rounded-lg ${activeTab === t ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 shadow-sm'}`}>
-                            {t.toUpperCase()}
-                        </button>
-                    ))}
-                </div>
-
-                {activeTab === 'program' && (
-                    <div className="p-4 bg-white m-4 rounded-xl shadow">
-                        <h3 className="font-bold mb-3 text-sm">🗓 Haftalık Ders Programı</h3>
-                        <div className="space-y-2 mb-4">
-                            {dersProgrami.map(p => (
-                                <div key={p.id} className="p-3 border rounded-lg flex justify-between items-center bg-gray-50">
-                                    <div>
-                                        <p className="font-bold text-sm text-gray-800">{getOgrenciAd(p.ogrenciId)}</p>
-                                        <p className="text-xs text-gray-500">{p.gun} | {p.baslangic} - {p.bitis}</p>
-                                    </div>
-                                    <button onClick={() => { dersGerceklesti(p); setSeciliOgrenci(p.ogrenciId); setShowOdevSoru(true); }} className="bg-green-600 text-white text-xs px-3 py-1 rounded shadow">Geldi</button>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="p-3 bg-indigo-50 rounded-xl">
-                            <p className="text-xs font-bold mb-2 text-indigo-800">Yeni Ders Saati Ekle</p>
-                            <select onChange={e=>setProgramForm({...programForm, ogrenciId: e.target.value})} className="w-full text-xs p-2 border rounded mb-2 bg-white">
-                                <option value="">Öğrenci Seçin</option>
-                                {ogrenciler.map(o=><option key={o.id} value={o.id}>{o.ad}</option>)}
-                            </select>
-                            <select onChange={e=>setProgramForm({...programForm, gun: e.target.value})} className="w-full text-xs p-2 border rounded mb-2 bg-white">
-                                <option value="">Gün Seçin</option>
-                                <option>Pazartesi</option><option>Salı</option><option>Çarşamba</option><option>Perşembe</option><option>Cuma</option><option>Cumartesi</option><option>Pazar</option>
-                            </select>
-                            <div className="grid grid-cols-2 gap-2 mb-3">
-                                <select onChange={e=>setProgramForm({...programForm, basSat: e.target.value})} className="text-xs p-2 border rounded bg-white"><option value="">Başl. Saat</option>{saatler.map(s=><option key={s}>{s}</option>)}</select>
-                                <select onChange={e=>setProgramForm({...programForm, bitSat: e.target.value})} className="text-xs p-2 border rounded bg-white"><option value="">Bitiş Saat</option>{saatler.map(s=><option key={s}>{s}</option>)}</select>
-                            </div>
-                            <button onClick={programKaydet} className="w-full bg-indigo-600 text-white text-xs py-2 rounded font-bold shadow">Programa Ekle</button>
-                        </div>
-                    </div>
-                )}
-
-                {activeTab === 'ogrenciler' && (
-                    <div className="p-4 bg-white m-4 rounded-xl shadow">
-                        <div className="flex justify-between items-center mb-3">
-                            <h3 className="font-bold text-sm">👨‍🎓 Kayıtlı Öğrenciler</h3>
-                            <button onClick={() => setShowOgrenciModal(true)} className="bg-indigo-600 text-white text-xs px-3 py-1 rounded shadow">+ Yeni</button>
-                        </div>
-                        <div className="space-y-2">
-                            {ogrenciler.map(o => (
-                                <div key={o.id} className="p-3 border rounded-lg flex justify-between items-center">
-                                    <div>
-                                        <p className="font-bold text-sm">{o.ad}</p>
-                                        <p className="text-xs text-gray-500">Sınıf: {o.sinif} | Ücret: ₺{o.ucret}</p>
-                                    </div>
-                                    <button onClick={()=>ogrenciSil(o.id)} className="text-red-600 text-xs bg-red-50 px-2 py-1 rounded">Sil</button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {activeTab === 'dersler' && (
-                    <div className="p-4 bg-white m-4 rounded-xl shadow">
-                        <h3 className="font-bold mb-3 text-sm">✅ Tamamlanan Dersler</h3>
-                        <div className="space-y-2">
-                            {dersler.map(d => (
-                                <div key={d.id} className={`p-3 border rounded-lg flex justify-between items-center ${d.odendi ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                                    <div>
-                                        <p className="font-bold text-sm">{getOgrenciAd(d.ogrenciId)}</p>
-                                        <p className="text-xs text-gray-500">{d.gun} | ₺{d.ucret}</p>
-                                    </div>
-                                    <button onClick={()=>odemeDurumDegistir(d.id)} className={`text-xs px-2 py-1 rounded font-bold text-white ${d.odendi ? 'bg-green-600' : 'bg-yellow-500'}`}>
-                                        {d.odendi ? 'Ödendi' : 'Bekliyor'}
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {activeTab === 'odevler' && (
-                    <div className="p-4 bg-white m-4 rounded-xl shadow">
-                        <div className="flex justify-between items-center mb-3">
-                            <h3 className="font-bold text-sm">📚 Ödev Takibi</h3>
-                            <button onClick={() => setShowOdevModal(true)} className="bg-indigo-600 text-white text-xs px-3 py-1 rounded shadow">+ Ödev Ver</button>
-                        </div>
-                        <div className="space-y-2">
-                            {odevler.map(o => (
-                                <div key={o.id} className="p-3 border rounded-lg bg-gray-50">
-                                    <div className="flex justify-between items-center mb-1">
-                                        <p className="font-bold text-sm">{getOgrenciAd(o.ogrenciId)}</p>
-                                        <span className="text-xs font-bold text-indigo-600">{o.durum.toUpperCase()}</span>
-                                    </div>
-                                    <p className="text-xs text-gray-700">📌 Konu: {o.konu}</p>
-                                    <div className="flex gap-1 mt-2 justify-end">
-                                        <button onClick={()=>odevDurumDegistir(o.id, 'yapildi')} className="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded">Yapıldı</button>
-                                        <button onClick={()=>odevDurumDegistir(o.id, 'yapilmadi')} className="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded">Yapılmadı</button>
-                                        <button onClick={()=>odevSil(o.id)} className="text-gray-400 text-[10px] ml-2">Sil</button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {activeTab === 'muhasebe' && (
-                    <div className="p-4 bg-white m-4 rounded-xl shadow">
-                        <h3 className="font-bold mb-3 text-sm">📊 Gelir Detayları</h3>
-                        <div className="space-y-2">
-                            {ogrenciler.map(o => {
-                                const oDers = dersler.filter(d => Number(d.ogrenciId) === o.id);
-                                const oOdenen = oDers.filter(d => d.odendi).reduce((sum, d) => sum + Number(d.ucret), 0);
-                                const oBekleyen = oDers.filter(d => !d.odendi).reduce((sum, d) => sum + Number(d.ucret), 0);
-                                return (
-                                    <div key={o.id} className="p-3 border rounded-lg flex justify-between items-center">
-                                        <p className="font-bold text-sm text-gray-800">{o.ad}</p>
-                                        <div className="text-right text-xs">
-                                            <p className="text-green-600 font-bold">Alınan: ₺{oOdenen}</p>
-                                            <p className="text-red-500">Bekleyen: ₺{oBekleyen}</p>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                )}
-
-                {showOgrenciModal && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white p-4 rounded-xl w-full max-w-xs shadow-2xl">
-                            <h4 className="font-bold text-sm mb-3">Öğrenci Bilgileri</h4>
-                            <input type="text" placeholder="Ad Soyad" value={ogrenciForm.ad} onChange={e=>setOgrenciForm({...ogrenciForm, ad:e.target.value})} className="w-full p-2 border rounded text-xs mb-2 bg-white"/>
-                            <input type="number" placeholder="Ders Ücreti (₺)" value={ogrenciForm.ucret} onChange={e=>setOgrenciForm({...ogrenciForm, ucret:e.target.value})} className="w-full p-2 border rounded text-xs mb-2 bg-white"/>
-                            <input type="text" placeholder="Sınıfı" value={ogrenciForm.sinif} onChange={e=>setOgrenciForm({...ogrenciForm, sinif:e.target.value})} className="w-full p-2 border rounded text-xs mb-3 bg-white"/>
-                            <div className="flex gap-2"><button onClick={ogrenciKaydet} className="bg-indigo-600 text-white text-xs py-2 rounded flex-1 font-bold shadow">Kaydet</button><button onClick={()=>setShowOgrenciModal(false)} className="bg-gray-200 text-xs py-2 rounded flex-1">Kapat</button></div>
-                        </div>
-                    </div>
-                )}
-
-                {showOdevModal && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white p-4 rounded-xl w-full max-w-xs shadow-2xl">
-                            <h4 className="font-bold text-sm mb-3">Yeni Ödev Formu</h4>
-                            <select onChange={e=>setOdevForm({...odevForm, ogrenciId: e.target.value})} className="w-full text-xs p-2 border rounded mb-2 bg-white">
-                                <option value="">Öğrenci Seçin</option>
-                                {ogrenciler.map(o=><option key={o.id} value={o.id}>{o.ad}</option>)}
-                            </select>
-                            <input type="text" placeholder="Ödev Konusu" value={odevForm.konu} onChange={e=>setOdevForm({...odevForm, konu:e.target.value})} className="w-full p-2 border rounded text-xs mb-3 bg-white"/>
-                            <div className="flex gap-2"><button onClick={odevEkle} className="bg-indigo-600 text-white text-xs py-2 rounded flex-1 font-bold">Ödevi Ver</button><button onClick={()=>setShowOdevModal(false)} className="bg-gray-200 text-xs py-2 rounded flex-1">İptal</button></div>
-                        </div>
-                    </div>
-                )}
-
-                {showOdevSoru && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white p-5 rounded-xl w-72 text-center shadow-2xl">
-                            <p className="text-sm font-bold text-gray-800 mb-4">Ders tamamlandı. Yeni bir ödev eklemek ister misiniz?</p>
-                            <div className="flex gap-2">
-                                <button onClick={() => { setOdevForm({ ogrenciId: seciliOgrenci, konu: '', aciklama: '', durum: 'yapilmadi' }); setShowOdevSoru(false); setShowOdevModal(true); }} className="bg-green-600 text-white text-xs py-2 rounded flex-1 font-bold">Evet</button>
-                                <button onClick={() => { setShowOdevSoru(false); }} className="bg-gray-300 text-gray-700 text-xs py-2 rounded flex-1">Hayır</button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {showUpgrade && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white p-5 rounded-xl w-72 text-center shadow-2xl">
-                            <h3 className="font-bold text-purple-700 text-base mb-1">💎 Limit Sınırı</h3>
-                            <p className="text-xs text-gray-600 mb-4">Ücretsiz sürüm sınırına ulaştınız. Sınırsız kullanım için Premium modunu açabilirsiniz.</p>
-                            <button onClick={() => { setIsPremium(true); setShowUpgrade(false); }} className="w-full bg-purple-600 text-white text-xs py-2 rounded font-bold mb-2">Premium Modu Aç</button>
-                            <button onClick={() => setShowUpgrade(false)} className="text-xs text-gray-400">Vazgeç</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-    };
-
-    ReactDOM.render(<DersPanel />, document.getElementById('root'));
-</script>
+<div id="app"></div>
 
 <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/derspaneli/service-worker.js')
-  .then(reg => console.log("SW Aktif", reg))
-  .catch(err => console.error("SW Hata", err));
+var state = {
+  ogrenciler: [],
+  dersler: [],
+  odevler: [],
+  program: [],
+  isPremium: false,
+  showMoney: true,
+  activeTab: 'program',
+  seciliTarih: new Date().toISOString().split('T')[0],
+  LIMITS: {student:5, homework:10, program:5}
+};
+
+function load(){
+  ['ogrenciler','dersler','odevler','program','isPremium'].forEach(function(k){
+    try{
+      var v = localStorage.getItem('dp_'+k);
+      if(v) state[k] = JSON.parse(v);
+    }catch(e){}
+  });
 }
-</script>
 
-<script>
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const splash = document.getElementById("splash");
-    if (splash) {
-      splash.classList.add("fade-out");
-      setTimeout(() => splash.remove(), 600);
+function save(k){
+  try{ localStorage.setItem('dp_'+k, JSON.stringify(state[k])); }catch(e){}
+}
+
+function normalizeDate(d){
+  var dt = new Date(d);
+  if(isNaN(dt)) return '';
+  return dt.getFullYear()+'-'+pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
+}
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function bugunStr(){ return normalizeDate(new Date()); }
+function yarinStr(){ var d=new Date(); d.setDate(d.getDate()+1); return normalizeDate(d); }
+
+function getOgrenciAd(id){
+  var o = state.ogrenciler.find(function(x){ return x.id==id; });
+  return o ? o.ad : 'Bilinmeyen';
+}
+
+function canAdd(type){
+  if(state.isPremium) return true;
+  if(type==='student') return state.ogrenciler.length < state.LIMITS.student;
+  if(type==='homework') return state.odevler.length < state.LIMITS.homework;
+  if(type==='program') return state.program.length < state.LIMITS.program;
+  return true;
+}
+
+function getTutar(d){ return Number(d.ucret||d.gelir||0); }
+
+function sendWhatsApp(tel, msg){
+  if(!tel){ toast('Telefon numarasi yok!','#f59e0b'); return; }
+  var t = tel.replace(/\D/g,'');
+  if(!t.startsWith('90')) t = t.startsWith('0') ? '90'+t.slice(1) : '90'+t;
+  window.open('https://wa.me/'+t+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+function toast(msg, color){
+  var el = document.createElement('div');
+  el.className = 'toast';
+  el.style.background = color||'#1f2937';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 2500);
+}
+
+function getHaftaGunleri(seciliTarih){
+  var secili = new Date(seciliTarih);
+  var gun = secili.getDay();
+  var fark = gun===0 ? -6 : 1-gun;
+  var paz = new Date(secili);
+  paz.setDate(secili.getDate()+fark);
+  var gunler = [];
+  var adlar = ['Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi','Pazar'];
+  for(var i=0;i<7;i++){
+    var g = new Date(paz); g.setDate(paz.getDate()+i);
+    gunler.push({tarih:g.toISOString().split('T')[0], ad:adlar[i]});
+  }
+  return gunler;
+}
+
+function saatDk(s){ if(!s) return 0; var p=s.split(':'); return Number(p[0])*60+Number(p[1]); }
+
+function render(){
+  var app = document.getElementById('app');
+  app.innerHTML = buildApp();
+  bindEvents();
+}
+
+function buildApp(){
+  var bugun = bugunStr();
+  var yarin = yarinStr();
+  var bugunDersler = state.program.filter(function(p){ return p.tarih===bugun; }).sort(function(a,b){ return (a.baslangic||'').localeCompare(b.baslangic||''); });
+  var bugunSayisi = bugunDersler.length;
+  var yarinSayisi = state.program.filter(function(p){ return p.tarih===yarin; }).length;
+  var toplamKazanc = state.dersler.reduce(function(s,d){ return s+getTutar(d); },0);
+  var bugunKazanc = state.dersler.filter(function(d){ return String(d.tarih).slice(0,10)===bugun && d.odendi; }).reduce(function(s,d){ return s+getTutar(d); },0);
+  var bekleyen = state.dersler.filter(function(d){ return !d.odendi; }).reduce(function(s,d){ return s+getTutar(d); },0);
+  var sm = state.showMoney;
+
+  var html = '';
+
+  // Header
+  html += '<div class="header"><div><h1>Ders Paneli</h1><p>Ozel derslerinizi yonetin</p></div>';
+  html += '<span class="badge '+(state.isPremium?'badge-premium':'badge-free')+'">'+(state.isPremium?'Premium':'Ucretsiz')+'</span></div>';
+
+  // Stats
+  html += '<div class="stat-grid">';
+  html += '<div class="stat s1"><div class="emoji">&#128197;</div><p>Bugun</p><h2>'+bugunSayisi+'</h2><p>ders</p></div>';
+  html += '<div class="stat s2"><div class="emoji">&#128198;</div><p>Yarin</p><h2>'+yarinSayisi+'</h2><p>ders</p></div>';
+  html += '<div class="stat s3"><button onclick="toggleMoney()" style="position:absolute;top:6px;right:6px;background:none;border:none;cursor:pointer;font-size:16px;color:#fff;">'+(sm?'&#128065;':'&#128584;')+'</button>';
+  html += '<p>Toplam Kazanc</p><h2>'+(sm?('&#8378;'+toplamKazanc.toFixed(0)):'...')+'</h2>';
+  html += '<p>Bugun: '+(sm?('&#8378;'+bugunKazanc.toFixed(0)):'...')+'</p></div>';
+  html += '<div class="stat s4"><div class="emoji">&#9203;</div><p>Bekleyen</p><h2>'+(sm?('&#8378;'+bekleyen.toFixed(0)):'...')+'</h2><p>odeme</p></div>';
+  html += '</div>';
+
+  // Quick btns
+  html += '<div class="quick-btns">';
+  html += '<button class="btn btn-primary" onclick="goToAddProgram()">+ Ders Ekle</button>';
+  html += '<button class="btn btn-dark" onclick="openOgrenciModal()">'+(canAdd('student')?'Ogrenci Ekle':'&#128274; Premium')+'</button>';
+  html += '<button class="btn btn-green" onclick="sendReminders()">Hatirlatma</button>';
+  html += '</div>';
+
+  // Bugunun dersleri
+  html += '<div class="card"><div class="flex-between" style="margin-bottom:10px;"><span class="font-bold">Bugunun Dersleri</span></div>';
+  if(bugunDersler.length===0){
+    html += '<div class="empty">Bugun ders yok</div>';
+  } else {
+    bugunDersler.forEach(function(plan){
+      var ogr = state.ogrenciler.find(function(o){ return o.id===plan.ogrenciId; });
+      html += '<div class="item flex-between" style="margin-bottom:6px;">';
+      html += '<div><p class="font-semi text-sm">'+plan.baslangic+' - '+plan.bitis+'</p>';
+      html += '<p class="text-xs text-gray">'+(ogr?ogr.ad:'Ogrenci yok')+'</p></div>';
+      html += '<div class="row-btns">';
+      html += '<button class="btn btn-green btn-sm" onclick="dersGerceklesti('+plan.id+')">Geldi</button>';
+      if(ogr&&ogr.telefon) html += '<button class="btn btn-sm" style="background:#dcfce7;color:#15803d;" onclick="sendWhatsApp(\''+ogr.telefon+'\',\'Merhaba, '+plan.baslangic+\' dersimiz icin hatirlatma\')">WA</button>';
+      html += '</div></div>';
+    });
+  }
+  html += '</div>';
+
+  // Grafik
+  var son7 = [];
+  for(var i=6;i>=0;i--){ var d=new Date(); d.setDate(d.getDate()-i); son7.push(d.toISOString().split('T')[0]); }
+  var maxKazanc = 1;
+  var grafData = son7.map(function(t){
+    var k = state.dersler.filter(function(d){ return d.tarih===t; }).reduce(function(s,d){ return s+Number(d.gelir||0); },0);
+    if(k>maxKazanc) maxKazanc=k;
+    return {tarih:t,kazanc:k};
+  });
+  html += '<div class="card"><p class="font-bold" style="margin-bottom:10px;">Son 7 Gun Kazanc</p>';
+  grafData.forEach(function(g){
+    html += '<div class="chart-row"><div class="chart-label">'+g.tarih.slice(5)+'</div>';
+    html += '<div class="chart-bar-bg"><div class="chart-bar-fill" style="width:'+Math.round(g.kazanc/maxKazanc*100)+'%"></div></div>';
+    html += '<div class="chart-val">&#8378;'+g.kazanc+'</div></div>';
+  });
+  html += '</div>';
+
+  // Tabs
+  html += '<div class="tabs">';
+  [['program','Program'],['ogrenciler','Ogrenci'],['dersler','Dersler'],['odevler','Odev']].forEach(function(t){
+    html += '<button class="tab'+(state.activeTab===t[0]?' active':'')+'" onclick="setTab(\''+t[0]+'\')">'+(state.activeTab===t[0]?t[1]:t[1])+'</button>';
+  });
+  html += '</div>';
+
+  // Tab content
+  html += '<div class="card" id="tab-content">';
+
+  if(state.activeTab==='program'){
+    html += buildProgramTab();
+  } else if(state.activeTab==='ogrenciler'){
+    html += buildOgrencilerTab();
+  } else if(state.activeTab==='dersler'){
+    html += buildDerslerTab();
+  } else if(state.activeTab==='odevler'){
+    html += buildOdevlerTab();
+  }
+
+  html += '</div>';
+
+  return html;
+}
+
+function buildProgramTab(){
+  var haftaGunleri = getHaftaGunleri(state.seciliTarih);
+  var saatler = [];
+  for(var i=8;i<=22;i++) saatler.push(i);
+  var html = '<p class="font-bold" style="margin-bottom:12px;">Ders Programi</p>';
+
+  html += '<div class="week-nav">';
+  html += '<button class="btn btn-gray btn-sm" onclick="weekNav(-1)">Onceki</button>';
+  html += '<span>'+haftaGunleri[0].tarih+' - '+haftaGunleri[6].tarih+'</span>';
+  html += '<button class="btn btn-gray btn-sm" onclick="weekNav(1)">Sonraki</button>';
+  html += '</div>';
+
+  html += '<div style="overflow-x:auto;margin-bottom:16px;"><table><thead><tr><th>Saat</th>';
+  haftaGunleri.forEach(function(g){ html += '<th>'+g.ad.slice(0,3)+'<br><span style="font-weight:400;font-size:10px;">'+g.tarih.slice(5)+'</span></th>'; });
+  html += '</tr></thead><tbody>';
+  saatler.forEach(function(saat){
+    html += '<tr><td>'+pad(saat)+':00</td>';
+    haftaGunleri.forEach(function(gun){
+      var ders = state.program.find(function(d){
+        if(!d.baslangic||!d.bitis||d.tarih!==gun.tarih) return false;
+        var bas=saatDk(d.baslangic), bit=saatDk(d.bitis);
+        return bas<(saat+1)*60 && bit>saat*60;
+      });
+      if(ders) html += '<td class="has-lesson">'+getOgrenciAd(ders.ogrenciId).split(' ')[0]+'</td>';
+      else html += '<td></td>';
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+
+  // Form
+  html += '<div id="programEkleAlani" style="background:#f9fafb;border-radius:12px;padding:14px;border:1.5px solid #e5e7eb;">';
+  html += '<p class="font-semi" style="margin-bottom:10px;">Yeni Program Ekle</p>';
+  html += '<div class="form-group"><label>Ogrenci</label><select id="pOgrenci"><option value="">Sec</option>';
+  state.ogrenciler.forEach(function(o){ html += '<option value="'+o.id+'">'+o.ad+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="form-group"><label>Gun</label><select id="pGun"><option value="">Sec</option>';
+  ['Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi','Pazar'].forEach(function(g){ html += '<option>'+g+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="flex gap-2" style="margin-bottom:12px;"><div style="flex:1"><label class="text-xs font-semi">Baslangic</label>';
+  html += '<div class="flex gap-1"><select id="pBasSaat" style="flex:1;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 4px;font-size:13px;"><option value="">Saat</option>';
+  for(var s=8;s<=22;s++) html += '<option value="'+s+'">'+pad(s)+'</option>';
+  html += '</select><select id="pBasDk" style="flex:1;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 4px;font-size:13px;"><option value="">Dk</option>';
+  [0,15,30,45].forEach(function(d){ html += '<option value="'+d+'">'+pad(d)+'</option>'; });
+  html += '</select></div></div>';
+  html += '<div style="flex:1"><label class="text-xs font-semi">Bitis</label>';
+  html += '<div class="flex gap-1"><select id="pBitSaat" style="flex:1;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 4px;font-size:13px;"><option value="">Saat</option>';
+  for(var s=8;s<=22;s++) html += '<option value="'+s+'">'+pad(s)+'</option>';
+  html += '</select><select id="pBitDk" style="flex:1;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 4px;font-size:13px;"><option value="">Dk</option>';
+  [0,15,30,45].forEach(function(d){ html += '<option value="'+d+'</option>'; });
+  html += '</select></div></div></div>';
+  html += '<label style="display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:10px;cursor:pointer;"><input type="checkbox" id="pTekrar"> 5 hafta tekrarla</label>';
+  html += '<p class="text-xs text-gray" style="margin-bottom:8px;">'+state.program.length+' / '+(state.isPremium?'Sinirsiz':state.LIMITS.program)+' program</p>';
+  html += '<button class="btn btn-primary" onclick="programKaydet()">Kaydet</button>';
+  html += '</div>';
+
+  // Program listesi
+  var haftaGunleri2 = getHaftaGunleri(state.seciliTarih);
+  var bas = haftaGunleri2[0].tarih, bit = haftaGunleri2[6].tarih;
+  var haftaProgrami = state.program.filter(function(p){ return !p.tarih || (p.tarih>=bas && p.tarih<=bit); });
+  html += '<div style="margin-top:12px;">';
+  if(haftaProgrami.length===0) html += '<div class="empty">Bu hafta program yok</div>';
+  haftaProgrami.forEach(function(plan){
+    var ogr = state.ogrenciler.find(function(o){ return o.id===plan.ogrenciId; });
+    html += '<div class="item flex-between"><div>';
+    html += '<p class="font-semi text-sm">'+plan.gun+' '+plan.baslangic+'-'+plan.bitis+'</p>';
+    html += '<p class="text-xs text-gray">'+(ogr?ogr.ad:'?')+' &bull; '+plan.tarih+'</p></div>';
+    html += '<button class="btn btn-red btn-sm" onclick="programSil('+plan.id+')">Sil</button></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function buildOgrencilerTab(){
+  var html = '<div class="flex-between" style="margin-bottom:12px;">';
+  html += '<p class="font-bold">Ogrenciler ('+state.ogrenciler.length+')</p>';
+  html += '<button class="btn btn-primary btn-sm" onclick="openOgrenciModal()">'+(canAdd('student')?'+ Yeni':'&#128274; Premium')+'</button></div>';
+  if(state.ogrenciler.length===0) return html+'<div class="empty">Henuz ogrenci eklenmemis</div>';
+  state.ogrenciler.forEach(function(o){
+    html += '<div class="item"><div class="flex-between"><div>';
+    html += '<p class="font-semi">'+o.ad+'</p>';
+    html += '<p class="text-xs text-gray">Tel: '+o.telefon+'</p>';
+    html += '<p class="text-xs text-gray">Sinif: '+o.sinif+'</p>';
+    html += '<p class="text-xs text-indigo">'+( state.showMoney ? o.ucret+' TL/ders' : '...')+'</p>';
+    html += '</div><div class="row-btns">';
+    html += '<button class="btn btn-gray btn-sm" onclick="editOgrenci('+o.id+')">Duzenle</button>';
+    html += '<button class="btn btn-red btn-sm" onclick="deleteOgrenci('+o.id+')">Sil</button>';
+    html += '</div></div></div>';
+  });
+  return html;
+}
+
+function buildDerslerTab(){
+  var html = '<p class="font-bold" style="margin-bottom:12px;">Dersler ('+state.dersler.length+')</p>';
+  if(state.dersler.length===0) return html+'<div class="empty">Henuz ders yok</div>';
+  var sorted = state.dersler.slice().sort(function(a,b){ return (b.tarih+b.baslangic).localeCompare(a.tarih+a.baslangic); });
+  sorted.forEach(function(d){
+    html += '<div class="item '+(d.odendi?'paid':'unpaid')+'">';
+    html += '<div class="flex-between"><div>';
+    html += '<p class="font-semi text-sm">'+getOgrenciAd(d.ogrenciId)+'</p>';
+    html += '<p class="text-xs text-gray">'+d.tarih+' '+d.baslangic+'-'+d.bitis+'</p>';
+    html += '<p class="text-sm">'+(d.konu||'Konu yok')+'</p>';
+    html += '<p class="text-sm font-bold text-indigo">'+(state.showMoney?d.ucret+' TL':'...')+'</p>';
+    html += '</div><div class="row-btns" style="flex-direction:column;gap:4px;">';
+    html += '<button class="btn btn-sm '+(d.odendi?'btn-green':'btn-yellow')+'" onclick="toggleOdeme('+d.id+')">'+(d.odendi?'Odendi':'Bekliyor')+'</button>';
+    html += '<button class="btn btn-gray btn-sm" onclick="dersGeriAl('+d.id+')">Geri Al</button>';
+    html += '</div></div></div>';
+  });
+  return html;
+}
+
+function buildOdevlerTab(){
+  var html = '<div class="flex-between" style="margin-bottom:12px;">';
+  html += '<p class="font-bold">Odevler ('+state.odevler.length+')</p>';
+  html += '<button class="btn btn-primary btn-sm" onclick="openOdevModal()">'+(canAdd('homework')?'+ Yeni':'&#128274; Premium')+'</button></div>';
+  if(state.odevler.length===0) return html+'<div class="empty">Henuz odev yok</div>';
+  state.odevler.forEach(function(o){
+    var durumRenk = o.durum==='tamamlandi'?'#22c55e':o.durum==='eksik'?'#f59e0b':'#ef4444';
+    var durumText = o.durum==='tamamlandi'?'Tamamlandi':o.durum==='eksik'?'Eksik':'Yapilmadi';
+    html += '<div class="item '+(o.durum==='tamamlandi'?'done':'')+'"><div class="flex-between"><div>';
+    html += '<p class="font-semi text-sm">'+getOgrenciAd(o.ogrenciId)+'</p>';
+    html += '<p class="text-sm">'+o.konu+'</p>';
+    html += '<p class="text-xs" style="color:'+durumRenk+';font-weight:600;">'+durumText+'</p>';
+    if(o.aciklama) html += '<p class="text-xs text-gray">'+o.aciklama+'</p>';
+    html += '</div><div class="row-btns">';
+    html += '<button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;" onclick="odevDurum('+o.id+',\'yapilmadi\')">X</button>';
+    html += '<button class="btn btn-sm" style="background:#fef3c7;color:#d97706;" onclick="odevDurum('+o.id+',\'eksik\')">!</button>';
+    html += '<button class="btn btn-sm" style="background:#dcfce7;color:#16a34a;" onclick="odevDurum('+o.id+',\'tamamlandi\')">V</button>';
+    html += '<button class="btn btn-red btn-sm" onclick="deleteOdev('+o.id+')">Sil</button>';
+    html += '</div></div></div>';
+  });
+  return html;
+}
+
+function bindEvents(){ /* events bound via onclick in HTML */ }
+
+// Actions
+function setTab(t){ state.activeTab=t; render(); }
+function toggleMoney(){ state.showMoney=!state.showMoney; render(); }
+function weekNav(dir){ var d=new Date(state.seciliTarih); d.setDate(d.getDate()+dir*7); state.seciliTarih=d.toISOString().split('T')[0]; render(); }
+function goToAddProgram(){ state.activeTab='program'; render(); setTimeout(function(){ var el=document.getElementById('programEkleAlani'); if(el) el.scrollIntoView({behavior:'smooth'}); },100); }
+
+function programKaydet(){
+  var ogrenciId = document.getElementById('pOgrenci').value;
+  var gun = document.getElementById('pGun').value;
+  var basSaat = document.getElementById('pBasSaat').value;
+  var basDk = document.getElementById('pBasDk').value;
+  var bitSaat = document.getElementById('pBitSaat').value;
+  var bitDk = document.getElementById('pBitDk').value;
+  var tekrar = document.getElementById('pTekrar').checked;
+
+  if(!ogrenciId||!gun||basSaat===''||basDk===''||bitSaat===''||bitDk===''){
+    toast('Lutfen tum alanlari doldurun','#f59e0b'); return;
+  }
+
+  var bas = pad(basSaat)+':'+pad(basDk);
+  var bit = pad(bitSaat)+':'+pad(bitDk);
+
+  if(saatDk(bit)<=saatDk(bas)){ toast('Bitis saati baslangictan once!','#ef4444'); return; }
+
+  var eklenecek = tekrar ? 5 : 1;
+  if(!state.isPremium && state.program.length+eklenecek > state.LIMITS.program){
+    openUpgrade(); return;
+  }
+
+  var haftaGunleri = getHaftaGunleri(state.seciliTarih);
+  var gunMap = {Pazartesi:0,Sali:1,Carsamba:2,Persembe:3,Cuma:4,Cumartesi:5,Pazar:6};
+  var haftaBas = new Date(haftaGunleri[0].tarih);
+  var tarihBase = new Date(haftaBas);
+  tarihBase.setDate(haftaBas.getDate()+(gunMap[gun]||0));
+
+  for(var i=0;i<eklenecek;i++){
+    var t = new Date(tarihBase); t.setDate(tarihBase.getDate()+i*7);
+    state.program.push({id:Date.now()+i, ogrenciId:Number(ogrenciId), gun:gun, baslangic:bas, bitis:bit, tarih:t.toISOString().split('T')[0]});
+  }
+  save('program');
+  toast('Program eklendi!','#22c55e');
+  render();
+}
+
+function programSil(id){
+  if(!confirm('Bu programi silmek istiyor musunuz?')) return;
+  state.program = state.program.filter(function(p){ return p.id!==id; });
+  save('program'); render();
+}
+
+function dersGerceklesti(id){
+  var plan = state.program.find(function(p){ return p.id===id; });
+  if(!plan) return;
+  var ogr = state.ogrenciler.find(function(o){ return o.id===plan.ogrenciId; });
+  state.dersler.push({id:Date.now(), ogrenciId:plan.ogrenciId, gun:plan.gun, baslangic:plan.baslangic, bitis:plan.bitis, tarih:plan.tarih, durum:'tamamlandi', ucret:ogr?ogr.ucret:0, gelir:ogr?ogr.ucret:0, odendi:false});
+  state.program = state.program.filter(function(p){ return p.id!==id; });
+  save('program'); save('dersler');
+  toast('Ders tamamlandi!','#22c55e');
+
+  var odevSoru = confirm('Bu ogrenciye odev vermek ister misiniz?');
+  if(odevSoru && ogr){
+    state.activeTab='odevler';
+    render();
+    setTimeout(function(){ openOdevModalWithStudent(plan.ogrenciId); }, 200);
+  } else {
+    render();
+  }
+}
+
+function toggleOdeme(id){
+  state.dersler = state.dersler.map(function(d){ return d.id===id ? Object.assign({},d,{odendi:!d.odendi}) : d; });
+  save('dersler'); render();
+}
+
+function dersGeriAl(id){
+  var ders = state.dersler.find(function(d){ return d.id===id; });
+  if(!ders) return;
+  state.program.push({id:Date.now(), ogrenciId:ders.ogrenciId, gun:ders.gun||'', baslangic:ders.baslangic, bitis:ders.bitis, tarih:ders.tarih});
+  state.dersler = state.dersler.filter(function(d){ return d.id!==id; });
+  save('program'); save('dersler'); render();
+}
+
+function odevDurum(id, durum){
+  state.odevler = state.odevler.map(function(o){
+    if(o.id!==id) return o;
+    var ogr = state.ogrenciler.find(function(x){ return x.id===Number(o.ogrenciId); });
+    if(ogr&&ogr.telefon){
+      var msg = durum==='tamamlandi' ? ogr.ad+' odevini tamamladi!' : durum==='eksik' ? ogr.ad+' odevi eksik' : ogr.ad+' odevi yapmadi';
+      sendWhatsApp(ogr.telefon, msg);
     }
+    return Object.assign({},o,{durum:durum});
+  });
+  save('odevler'); render();
+}
+
+function deleteOdev(id){
+  if(!confirm('Odevi silmek istiyor musunuz?')) return;
+  state.odevler = state.odevler.filter(function(o){ return o.id!==id; });
+  save('odevler'); render();
+}
+
+function deleteOgrenci(id){
+  if(!confirm('Bu ogrenciyi silmek istiyor musunuz?')) return;
+  state.ogrenciler = state.ogrenciler.filter(function(o){ return o.id!==id; });
+  save('ogrenciler'); render();
+}
+
+function sendReminders(){
+  var yarin = yarinStr();
+  var liste = state.program.filter(function(p){ return p.tarih===yarin; });
+  if(liste.length===0){ toast('Yarin ders yok','#f59e0b'); return; }
+  liste.forEach(function(plan){
+    var ogr = state.ogrenciler.find(function(o){ return o.id===plan.ogrenciId; });
+    if(ogr&&ogr.telefon) sendWhatsApp(ogr.telefon,'Merhaba, yarin '+plan.baslangic+'\'da dersimiz bulunmaktadir.');
+  });
+}
+
+// Modal - Ogrenci
+var editingOgrenciId = null;
+function openOgrenciModal(){ editingOgrenciId=null; showOgrenciModal({ad:'',telefon:'',sinif:'',ucret:''}); }
+function editOgrenci(id){ var o=state.ogrenciler.find(function(x){ return x.id===id; }); if(o){ editingOgrenciId=id; showOgrenciModal(o); } }
+function showOgrenciModal(data){
+  var html = '<div class="modal-bg" id="ogrenciModalBg"><div class="modal">';
+  html += '<div class="flex-between" style="margin-bottom:16px;"><h3>'+(editingOgrenciId?'Ogrenci Duzenle':'Yeni Ogrenci')+'</h3>';
+  html += '<button onclick="closeModal(\'ogrenciModalBg\')" style="background:none;border:none;font-size:24px;cursor:pointer;">x</button></div>';
+  html += '<div class="form-group"><label>Ad Soyad *</label><input id="oAd" value="'+data.ad+'" placeholder="Ahmet Yilmaz"></div>';
+  html += '<div class="form-group"><label>Telefon</label><input id="oTel" type="tel" value="'+(data.telefon||'')+'" placeholder="0555 123 4567"></div>';
+  html += '<div class="form-group"><label>Sinif</label><input id="oSinif" value="'+(data.sinif||'')+'" placeholder="10"></div>';
+  html += '<div class="form-group"><label>Ucret (TL/saat)</label><input id="oUcret" type="number" value="'+(data.ucret||'')+'" placeholder="500"></div>';
+  html += '<div class="flex gap-2"><button class="btn btn-primary" style="flex:1;" onclick="saveOgrenci()">Kaydet</button>';
+  html += '<button class="btn btn-gray" style="flex:1;" onclick="closeModal(\'ogrenciModalBg\')">Iptal</button></div>';
+  html += '</div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+function saveOgrenci(){
+  var ad = document.getElementById('oAd').value.trim();
+  if(!ad){ toast('Ad girin!','#f59e0b'); return; }
+  if(!canAdd('student')&&!editingOgrenciId){ openUpgrade(); return; }
+  var obj = {ad:ad, telefon:document.getElementById('oTel').value, sinif:document.getElementById('oSinif').value, ucret:document.getElementById('oUcret').value};
+  if(editingOgrenciId){
+    state.ogrenciler = state.ogrenciler.map(function(o){ return o.id===editingOgrenciId ? Object.assign({},obj,{id:editingOgrenciId}) : o; });
+  } else {
+    obj.id = Date.now();
+    state.ogrenciler.push(obj);
+  }
+  save('ogrenciler');
+  closeModal('ogrenciModalBg');
+  render();
+}
+
+// Modal - Odev
+function openOdevModal(){
+  if(!canAdd('homework')){ openUpgrade(); return; }
+  if(state.ogrenciler.length===0){ toast('Once ogrenci ekleyin!','#f59e0b'); return; }
+  showOdevModal(null);
+}
+function openOdevModalWithStudent(ogrenciId){ showOdevModal(ogrenciId); }
+function showOdevModal(preOgrenciId){
+  var html = '<div class="modal-bg" id="odevModalBg"><div class="modal">';
+  html += '<div class="flex-between" style="margin-bottom:16px;"><h3>Yeni Odev</h3>';
+  html += '<button onclick="closeModal(\'odevModalBg\')" style="background:none;border:none;font-size:24px;cursor:pointer;">x</button></div>';
+  html += '<div class="form-group"><label>Ogrenci *</label><select id="ovOgrenci"><option value="">Secin</option>';
+  state.ogrenciler.forEach(function(o){ html += '<option value="'+o.id+'"'+(o.id==preOgrenciId?' selected':'')+'>'+o.ad+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="form-group"><label>Konu *</label><input id="ovKonu" placeholder="Turev Sorulari"></div>';
+  html += '<div class="form-group"><label>Aciklama</label><textarea id="ovAciklama" rows="2" placeholder="Kitap sayfa 45-50"></textarea></div>';
+  html += '<div class="flex gap-2"><button class="btn btn-primary" style="flex:1;" onclick="saveOdev()">Ekle</button>';
+  html += '<button class="btn btn-gray" style="flex:1;" onclick="closeModal(\'odevModalBg\')">Iptal</button></div>';
+  html += '</div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+function saveOdev(){
+  var ogrenciId = document.getElementById('ovOgrenci').value;
+  var konu = document.getElementById('ovKonu').value.trim();
+  if(!ogrenciId||!konu){ toast('Ogrenci ve konu zorunlu!','#f59e0b'); return; }
+  var ogr = state.ogrenciler.find(function(o){ return o.id==ogrenciId; });
+  state.odevler.push({id:Date.now(), ogrenciId:Number(ogrenciId), konu:konu, aciklama:document.getElementById('ovAciklama').value, durum:'yapilmadi'});
+  if(ogr&&ogr.telefon) sendWhatsApp(ogr.telefon,'Yeni odev: '+konu);
+  save('odevler');
+  closeModal('odevModalBg');
+  render();
+}
+
+function closeModal(id){ var el=document.getElementById(id); if(el) el.remove(); }
+
+function openUpgrade(){
+  var html = '<div class="modal-bg" id="upgradeModal"><div class="modal" style="text-align:center;">';
+  html += '<h3>Premium\'a Gec</h3>';
+  html += '<p style="color:#6b7280;margin:12px 0;">Sinirsiz ogrenci, odev ve program ekle!</p>';
+  html += '<button class="btn btn-primary" style="width:100%;margin-bottom:8px;" onclick="activatePremium()">Premium Ac</button>';
+  html += '<button class="btn btn-gray" style="width:100%;" onclick="closeModal(\'upgradeModal\')">Vazgec</button>';
+  html += '</div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function activatePremium(){ state.isPremium=true; save('isPremium'); closeModal('upgradeModal'); toast('Premium aktif!','#6d28d9'); render(); }
+
+// Init
+load();
+render();
+
+// Splash
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    var s = document.getElementById('splash');
+    if(s){ s.style.opacity='0'; setTimeout(function(){ s.remove(); },600); }
   }, 1200);
 });
-</script>
 
+// Service Worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/derspaneli/service-worker.js')
+    .then(function(r){ console.log('SW kayitli',r); })
+    .catch(function(e){ console.error('SW hatasi',e); });
+}
+</script>
 </body>
 </html>
