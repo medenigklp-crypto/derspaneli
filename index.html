@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#4F46E5">
     <link rel="manifest" href="manifest.json">
-    <title>📚 Ders Paneli</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <link rel="apple-touch-icon" href="icon-180.png">
+    <title>📚 Ders Paneli</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
@@ -22,19 +17,17 @@
             body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
         }
         #splash {
-            position: fixed; width: 100%; height: 100%; background: #4B2EFF; color: white;
-            display: flex; justify-content: center; align-items: center; font-size: 28px;
-            font-weight: bold; z-index: 9999;
+            position: fixed; width: 100%; height: 100%;
+            background: #4B2EFF; color: white;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 28px; font-weight: bold; z-index: 9999;
         }
-        .fade-out { opacity: 0; transition: 0.6s; }
+        .fade-out { opacity: 0; transition: opacity 0.6s; }
     </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
 
-<div id="splash">
-  <h1>DERS PANELİ</h1>
-</div>
-
+<div id="splash"><h1>DERS PANELİ</h1></div>
 <div id="root"></div>
 
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -42,247 +35,840 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script type="text/babel">
-    const { useState, useEffect } = React;
+const { useState, useEffect } = React;
 
-    const Icon = ({ name, size = 20, className = "" }) => {
-        const icons = {
-            users: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>,
-            calendar: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>,
-            book: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>,
-            dollar: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>,
-            plus: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>,
-            x: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>,
-            edit: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>,
-            trash: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-        };
-        return icons[name] || null;
+const Icon = ({ name, size = 20, className = "" }) => {
+    const icons = {
+        users: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+        calendar: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+        book: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+        plus: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+        x: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+        edit: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
+        trash: <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
     };
-    
-    const DersPanel = () => {
-        const normalizeDate = (date) => {
-            if (!date) return null;
-            const d = new Date(date);
-            if (isNaN(d.getTime())) return null;
-            return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-        };
+    return icons[name] || null;
+};
 
-        const [ogrenciler, setOgrenciler] = useState([]);
-        const [odevler, setOdevler] = useState([]);
-        const [dersler, setDersler] = useState([]);
-        const [dersProgrami, setDersProgrami] = useState([]);
-        const [isPremium, setIsPremium] = useState(false);
-        const [activeTab, setActiveTab] = useState('program');
-        const [showMoney, setShowMoney] = useState(true);
-        const [showOgrenciModal, setShowOgrenciModal] = useState(false);
-        const [showDersModal, setShowDersModal] = useState(false);
-        const [showOdevModal, setShowOdevModal] = useState(false);
-        const [showOdevSoru, setShowOdevSoru] = useState(false);
-        const [seciliOgrenci, setSeciliOgrenci] = useState("tum");
-        const [showUpgrade, setShowUpgrade] = useState(false);
-        const [showHatirlatPopup, setShowHatirlatPopup] = useState(false);
-        const [hatirlatmaListesi, setHatirlatmaListesi] = useState([]);
-        const [tekrarEt, setTekrarEt] = useState(false);
-        const [editId, setEditId] = useState(null);
-        const [editingId, setEditingId] = useState(null);
+const DersPanel = () => {
+    const LIMITS = { student: 5, homework: 10, program: 5 };
 
-        const [ogrenciForm, setOgrenciForm] = useState({ ad: '', telefon: '', sinif: '', ucret: '' });
-        const [odevForm, setOdevForm] = useState({ ogrenciId: '', konu: '', aciklama: '', durum: "yapilmadi" });
-        const [programForm, setProgramForm] = useState({ ogrenciId: "", gun: "", basSaat: "", basDakika: "", bitSaat: "", bitDakika: "" });
-        const [seciliTarih, setSeciliTarih] = useState(() => new Date().toISOString().split("T")[0]);
+    const normalizeDate = (date) => {
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return null;
+        return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+    };
 
-        const bugunStr = normalizeDate(new Date());
-        const LIMITS = { student: 5, homework: 10, program: 5, lesson: 5 };
+    const [ogrenciler, setOgrenciler] = useState([]);
+    const [odevler, setOdevler] = useState([]);
+    const [dersler, setDersler] = useState([]);
+    const [dersProgrami, setDersProgrami] = useState([]);
+    const [isPremium, setIsPremium] = useState(false);
+    const [activeTab, setActiveTab] = useState('program');
+    const [showMoney, setShowMoney] = useState(true);
+    const [tekrarEt, setTekrarEt] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [editingId, setEditingId] = useState(null);
+    const [seciliOgrenci, setSeciliOgrenci] = useState("tum");
+    const [seciliTarih, setSeciliTarih] = useState(() => new Date().toISOString().split("T")[0]);
+    const [hatirlatmaPlan, setHatirlatmaPlan] = useState(null);
+    const [hatirlatmaListesi, setHatirlatmaListesi] = useState([]);
+    const [showHatirlatPopup, setShowHatirlatPopup] = useState(false);
+    const [showOgrenciModal, setShowOgrenciModal] = useState(false);
+    const [showDersModal, setShowDersModal] = useState(false);
+    const [showOdevModal, setShowOdevModal] = useState(false);
+    const [showOdevSoru, setShowOdevSoru] = useState(false);
+    const [showUpgrade, setShowUpgrade] = useState(false);
+    const [popup, setPopup] = useState({ show: false, message: "", type: "info" });
+    const [ogrenciForm, setOgrenciForm] = useState({ ad: '', telefon: '', sinif: '', ucret: '' });
+    const [odevForm, setOdevForm] = useState({ ogrenciId: '', konu: '', aciklama: '', durum: "yapilmadi" });
+    const [dersForm, setDersForm] = useState({ ogrenciId: '', tarih: '', baslangic: '', bitis: '', sure: 1, konu: '', ucret: '', odendi: false });
+    const [programForm, setProgramForm] = useState({ ogrenciId: "", gun: "", basSaat: "", basDakika: "", bitSaat: "", bitDakika: "" });
 
-        const [popup, setPopup] = useState({ show: false, message: "", type: "info" });
+    const saatler = Array.from({ length: 15 }, (_, i) => 8 + i);
+    const dakikalar = [0, 15, 30, 45];
 
-        const showPopup = (message, type = "info") => {
-            setPopup({ show: true, message, type });
-            setTimeout(() => setPopup({ show: false, message: "", type: "info" }), 2000);
-        };
-
-        const canAdd = (type) => {
-            if (isPremium) return true;
-            if (type === "student") return ogrenciler.length < LIMITS.student;
-            if (type === "homework") return odevler.length < LIMITS.homework;
-            if (type === "program") return dersProgrami.length < LIMITS.program;
-            return true;
-        };
-
-        useEffect(() => {
+    // LocalStorage yükle
+    useEffect(() => {
+        const keys = ['ogrenciler','dersler','odevler','dersProgrami'];
+        const setters = [setOgrenciler, setDersler, setOdevler, setDersProgrami];
+        keys.forEach((k, i) => {
             try {
-                setDersProgrami(JSON.parse(localStorage.getItem("dersProgrami") || "[]"));
-                setOgrenciler(JSON.parse(localStorage.getItem("ogrenciler") || "[]"));
-                setOdevler(JSON.parse(localStorage.getItem("odevler") || "[]"));
-                setDersler(JSON.parse(localStorage.getItem("dersler") || "[]"));
-            } catch(e) { console.error(e); }
-        }, []);
+                const d = localStorage.getItem(k);
+                if (d) setters[i](JSON.parse(d));
+            } catch(e) {}
+        });
+    }, []);
 
-        useEffect(() => { localStorage.setItem("dersProgrami", JSON.stringify(dersProgrami)); }, [dersProgrami]);
-        useEffect(() => { localStorage.setItem("ogrenciler", JSON.stringify(ogrenciler)); }, [ogrenciler]);
-        useEffect(() => { localStorage.setItem("odevler", JSON.stringify(odevler)); }, [odevler]);
-        useEffect(() => { localStorage.setItem("dersler", JSON.stringify(dersler)); }, [dersler]);
+    useEffect(() => { localStorage.setItem('ogrenciler', JSON.stringify(ogrenciler)); }, [ogrenciler]);
+    useEffect(() => { localStorage.setItem('dersler', JSON.stringify(dersler)); }, [dersler]);
+    useEffect(() => { localStorage.setItem('odevler', JSON.stringify(odevler)); }, [odevler]);
+    useEffect(() => { localStorage.setItem('dersProgrami', JSON.stringify(dersProgrami)); }, [dersProgrami]);
 
-        const getOgrenciAd = (id) => {
-            const ogrenci = ogrenciler.find(o => o.id === parseInt(id));
-            return ogrenci ? ogrenci.ad : 'Bilinmeyen';
-        };
+    // Süre otomatik hesapla
+    useEffect(() => {
+        if (!dersForm.baslangic || !dersForm.bitis) return;
+        const [bH, bM] = dersForm.baslangic.split(":").map(Number);
+        const [sH, sM] = dersForm.bitis.split(":").map(Number);
+        const fark = (sH * 60 + sM) - (bH * 60 + bM);
+        if (fark > 0) setDersForm(prev => ({ ...prev, sure: (fark/60) }));
+    }, [dersForm.baslangic, dersForm.bitis]);
 
-        const sendWhatsApp = (telefon, mesaj) => {
-            if (!telefon) return;
-            let temiz = telefon.replace(/\D/g, "");
-            if (temiz.startsWith("0")) temiz = "90" + temiz.substring(1);
-            else if (!temiz.startsWith("90")) temiz = "90" + temiz;
-            window.open(`https://wa.me/${temiz}?text=${encodeURIComponent(mesaj)}`, "_blank");
-        };
+    // Ücret otomatik hesapla
+    useEffect(() => {
+        if (!dersForm.ogrenciId) return;
+        const ogrenci = ogrenciler.find(o => o.id === parseInt(dersForm.ogrenciId));
+        if (!ogrenci) return;
+        const toplam = parseFloat(ogrenci.ucret || 0) * parseFloat(dersForm.sure || 0);
+        setDersForm(prev => ({ ...prev, ucret: toplam.toFixed(2) }));
+    }, [dersForm.ogrenciId, dersForm.sure]);
 
-        const ogrenciKaydet = () => {
-            if (!ogrenciForm.ad) return;
-            if (!editingId && !canAdd("student")) { setShowUpgrade(true); return; }
-            if (editingId) {
-                setOgrenciler(ogrenciler.map(o => o.id === editingId ? { ...ogrenciForm, id: editingId } : o));
-            } else {
-                setOgrenciler([...ogrenciler, { ...ogrenciForm, id: Date.now() }]);
+    // Hatırlatma kontrolü
+    useEffect(() => {
+        const kontrol = setInterval(() => {
+            const simdi = new Date();
+            dersProgrami.forEach(plan => {
+                if (!plan.tarih || !plan.baslangic) return;
+                const dersZamani = new Date(`${plan.tarih}T${plan.baslangic}:00`);
+                const farkSaat = (dersZamani - simdi) / (1000 * 60 * 60);
+                if (farkSaat <= 24 && farkSaat > 23 && hatirlatmaPlan?.id !== plan.id) {
+                    setHatirlatmaPlan(plan);
+                    setShowHatirlatPopup(true);
+                }
+            });
+        }, 60000);
+        return () => clearInterval(kontrol);
+    }, [dersProgrami, hatirlatmaPlan]);
+
+    const showPopup = (message, type = "info") => {
+        setPopup({ show: true, message, type });
+        setTimeout(() => setPopup({ show: false, message: "", type: "info" }), 2500);
+    };
+
+    const canAdd = (type) => {
+        if (isPremium) return true;
+        if (type === "student") return ogrenciler.length < LIMITS.student;
+        if (type === "homework") return odevler.length < LIMITS.homework;
+        if (type === "program") return dersProgrami.length < LIMITS.program;
+        return true;
+    };
+
+    const sendWhatsApp = (telefon, mesaj) => {
+        if (!telefon) { showPopup("Telefon numarası yok!", "warning"); return; }
+        let temiz = telefon.replace(/\D/g, "");
+        if (!temiz.startsWith("90")) temiz = temiz.startsWith("0") ? "90" + temiz.substring(1) : "90" + temiz;
+        window.open(`https://wa.me/${temiz}?text=${encodeURIComponent(mesaj)}`, "_blank");
+    };
+
+    const getOgrenciAd = (id) => {
+        const o = ogrenciler.find(o => o.id === parseInt(id));
+        return o ? o.ad : 'Bilinmeyen';
+    };
+
+    const saatiDakikayaCevir = (saat) => {
+        if (!saat) return 0;
+        const [h, m] = saat.split(":").map(Number);
+        return h * 60 + m;
+    };
+
+    const cakismaVarMi = (gun, baslangic, bitis, duzenlenenId = null) => {
+        const yeniBas = saatiDakikayaCevir(baslangic);
+        const yeniBit = saatiDakikayaCevir(bitis);
+        return dersProgrami.some(p => {
+            if (!p || !p.baslangic || !p.bitis) return false;
+            if (duzenlenenId && p.id === duzenlenenId) return false;
+            if (p.gun !== gun) return false;
+            return yeniBas < saatiDakikayaCevir(p.bitis) && yeniBit > saatiDakikayaCevir(p.baslangic);
+        });
+    };
+
+    // Tarihler
+    const bugunStr = normalizeDate(new Date());
+    const yarinDate = new Date(); yarinDate.setDate(yarinDate.getDate() + 1);
+    const yarinStr = normalizeDate(yarinDate);
+
+    const bugunDersSayisi = dersProgrami.filter(p => p.tarih === bugunStr).length;
+    const yarinDersSayisi = dersProgrami.filter(p => p.tarih === yarinStr).length;
+    const bugunDersler = dersProgrami.filter(p => p.tarih === bugunStr).sort((a,b) => (a.baslangic||"").localeCompare(b.baslangic||""));
+
+    const getTutar = (d) => Number(d?.ucret ?? d?.gelir ?? 0);
+    const toplamKazanc = dersler.reduce((sum, d) => sum + getTutar(d), 0);
+    const bekleyenOdeme = dersler.filter(d => !d.odendi).reduce((sum, d) => sum + getTutar(d), 0);
+    const bugunKazanc = dersler.filter(d => String(d.tarih).slice(0,10) === bugunStr && d.odendi).reduce((sum,d) => sum + getTutar(d), 0);
+
+    const haftaGunleri = (() => {
+        const secili = new Date(seciliTarih);
+        const gun = secili.getDay();
+        const fark = gun === 0 ? -6 : 1 - gun;
+        const pazartesi = new Date(secili);
+        pazartesi.setDate(secili.getDate() + fark);
+        return Array.from({length: 7}, (_, i) => {
+            const g = new Date(pazartesi);
+            g.setDate(pazartesi.getDate() + i);
+            return { tarih: g.toISOString().split("T")[0], ad: ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"][i] };
+        });
+    })();
+
+    const haftaKaydir = (ileriMi) => {
+        const t = new Date(seciliTarih);
+        t.setDate(t.getDate() + (ileriMi ? 7 : -7));
+        setSeciliTarih(t.toISOString().split("T")[0]);
+    };
+
+    const son7Gun = Array.from({length:7}, (_,i) => {
+        const d = new Date(); d.setDate(d.getDate()-i);
+        return d.toISOString().split("T")[0];
+    }).reverse();
+
+    const haftalikData = son7Gun.map(tarih => ({
+        tarih,
+        kazanc: dersler.filter(d => d.tarih === tarih).reduce((sum,d) => sum + (Number(d.gelir)||0), 0)
+    }));
+
+    // CRUD
+    const ogrenciModalAc = () => { setOgrenciForm({ad:'',telefon:'',sinif:'',ucret:''}); setEditingId(null); setShowOgrenciModal(true); };
+
+    const ogrenciKaydet = () => {
+        if (!ogrenciForm.ad) { showPopup("Lütfen öğrenci adı girin!", "warning"); return; }
+        if (!canAdd("student") && !editingId) { setShowUpgrade(true); return; }
+        if (editingId) {
+            setOgrenciler(ogrenciler.map(o => o.id === editingId ? { ...ogrenciForm, id: editingId } : o));
+        } else {
+            setOgrenciler([...ogrenciler, { ...ogrenciForm, id: Date.now() }]);
+        }
+        setShowOgrenciModal(false); setEditingId(null);
+    };
+
+    const ogrenciSil = (id) => { if (confirm('Bu öğrenciyi silmek istiyor musunuz?')) setOgrenciler(ogrenciler.filter(o => o.id !== id)); };
+    const ogrenciDuzenle = (o) => { setOgrenciForm(o); setEditingId(o.id); setShowOgrenciModal(true); };
+
+    const programKaydet = () => {
+        const { ogrenciId, gun, basSaat, basDakika, bitSaat, bitDakika } = programForm;
+        if (!ogrenciId || !gun || basSaat === "" || basDakika === "" || bitSaat === "" || bitDakika === "") {
+            showPopup("Lütfen tüm alanları doldurun", "warning"); return;
+        }
+        const baslangic = `${String(basSaat).padStart(2,"0")}:${String(basDakika).padStart(2,"0")}`;
+        const bitis = `${String(bitSaat).padStart(2,"0")}:${String(bitDakika).padStart(2,"0")}`;
+        if (cakismaVarMi(gun, baslangic, bitis, editId)) { showPopup("❌ Bu saatte zaten ders var!", "warning"); return; }
+
+        if (editId) {
+            setDersProgrami(dersProgrami.map(p => p.id === editId ? { ...p, ogrenciId: Number(ogrenciId), gun, baslangic, bitis } : p));
+            setEditId(null);
+        } else {
+            const eklenecek = tekrarEt ? 5 : 1;
+            if (!isPremium && dersProgrami.length + eklenecek > LIMITS.program) { setShowUpgrade(true); return; }
+            const gunMap = {"Pazartesi":0,"Salı":1,"Çarşamba":2,"Perşembe":3,"Cuma":4,"Cumartesi":5,"Pazar":6};
+            const haftaBas = haftaGunleri?.[0]?.tarih ? new Date(haftaGunleri[0].tarih) : new Date();
+            const tarihBase = new Date(haftaBas);
+            tarihBase.setDate(haftaBas.getDate() + (gunMap[gun] ?? 0));
+            const yeniProgramlar = [{id: Date.now(), ogrenciId: Number(ogrenciId), gun, baslangic, bitis, tarih: normalizeDate(tarihBase)}];
+            if (tekrarEt) {
+                for (let i = 1; i <= 4; i++) {
+                    const t = new Date(tarihBase); t.setDate(tarihBase.getDate() + i*7);
+                    yeniProgramlar.push({id: Date.now()+i, ogrenciId: Number(ogrenciId), gun, baslangic, bitis, tarih: normalizeDate(t)});
+                }
             }
-            setShowOgrenciModal(false); setEditingId(null);
-        };
+            setDersProgrami(prev => [...prev, ...yeniProgramlar]);
+        }
+        setProgramForm({ogrenciId:"",gun:"",basSaat:"",basDakika:"",bitSaat:"",bitDakika:""});
+        setTekrarEt(false);
+    };
 
-        const ogrenciSil = (id) => { if(confirm('Silinsin mi?')) setOgrenciler(ogrenciler.filter(o => o.id !== id)); };
-        const ogrenciDuzenle = (o) => { setOgrenciForm(o); setEditingId(o.id); setShowOgrenciModal(true); };
+    const dersDuzenle = (ders) => {
+        setProgramForm({ ogrenciId: ders.ogrenciId, gun: ders.gun, basSaat: ders.baslangic.split(":")[0], basDakika: ders.baslangic.split(":")[1], bitSaat: ders.bitis.split(":")[0], bitDakika: ders.bitis.split(":")[1] });
+        setEditId(ders.id);
+        setTimeout(() => { document.getElementById("programEkleAlani")?.scrollIntoView({behavior:"smooth"}); }, 100);
+    };
 
-        const odevEkle = () => {
-            if (!odevForm.konu) return;
-            setOdevler([...odevler, { ...odevForm, id: Date.now() }]);
-            setShowOdevModal(false);
-        };
+    const programSil = (id) => { if (confirm('Bu programı silmek istiyor musunuz?')) setDersProgrami(prev => prev.filter(p => p.id !== id)); };
 
-        const odevSil = (id) => { setOdevler(odevler.filter(o => o.id !== id)); };
-        const odevDurumDegistir = (id, d) => { setOdevler(odevler.map(o => o.id === id ? {...o, durum: d} : o)); };
+    const dersGerceklesti = (plan) => {
+        const ogrenci = ogrenciler.find(o => o.id === plan.ogrenciId);
+        setDersler(prev => [...prev, { ...plan, durum: "tamamlandi", gelir: ogrenci?.ucret || 0, ucret: ogrenci?.ucret || 0 }]);
+        setDersProgrami(prev => prev.filter(p => p.id !== plan.id));
+    };
 
-        const dersGerceklesti = (plan) => {
-            setDersler([...dersler, { ...plan, id: Date.now(), odendi: false, ucret: ogrenciler.find(o=>o.id===plan.ogrenciId)?.ucret || 0 }]);
-            setDersProgrami(dersProgrami.filter(p => p.id !== plan.id));
-        };
+    const dersEkle = () => {
+        if (!dersForm.ogrenciId || !dersForm.tarih || !dersForm.baslangic || !dersForm.bitis) { showPopup('Tüm zorunlu alanları doldurun!', "warning"); return; }
+        setDersler(prev => [...prev, { ...dersForm, id: Date.now(), odendi: false }]);
+        setDersForm({ ogrenciId:'', tarih:'', baslangic:'', bitis:'', sure:1, konu:'', ucret:'', odendi:false });
+        setShowDersModal(false);
+    };
 
-        const programKaydet = () => {
-            if(!programForm.ogrenciId || !programForm.gun) return;
-            const bas = `${String(programForm.basSaat).padStart(2,"0")}:${String(programForm.basDakika).padStart(2,"0")}`;
-            const bit = `${String(programForm.bitSaat).padStart(2,"0")}:${String(programForm.bitDakika).padStart(2,"0")}`;
-            setDersProgrami([...dersProgrami, { id: Date.now(), ogrenciId: Number(programForm.ogrenciId), gun: programForm.gun, baslangic: bas, bitis: bit, tarih: seciliTarih }]);
-            setProgramForm({ ogrenciId: "", gun: "", basSaat: "", basDakika: "", bitSaat: "", bitDakika: "" });
-        };
+    const odemeDurumDegistir = (id) => setDersler(prev => prev.map(d => d.id === id ? { ...d, odendi: !d.odendi } : d));
 
-        const bugunDersler = dersProgrami.filter(p => p.tarih === bugunStr);
-        const toplamKazanc = dersler.reduce((sum, d) => sum + Number(d.ucret || 0), 0);
-        const bekleyenOdeme = dersler.filter(d => !d.odendi).reduce((sum, d) => sum + Number(d.ucret || 0), 0);
+    const dersiGeriAl = (ders) => {
+        if (dersProgrami.some(p => p.tarih === ders.tarih && p.baslangic === ders.baslangic && p.ogrenciId === ders.ogrenciId)) {
+            showPopup("Bu ders zaten programda var", "warning"); return;
+        }
+        setDersProgrami(prev => [...prev, { id: Date.now(), ogrenciId: ders.ogrenciId, gun: ders.gun, baslangic: ders.baslangic, bitis: ders.bitis, tarih: ders.tarih }]);
+        setDersler(prev => prev.filter(d => d.id !== ders.id));
+    };
 
-        return (
-            <div className="min-h-screen pb-20">
-                <div className="bg-white shadow px-4 py-4 sticky top-0 z-10 flex justify-between items-center">
-                    <div>
-                        <h1 className="text-xl font-bold text-indigo-600">📚 Ders Paneli</h1>
-                        <p className="text-gray-500 text-xs">Yeni Temiz Altyapı</p>
-                    </div>
-                    <button onClick={() => setIsPremium(!isPremium)} className={`text-xs px-3 py-1.5 rounded-lg font-bold ${isPremium ? "bg-purple-600 text-white" : "bg-gray-100 text-gray-700"}`}>
-                        {isPremium ? "💎 Premium" : "🆓 Free Mod"}
+    const odevEkle = () => {
+        if (!odevForm.ogrenciId || !odevForm.konu) { showPopup('Konu girin!', "warning"); return; }
+        if (!canAdd("homework")) { setShowUpgrade(true); return; }
+        const ogrenci = ogrenciler.find(o => o.id === Number(odevForm.ogrenciId));
+        setOdevler(prev => [...prev, { id: Date.now(), ...odevForm }]);
+        if (ogrenci?.telefon) sendWhatsApp(ogrenci.telefon, `📚 Yeni ödev: ${odevForm.konu}`);
+        setOdevForm({ ogrenciId:'', konu:'', aciklama:'', durum:"yapilmadi" });
+        setShowOdevModal(false);
+    };
+
+    const odevSil = (id) => { if (confirm('Ödevi silmek istiyor musunuz?')) setOdevler(odevler.filter(o => o.id !== id)); };
+
+    const odevDurumDegistir = (id, yeniDurum) => {
+        setOdevler(prev => prev.map(o => {
+            if (o.id !== id) return o;
+            const ogrenci = ogrenciler.find(x => x.id === Number(o.ogrenciId));
+            if (ogrenci?.telefon) {
+                const mesajlar = { tamamlandi: `✅ ${ogrenci.ad} ödevini TAMAMLADI`, eksik: `⚠️ ${ogrenci.ad} ödevi EKSİK`, yapilmadi: `❌ ${ogrenci.ad} ödevi YAPMADI` };
+                sendWhatsApp(ogrenci.telefon, mesajlar[yeniDurum] || "");
+            }
+            return { ...o, durum: yeniDurum };
+        }));
+    };
+
+    return (
+        <div className="min-h-screen pb-24">
+            {/* Header */}
+            <div className="bg-white shadow-md sticky top-0 z-10 px-4 py-3 flex justify-between items-center">
+                <div>
+                    <h1 className="text-xl font-bold text-indigo-600">📚 Ders Paneli</h1>
+                    <p className="text-gray-500 text-xs">Özel derslerinizi yönetin</p>
+                </div>
+                <span className={`text-xs px-2 py-1 rounded ${isPremium ? "bg-purple-100 text-purple-700" : "bg-gray-100 text-gray-600"}`}>
+                    {isPremium ? "💎 Premium" : "🆓 Free"}
+                </span>
+            </div>
+
+            {/* Stat Kartları */}
+            <div className="p-4 grid grid-cols-2 gap-3">
+                <div className="relative overflow-hidden rounded-2xl p-4 text-white shadow-xl bg-gradient-to-br from-indigo-500 to-indigo-700">
+                    <div className="absolute right-2 top-2 text-4xl opacity-10">📅</div>
+                    <p className="text-xs opacity-80">Bugün</p>
+                    <h2 className="text-3xl font-bold">{bugunDersSayisi}</h2>
+                    <p className="text-xs opacity-70">ders</p>
+                </div>
+                <div className="relative overflow-hidden rounded-2xl p-4 text-white shadow-xl bg-gradient-to-br from-blue-500 to-blue-700">
+                    <div className="absolute right-2 top-2 text-4xl opacity-10">📆</div>
+                    <p className="text-xs opacity-80">Yarın</p>
+                    <h2 className="text-3xl font-bold">{yarinDersSayisi}</h2>
+                    <p className="text-xs opacity-70">ders</p>
+                </div>
+                <div className="relative overflow-hidden rounded-2xl p-4 text-white shadow-xl bg-gradient-to-br from-green-500 to-green-700">
+                    <button onClick={() => setShowMoney(!showMoney)} className="absolute top-2 right-2 text-lg z-10">{showMoney ? "👁" : "🙈"}</button>
+                    <p className="text-xs opacity-80">Toplam Kazanç</p>
+                    <h2 className="text-2xl font-bold">{showMoney ? `₺${toplamKazanc.toFixed(0)}` : "••••"}</h2>
+                    <p className="text-xs opacity-70 mt-1">Bugün: {showMoney ? `₺${bugunKazanc.toFixed(0)}` : "••••"}</p>
+                </div>
+                <div className="relative overflow-hidden rounded-2xl p-4 text-white shadow-xl bg-gradient-to-br from-red-500 to-red-700">
+                    <div className="absolute right-2 top-2 text-4xl opacity-10">⏳</div>
+                    <p className="text-xs opacity-80">Bekleyen</p>
+                    <h2 className="text-2xl font-bold">{showMoney ? `₺${bekleyenOdeme.toFixed(0)}` : "••••"}</h2>
+                    <p className="text-xs opacity-70">ödeme</p>
+                </div>
+            </div>
+
+            {/* Hızlı Butonlar */}
+            <div className="px-4 mb-4">
+                <div className="bg-white rounded-2xl shadow p-3 flex flex-wrap gap-2">
+                    <button onClick={() => { setActiveTab("program"); setTimeout(() => document.getElementById("programEkleAlani")?.scrollIntoView({behavior:"smooth"}), 100); }}
+                        className="flex-1 bg-indigo-600 text-white py-2 px-3 rounded-xl text-sm">➕ Ders Ekle</button>
+                    <button onClick={() => { if (!canAdd("student")) { setShowUpgrade(true); return; } ogrenciModalAc(); }}
+                        className={`flex-1 py-2 px-3 rounded-xl text-sm ${!canAdd("student") ? "bg-gray-300 text-gray-500" : "bg-gray-800 text-white"}`}>
+                        {!canAdd("student") ? "🔒 Premium" : "👨‍🎓 Öğrenci"}
                     </button>
+                    <button onClick={() => {
+                        const yarin = new Date(); yarin.setDate(yarin.getDate()+1);
+                        const yarinISO = yarin.toLocaleDateString("sv-SE");
+                        const liste = dersProgrami.filter(p => p.tarih === yarinISO);
+                        if (liste.length === 0) { showPopup("Yarın ders yok", "warning"); return; }
+                        setHatirlatmaListesi(liste); setShowHatirlatPopup(true);
+                    }} className="flex-1 bg-green-500 text-white py-2 px-3 rounded-xl text-sm">📢 Hatırlat</button>
                 </div>
+            </div>
 
-                <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div className="bg-indigo-600 text-white p-4 rounded-xl shadow">
-                        <p className="text-xs opacity-80">Bugün</p>
-                        <h3 className="text-xl font-bold">{bugunDersler.length} Ders</h3>
-                    </div>
-                    <div className="bg-green-600 text-white p-4 rounded-xl shadow">
-                        <p className="text-xs opacity-80">Kazanç</p>
-                        <h3 className="text-xl font-bold">₺{toplamKazanc}</h3>
+            {/* Bugünün Dersleri */}
+            <div className="px-4 mb-4">
+                <div className="bg-white rounded-2xl shadow-lg p-4">
+                    <h2 className="text-base font-bold mb-3 text-gray-800">📅 Bugünün Dersleri</h2>
+                    {bugunDersler.length === 0
+                        ? <p className="text-center text-gray-400 py-4 text-sm">Bugün ders yok 👍</p>
+                        : <div className="space-y-2">
+                            {bugunDersler.map(plan => {
+                                const ogrenci = ogrenciler.find(o => o.id === plan.ogrenciId);
+                                return (
+                                    <div key={plan.id} className="flex justify-between items-center border rounded-xl p-3">
+                                        <div>
+                                            <p className="font-semibold text-sm">{plan.baslangic} - {plan.bitis}</p>
+                                            <p className="text-xs text-gray-600">{ogrenci?.ad || "Öğrenci yok"}</p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => { dersGerceklesti(plan); setSeciliOgrenci(plan.ogrenciId); setShowOdevSoru(true); }}
+                                                className="bg-green-500 text-white px-3 py-1 rounded-lg text-xs">✓ Geldi</button>
+                                            <button onClick={() => ogrenci?.telefon && sendWhatsApp(ogrenci.telefon, `Merhaba, ${plan.baslangic} dersimiz için hatırlatma 🙂`)}
+                                                className="bg-green-100 text-green-700 px-3 py-1 rounded-lg text-xs">💬</button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                          </div>
+                    }
+                </div>
+            </div>
+
+            {/* Kazanç Grafiği */}
+            <div className="px-4 mb-4">
+                <div className="bg-white rounded-2xl shadow-lg p-4">
+                    <h2 className="text-base font-bold mb-3 text-gray-800">📊 Son 7 Gün Kazanç</h2>
+                    <div className="space-y-2">
+                        {haftalikData.map((g,i) => (
+                            <div key={i} className="flex items-center gap-3">
+                                <div className="w-16 text-xs text-gray-500">{g.tarih.slice(5)}</div>
+                                <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                                    <div className="bg-green-500 h-2" style={{width:`${Math.min(g.kazanc/10,100)}%`}}/>
+                                </div>
+                                <div className="w-14 text-right text-xs font-semibold">₺{g.kazanc}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
+            </div>
 
-                <div className="grid grid-cols-3 gap-1 px-4 mb-4">
-                    {['program', 'ogrenciler', 'odevler'].map(t => (
-                        <button key={t} onClick={() => setActiveTab(t)} className={`py-2 text-xs font-bold rounded-lg ${activeTab === t ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 shadow-sm'}`}>
-                            {t.toUpperCase()}
+            {/* Tab Navigasyon */}
+            <div className="px-4 mb-3">
+                <div className="bg-white rounded-xl shadow p-1 flex gap-1">
+                    {[['program','📅 Program'],['ogrenciler','👨‍🎓 Öğrenci'],['dersler','📖 Dersler'],['odevler','📝 Ödev']].map(([tab, label]) => (
+                        <button key={tab} onClick={() => setActiveTab(tab)}
+                            className={`flex-1 py-2 rounded-lg text-xs font-medium transition ${activeTab === tab ? 'bg-indigo-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}>
+                            {label}
                         </button>
                     ))}
                 </div>
+            </div>
 
+            <div className="px-4">
+                {/* Program Tab */}
                 {activeTab === 'program' && (
-                    <div className="p-4 bg-white m-4 rounded-xl shadow">
-                        <h3 className="font-bold mb-3 text-sm">🗓 Ders Programı</h3>
-                        <div className="space-y-2">
-                            {dersProgrami.map(p => (
-                                <div key={p.id} className="p-3 border rounded-lg flex justify-between items-center">
-                                    <div>
-                                        <p className="font-bold text-sm">{getOgrenciAd(p.ogrenciId)}</p>
-                                        <p className="text-xs text-gray-500">{p.gun} | {p.baslangic}-{p.bitis}</p>
+                    <div className="bg-white rounded-xl shadow-lg p-4">
+                        <h2 className="text-lg font-bold mb-3">Ders Programı</h2>
+                        <button onClick={() => {
+                            const yarin = new Date(); yarin.setDate(yarin.getDate()+1);
+                            const liste = dersProgrami.filter(p => p.tarih === yarin.toLocaleDateString("sv-SE"));
+                            if (liste.length === 0) { showPopup("Yarın ders yok", "warning"); return; }
+                            setHatirlatmaListesi(liste); setShowHatirlatPopup(true);
+                        }} className="mb-3 bg-green-500 text-white px-4 py-2 rounded-lg text-sm">📢 Yarınki Dersleri Hatırlat</button>
+
+                        <div className="flex justify-between items-center mb-3">
+                            <button onClick={() => haftaKaydir(false)} className="px-3 py-1 bg-gray-200 rounded text-sm">⬅</button>
+                            <span className="text-xs font-semibold text-gray-600">{haftaGunleri[0]?.tarih} – {haftaGunleri[6]?.tarih}</span>
+                            <button onClick={() => haftaKaydir(true)} className="px-3 py-1 bg-gray-200 rounded text-sm">➡</button>
+                        </div>
+
+                        <div className="overflow-x-auto mb-4">
+                            <table className="w-full border-collapse text-xs">
+                                <thead>
+                                    <tr>
+                                        <th className="border p-1 w-12">Saat</th>
+                                        {haftaGunleri.map(g => (
+                                            <th key={g.tarih} className="border p-1">{g.ad.slice(0,3)}<br/><span className="text-xs">{g.tarih.slice(5)}</span></th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Array.from({length:15},(_,i)=>{
+                                        const saat = 8+i;
+                                        return (
+                                            <tr key={saat}>
+                                                <td className="border p-1 text-center">{String(saat).padStart(2,'0')}:00</td>
+                                                {haftaGunleri.map(gun => {
+                                                    const ders = dersProgrami.find(d => {
+                                                        if (!d?.baslangic || !d?.bitis || d.tarih !== gun.tarih) return false;
+                                                        const [bH,bM] = d.baslangic.split(":").map(Number);
+                                                        const [sH,sM] = d.bitis.split(":").map(Number);
+                                                        return (bH*60+bM) < (saat+1)*60 && (sH*60+sM) > saat*60;
+                                                    });
+                                                    return <td key={gun.tarih} className={`border p-1 text-center ${ders?'bg-indigo-100 font-bold':''}`}>{ders?getOgrenciAd(ders.ogrenciId):''}</td>;
+                                                })}
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Program Ekle Form */}
+                        <div id="programEkleAlani" className="bg-gray-50 p-4 rounded-xl border mb-4">
+                            <h3 className="font-semibold mb-3 text-sm">{editId ? "✏️ Programı Düzenle" : "➕ Yeni Program Ekle"}</h3>
+                            <div className="flex flex-wrap gap-3">
+                                <div>
+                                    <label className="block text-xs mb-1">Öğrenci</label>
+                                    <select value={programForm.ogrenciId} onChange={e => setProgramForm({...programForm, ogrenciId: e.target.value})} className="border rounded px-2 py-1 text-sm">
+                                        <option value="">Seç</option>
+                                        {ogrenciler.map(o => <option key={o.id} value={o.id}>{o.ad}</option>)}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs mb-1">Gün</label>
+                                    <select value={programForm.gun} onChange={e => setProgramForm({...programForm, gun: e.target.value})} className="border rounded px-2 py-1 text-sm">
+                                        <option value="">Seç</option>
+                                        {["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"].map(g => <option key={g}>{g}</option>)}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs mb-1">Başlangıç</label>
+                                    <div className="flex gap-1">
+                                        <select value={programForm.basSaat} onChange={e => setProgramForm({...programForm, basSaat: e.target.value})} className="border rounded px-2 py-1 text-sm">
+                                            <option value="">Saat</option>
+                                            {saatler.map(s => <option key={s} value={s}>{String(s).padStart(2,"0")}</option>)}
+                                        </select>
+                                        <select value={programForm.basDakika} onChange={e => setProgramForm({...programForm, basDakika: e.target.value})} className="border rounded px-2 py-1 text-sm">
+                                            <option value="">Dk</option>
+                                            {dakikalar.map(d => <option key={d} value={d}>{String(d).padStart(2,"0")}</option>)}
+                                        </select>
                                     </div>
-                                    <button onClick={() => dersGerceklesti(p)} className="bg-green-600 text-white text-xs px-3 py-1 rounded">Geldi</button>
                                 </div>
-                            ))}
+                                <div>
+                                    <label className="block text-xs mb-1">Bitiş</label>
+                                    <div className="flex gap-1">
+                                        <select value={programForm.bitSaat} onChange={e => setProgramForm({...programForm, bitSaat: e.target.value})} className="border rounded px-2 py-1 text-sm">
+                                            <option value="">Saat</option>
+                                            {saatler.map(s => <option key={s} value={s}>{String(s).padStart(2,"0")}</option>)}
+                                        </select>
+                                        <select value={programForm.bitDakika} onChange={e => setProgramForm({...programForm, bitDakika: e.target.value})} className="border rounded px-2 py-1 text-sm">
+                                            <option value="">Dk</option>
+                                            {dakikalar.map(d => <option key={d} value={d}>{String(d).padStart(2,"0")}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {!editId && (
+                                <label className="flex items-center gap-2 mt-3 text-sm cursor-pointer">
+                                    <input type="checkbox" checked={tekrarEt} onChange={e => setTekrarEt(e.target.checked)} />
+                                    Sonraki haftalara da ekle (5 hafta)
+                                </label>
+                            )}
+                            <p className="text-xs text-gray-500 mt-1">{dersProgrami.length} / {isPremium ? "∞" : LIMITS.program} program</p>
+                            <div className="flex gap-2 mt-3">
+                                <button onClick={programKaydet} className={`${editId ? "bg-green-600" : "bg-blue-600"} text-white px-4 py-2 rounded-lg text-sm`}>
+                                    {editId ? "Güncelle" : "Kaydet"}
+                                </button>
+                                {editId && <button onClick={() => { setEditId(null); setProgramForm({ogrenciId:"",gun:"",basSaat:"",basDakika:"",bitSaat:"",bitDakika:""}); }} className="bg-gray-300 px-4 py-2 rounded-lg text-sm">İptal</button>}
+                            </div>
                         </div>
-                        <div className="mt-4 p-3 bg-gray-50 rounded-xl">
-                            <p className="text-xs font-bold mb-2">Hızlı Program Ekle</p>
-                            <select onChange={e=>setProgramForm({...programForm, ogrenciId: e.target.value})} className="w-full text-xs p-2 border rounded mb-2">
-                                <option value="">Öğrenci Seç</option>
-                                {ogrenciler.map(o=><option key={o.id} value={o.id}>{o.ad}</option>)}
-                            </select>
-                            <select onChange={e=>setProgramForm({...programForm, gun: e.target.value})} className="w-full text-xs p-2 border rounded mb-2">
-                                <option value="">Gün Seç</option>
-                                <option>Pazartesi</option><option>Salı</option><option>Çarşamba</option><option>Perşembe</option><option>Cuma</option><option>Cumartesi</option><option>Pazar</option>
-                            </select>
-                            <button onClick={programKaydet} className="w-full bg-indigo-600 text-white text-xs py-2 rounded font-bold">Programa Ekle</button>
-                        </div>
-                    </div>
-                )}
 
-                {activeTab === 'ogrenciler' && (
-                    <div className="p-4 bg-white m-4 rounded-xl shadow">
-                        <div className="flex justify-between mb-3"><h3 className="font-bold text-sm">Students</h3><button onClick={() => {setOgrenciForm({ad:'',telefon:'',sinif:'',ucret:''}); setEditingId(null); setShowOgrenciModal(true);}} className="bg-indigo-600 text-white text-xs px-2 py-1 rounded">+ Yeni</button></div>
+                        {/* Program Listesi */}
                         <div className="space-y-2">
-                            {ogrenciler.map(o => (
-                                <div key={o.id} className="p-3 border rounded-lg flex justify-between">
-                                    <div><p className="font-bold text-sm">{o.ad}</p><p className="text-xs text-gray-500">₺{o.ucret} / Sınıf: {o.sinif}</p></div>
-                                    <button onClick={()=>ogrenciSil(o.id)} className="text-red-600 text-xs">Sil</button>
-                                </div>
-                            ))}
+                            {dersProgrami.filter(p => {
+                                const bas = haftaGunleri[0]?.tarih, bit = haftaGunleri[6]?.tarih;
+                                if (!p.tarih) return true;
+                                return p.tarih >= bas && p.tarih <= bit;
+                            }).map(plan => {
+                                const ogrenci = ogrenciler.find(o => o.id === plan.ogrenciId);
+                                return (
+                                    <div key={plan.id} className="border p-3 rounded-xl bg-gray-50 flex justify-between items-center">
+                                        <div>
+                                            <p className="font-semibold text-sm">{plan.gun} — {plan.baslangic}-{plan.bitis}</p>
+                                            <p className="text-xs text-gray-500">{ogrenci?.ad || "Öğrenci yok"} · {plan.tarih}</p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => dersDuzenle(plan)} className="text-blue-600 text-xs px-2 py-1 rounded bg-blue-50">Düzenle</button>
+                                            <button onClick={() => programSil(plan.id)} className="text-red-600 text-xs px-2 py-1 rounded bg-red-50">Sil</button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                            {dersProgrami.length === 0 && <p className="text-center text-gray-400 py-4 text-sm">Henüz program yok</p>}
                         </div>
                     </div>
                 )}
 
-                {showOgrenciModal && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white p-4 rounded-xl w-full max-w-xs">
-                            <input type="text" placeholder="Ad Soyad" value={ogrenciForm.ad} onChange={e=>setOgrenciForm({...ogrenciForm, ad:e.target.value})} className="w-full p-2 border rounded text-xs mb-2"/>
-                            <input type="number" placeholder="Ücret" value={ogrenciForm.ucret} onChange={e=>setOgrenciForm({...ogrenciForm, ucret:e.target.value})} className="w-full p-2 border rounded text-xs mb-3"/>
-                            <div className="flex gap-2"><button onClick={ogrenciKaydet} className="bg-indigo-600 text-white text-xs py-2 rounded flex-1">Kaydet</button><button onClick={()=>setShowOgrenciModal(false)} className="bg-gray-200 text-xs py-2 rounded flex-1">Kapat</button></div>
+                {/* Öğrenciler Tab */}
+                {activeTab === 'ogrenciler' && (
+                    <div className="bg-white rounded-xl shadow-lg p-4">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-bold">Öğrenciler ({ogrenciler.length})</h2>
+                            <button onClick={() => { if (!canAdd("student")) { setShowUpgrade(true); return; } ogrenciModalAc(); }}
+                                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm ${!canAdd("student") ? "bg-gray-300 text-gray-500" : "bg-indigo-600 text-white"}`}>
+                                <Icon name="plus" size={14}/> {!canAdd("student") ? "🔒" : "Yeni"}
+                            </button>
+                        </div>
+                        <div className="space-y-3">
+                            {ogrenciler.map(o => (
+                                <div key={o.id} className="border rounded-xl p-3">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <h3 className="font-semibold">{o.ad}</h3>
+                                            <p className="text-gray-600 text-sm">📞 {o.telefon}</p>
+                                            <p className="text-gray-600 text-sm">🎓 {o.sinif}. Sınıf</p>
+                                            <p className="text-indigo-600 font-medium text-sm">{showMoney ? `💰 ${o.ucret} TL` : "💰 ••••"} /ders</p>
+                                        </div>
+                                        <div className="flex gap-1">
+                                            <button onClick={() => ogrenciDuzenle(o)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"><Icon name="edit" size={16}/></button>
+                                            <button onClick={() => ogrenciSil(o.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg"><Icon name="trash" size={16}/></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            {ogrenciler.length === 0 && <p className="text-center text-gray-400 py-8 text-sm">Henüz öğrenci yok</p>}
+                        </div>
+                    </div>
+                )}
+
+                {/* Dersler Tab */}
+                {activeTab === 'dersler' && (
+                    <div className="bg-white rounded-xl shadow-lg p-4">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-bold">Dersler</h2>
+                            <select value={seciliOgrenci} onChange={e => setSeciliOgrenci(e.target.value)} className="border rounded px-2 py-1 text-sm">
+                                <option value="tum">Tümü</option>
+                                {ogrenciler.map(o => <option key={o.id} value={o.id}>{o.ad}</option>)}
+                            </select>
+                        </div>
+                        <div className="space-y-3">
+                            {dersler.filter(d => seciliOgrenci === "tum" || parseInt(d.ogrenciId) === parseInt(seciliOgrenci))
+                                .sort((a,b) => new Date(b.tarih+' '+b.baslangic) - new Date(a.tarih+' '+a.baslangic))
+                                .map(ders => (
+                                <div key={ders.id} className={`border rounded-xl p-3 ${ders.odendi ? 'border-green-300 bg-green-50' : 'border-gray-300 bg-red-50'}`}>
+                                    <div className="flex justify-between items-start gap-2">
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-sm">{getOgrenciAd(ders.ogrenciId)}</h3>
+                                            <p className="text-gray-600 text-xs">📅 {ders.tarih} · {ders.baslangic}-{ders.bitis}</p>
+                                            <p className="text-gray-700 text-sm">📖 {ders.konu || 'Konu yok'}</p>
+                                            <p className="text-indigo-600 font-bold text-sm">{showMoney ? `💰 ${ders.ucret} TL` : "💰 ••••"}</p>
+                                        </div>
+                                        <div className="flex flex-col gap-1 items-end">
+                                            <button onClick={() => odemeDurumDegistir(ders.id)}
+                                                className={`px-2 py-1 rounded-lg text-xs font-bold ${ders.odendi ? 'bg-green-600 text-white' : 'bg-yellow-500 text-white'}`}>
+                                                {ders.odendi ? '✓ ÖDENDİ' : 'BEKLİYOR'}
+                                            </button>
+                                            <button onClick={() => dersiGeriAl(ders)} className="text-red-500 text-xs">Geri Al</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            {dersler.length === 0 && <p className="text-center text-gray-400 py-8 text-sm">Henüz ders yok</p>}
+                        </div>
+                    </div>
+                )}
+
+                {/* Ödevler Tab */}
+                {activeTab === 'odevler' && (
+                    <div className="bg-white rounded-xl shadow-lg p-4">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-bold">Ödevler ({odevler.length})</h2>
+                            <button onClick={() => { if (!canAdd("homework")) { setShowUpgrade(true); return; } if (ogrenciler.length === 0) { showPopup("Önce öğrenci ekleyin!", "warning"); return; } setOdevForm({ogrenciId:'',konu:'',aciklama:'',durum:'yapilmadi'}); setShowOdevModal(true); }}
+                                className={`px-3 py-2 rounded-lg text-sm ${!canAdd("homework") ? "bg-gray-300 text-gray-500" : "bg-indigo-600 text-white"}`}>
+                                {!canAdd("homework") ? "🔒" : "Yeni"}
+                            </button>
+                        </div>
+                        <div className="space-y-3">
+                            {odevler.map(odev => (
+                                <div key={odev.id} className={`border rounded-xl p-3 ${odev.durum === "tamamlandi" ? 'border-green-200 bg-green-50' : 'border-gray-200'}`}>
+                                    <div className="flex justify-between items-start">
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-sm">{getOgrenciAd(odev.ogrenciId)}</h3>
+                                            <p className="text-gray-700 text-sm font-medium">📝 {odev.konu}</p>
+                                            <p className={`text-xs mt-1 font-semibold ${odev.durum === "tamamlandi" ? "text-green-600" : odev.durum === "eksik" ? "text-yellow-600" : "text-red-500"}`}>
+                                                {odev.durum === "tamamlandi" ? "✅ Tamamlandı" : odev.durum === "eksik" ? "⚠️ Eksik" : "❌ Yapılmadı"}
+                                            </p>
+                                            {odev.aciklama && <p className="text-gray-500 text-xs">{odev.aciklama}</p>}
+                                        </div>
+                                        <div className="flex gap-1 items-center ml-2">
+                                            {["yapilmadi","eksik","tamamlandi"].map((durum, i) => (
+                                                <button key={durum} onClick={() => odevDurumDegistir(odev.id, durum)}
+                                                    className={`px-2 py-1 rounded text-xs ${odev.durum === durum ? ['bg-red-500','bg-yellow-500','bg-green-600'][i]+' text-white' : 'bg-gray-200'}`}>
+                                                    {['❌','⚠️','✓'][i]}
+                                                </button>
+                                            ))}
+                                            <button onClick={() => odevSil(odev.id)} className="p-1 text-red-600 hover:bg-red-50 rounded-lg"><Icon name="trash" size={16}/></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            {odevler.length === 0 && <p className="text-center text-gray-400 py-8 text-sm">Henüz ödev yok</p>}
                         </div>
                     </div>
                 )}
             </div>
-        );
-    };
 
-    ReactDOM.render(<DersPanel />, document.getElementById('root'));
-</script>
+            {/* MODALLER */}
+            {showOgrenciModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-5">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-lg font-bold">{editingId ? 'Öğrenci Düzenle' : 'Yeni Öğrenci'}</h3>
+                            <button onClick={() => setShowOgrenciModal(false)}><Icon name="x" size={20}/></button>
+                        </div>
+                        <div className="space-y-3">
+                            {[['Ad Soyad *','text','ad','Ahmet Yılmaz'],['Telefon','tel','telefon','0555 123 4567'],['Sınıf','text','sinif','10'],['Ders Ücreti (TL)','number','ucret','500']].map(([label,type,field,ph]) => (
+                                <div key={field}>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                                    <input type={type} value={ogrenciForm[field]} onChange={e => setOgrenciForm({...ogrenciForm,[field]:e.target.value})}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder={ph}/>
+                                </div>
+                            ))}
+                            <div className="flex gap-2 pt-2">
+                                <button onClick={ogrenciKaydet} className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm">{editingId ? 'Güncelle' : 'Ekle'}</button>
+                                <button onClick={() => setShowOgrenciModal(false)} className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm">İptal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/derspaneli/service-worker.js')
-  .then(reg => console.log("SW Kayıtlı", reg))
-  .catch(err => console.error("SW Hata", err));
-}
+            {showDersModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-5">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-lg font-bold">Yeni Ders</h3>
+                            <button onClick={() => setShowDersModal(false)}><Icon name="x" size={20}/></button>
+                        </div>
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Öğrenci *</label>
+                                <select value={dersForm.ogrenciId} onChange={e => setDersForm({...dersForm, ogrenciId: e.target.value})} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                    <option value="">Seçin</option>
+                                    {ogrenciler.map(o => <option key={o.id} value={o.id}>{o.ad}</option>)}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Tarih *</label>
+                                <input type="date" value={dersForm.tarih} onChange={e => setDersForm({...dersForm, tarih: e.target.value})} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"/>
+                            </div>
+                            <div className="flex gap-3">
+                                <div className="flex-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Başlangıç</label>
+                                    <input type="time" value={dersForm.baslangic} onChange={e => setDersForm({...dersForm, baslangic: e.target.value})} className="w-full border rounded-lg px-2 py-2 text-sm"/>
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Bitiş</label>
+                                    <input type="time" value={dersForm.bitis} onChange={e => setDersForm({...dersForm, bitis: e.target.value})} className="w-full border rounded-lg px-2 py-2 text-sm"/>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Konu</label>
+                                <input type="text" value={dersForm.konu} onChange={e => setDersForm({...dersForm, konu: e.target.value})} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Matematik - Türev"/>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Ücret (TL) — Otomatik</label>
+                                <input type="number" value={dersForm.ucret} readOnly className="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2 text-sm"/>
+                            </div>
+                            <div className="flex gap-2 pt-2">
+                                <button onClick={dersEkle} className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm">Ekle</button>
+                                <button onClick={() => setShowDersModal(false)} className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm">İptal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showOdevModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-5">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-lg font-bold">Yeni Ödev</h3>
+                            <button onClick={() => setShowOdevModal(false)}><Icon name="x" size={20}/></button>
+                        </div>
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Öğrenci *</label>
+                                <select value={odevForm.ogrenciId} onChange={e => setOdevForm({...odevForm, ogrenciId: e.target.value})} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                    <option value="">Seçin</option>
+                                    {ogrenciler.map(o => <option key={o.id} value={o.id}>{o.ad}</option>)}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Konu *</label>
+                                <input type="text" value={odevForm.konu} onChange={e => setOdevForm({...odevForm, konu: e.target.value})} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Türev Soruları"/>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Açıklama</label>
+                                <textarea value={odevForm.aciklama} onChange={e => setOdevForm({...odevForm, aciklama: e.target.value})} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" rows="2" placeholder="Kitap sayfa 45-50"/>
+                            </div>
+                            <div className="flex gap-2 pt-2">
+                                <button onClick={odevEkle} className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm">Ekle</button>
+                                <button onClick={() => setShowOdevModal(false)} className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm">İptal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showOdevSoru && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-xl p-5 w-72 text-center">
+                        <h2 className="text-base font-bold mb-4">Ödev vermek ister misin?</h2>
+                        <div className="flex gap-3">
+                            <button onClick={() => { setOdevForm({ogrenciId: seciliOgrenci, konu:'', aciklama:'', durum:'yapilmadi'}); setShowOdevSoru(false); setShowOdevModal(true); }}
+                                className="bg-green-600 text-white px-4 py-2 rounded-lg w-full">Evet</button>
+                            <button onClick={() => { setShowOdevSoru(false); setSeciliOgrenci("tum"); }}
+                                className="bg-gray-400 text-white px-4 py-2 rounded-lg w-full">Hayır</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showHatirlatPopup && hatirlatmaListesi.length > 0 && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white p-5 rounded-xl w-80">
+                        <h3 className="font-bold mb-2">📅 Ders Hatırlatma</h3>
+                        <p className="text-sm mb-3 text-gray-600">Yarın {hatirlatmaListesi.length} ders var</p>
+                        <div className="space-y-2 mb-3">
+                            {hatirlatmaListesi.map(plan => {
+                                const ogrenci = ogrenciler.find(o => o.id === plan.ogrenciId);
+                                return (
+                                    <div key={plan.id} className="flex justify-between items-center text-sm">
+                                        <span>{ogrenci?.ad} - {plan.baslangic}</span>
+                                        <button onClick={() => ogrenci?.telefon && sendWhatsApp(ogrenci.telefon, `Merhaba, yarın ${plan.baslangic}'da dersimiz var 🙂`)}
+                                            className="bg-green-600 text-white px-2 py-1 rounded text-xs">Gönder</button>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <button onClick={() => setShowHatirlatPopup(false)} className="bg-gray-300 px-3 py-2 rounded w-full text-sm">Kapat</button>
+                    </div>
+                </div>
+            )}
+
+            {popup.show && (
+                <div className={`fixed top-5 left-1/2 -translate-x-1/2 px-4 py-3 rounded-xl shadow-lg text-white z-50 text-sm
+                    ${popup.type === "error" ? "bg-red-500" : popup.type === "success" ? "bg-green-500" : popup.type === "warning" ? "bg-yellow-500 text-black" : "bg-gray-800"}`}>
+                    {popup.message}
+                </div>
+            )}
+
+            {showUpgrade && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl p-5 w-72 shadow-xl text-center">
+                        <h2 className="text-lg font-bold mb-2">💎 Premium'a Geç</h2>
+                        <p className="text-sm text-gray-600 mb-4">Sınırsız öğrenci, ödev ve program ekle!</p>
+                        <button onClick={() => { setIsPremium(true); setShowUpgrade(false); }} className="w-full bg-purple-600 text-white py-2 rounded-lg mb-2">💎 Premium Aç</button>
+                        <button onClick={() => setShowUpgrade(false)} className="text-sm text-gray-500">Vazgeç</button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+ReactDOM.render(<DersPanel />, document.getElementById('root'));
 </script>
 
 <script>
 window.addEventListener("load", () => {
-  setTimeout(() => {
-    const splash = document.getElementById("splash");
-    if (splash) {
-      splash.classList.add("fade-out");
-      setTimeout(() => splash.remove(), 600);
-    }
-  }, 1200);
+    setTimeout(() => {
+        const splash = document.getElementById("splash");
+        if (splash) { splash.classList.add("fade-out"); setTimeout(() => splash.remove(), 600); }
+    }, 1200);
 });
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/derspaneli/service-worker.js')
+        .then(reg => console.log("SW kayıtlı:", reg))
+        .catch(err => console.error("SW hatası:", err));
+}
 </script>
 
 </body>
