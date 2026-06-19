@@ -1,11 +1,12 @@
 const CACHE_NAME = "derspanel-v2";
 
+// Yeni küçük harfli proje adınıza göre yollar güncellendi
 const urlsToCache = [
-  "/derspanel/",
-  "/derspanel/index.html",
-  "/derspanel/icon-192.png",
-  "/derspanel/icon-512.png",
-  "/derspanel/icon-180.png"
+  "/derspaneli/",
+  "/derspaneli/index.html",
+  "/derspaneli/icon-192.png",
+  "/derspaneli/icon-512.png",
+  "/derspaneli/icon-180.png"
 ];
 
 self.addEventListener("install", event => {
@@ -37,7 +38,7 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
     }).catch(() => {
-      return caches.match("/derspanel/index.html");
+      return caches.match("/derspaneli/index.html");
     })
   );
 });
