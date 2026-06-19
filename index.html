@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#4F46E5">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-180.png">
 <title>Ders Paneli</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -120,11 +120,9 @@ function tomorrowStr(){
   return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 }
 function gunAdi(tarih){
-  // Tam gun adlari - program kayitlariyla eslesmeli
   var tam=['Pazar','Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi'];
   var kisalt=['Paz','Pzt','Sal','Car','Per','Cum','Cmt'];
   var idx=new Date(tarih).getDay();
-  // Programda hangi format kullanilmis kontrol et
   var tamKullaniliyor=S.program.some(function(p){ return tam.indexOf(p.gun)>=0; });
   return tamKullaniliyor?tam[idx]:tam[idx];
 }
@@ -170,7 +168,6 @@ function ucret(plan,ogr){
 }
 function bugunProgram(){
   var g=gunAdi(todayStr());
-  // Turkce karakter eslesme haritasi
   var esles={
     'Carsamba':'Çarşamba','Persembe':'Perşembe',
     'Pazartesi':'Pazartesi','Sali':'Salı','Cuma':'Cuma',
@@ -466,7 +463,6 @@ function tabOgrenciler(){
     var borc=topK-ode;
     var acik=S.acikOgrenci===o.id;
     html+='<div class="oc">';
-    // Kart basligi - tiklanabilir
     html+='<div class="och" onclick="toggleOgr('+o.id+')">';
     html+='<div class="fb">';
     html+='<div><p class="fsemi">'+o.ad+'</p>';
@@ -481,21 +477,19 @@ function tabOgrenciler(){
     }
     html+='<span style="font-size:16px;">'+(acik?'&#9650;':'&#9660;')+'</span>';
     html+='</div></div></div>';
-    // Mesaj butonlari
     html+='<div style="display:flex;gap:4px;flex-wrap:wrap;padding:8px 12px;background:#f0fdf4;border-top:1px solid #e5e7eb;">';
     if(o.telefon){
-      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="ders" onclick="mesajGonder(this,'wa')">WhatsApp Ders</button>';
-      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="odev" onclick="mesajGonder(this,'wa')">WhatsApp Odev</button>';
-      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="odeme" onclick="mesajGonder(this,'wa')">WhatsApp Odeme</button>';
+      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="ders" onclick="mesajGonder(this,\'wa\')">WhatsApp Ders</button>';
+      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="odev" onclick="mesajGonder(this,\'wa\')">WhatsApp Odev</button>';
+      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="odeme" onclick="mesajGonder(this,\'wa\')">WhatsApp Odeme</button>';
     }
     if(o.telegram){
-      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="ders" onclick="mesajGonder(this,'tg')">Telegram Ders</button>';
-      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="odev" onclick="mesajGonder(this,'tg')">Telegram Odev</button>';
-      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="odeme" onclick="mesajGonder(this,'tg')">Telegram Odeme</button>';
+      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="ders" onclick="mesajGonder(this,\'tg\')">Telegram Ders</button>';
+      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="odev" onclick="mesajGonder(this,\'tg\')">Telegram Odev</button>';
+      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="odeme" onclick="mesajGonder(this,\'tg\')">Telegram Odeme</button>';
     }
     if(!o.telefon&&!o.telegram) html+='<p class="txs tgr" style="padding:4px;">Telefon veya Telegram ekleyin</p>';
     html+='</div>';
-    // Acilir detay
     if(acik){
       html+='<div class="ocb">';
       html+='<div class="fb" style="margin-bottom:8px;">';
@@ -751,7 +745,6 @@ function mesajGonder(el, platform){
   var ogr = getOgr(ogrId);
   if(!ogr) return;
 
-  // Ogrencinin yakin dersi bul
   var bugunGun = gunAdi(todayStr());
   var yarinGun = gunAdi(tomorrowStr());
   var bugunDers = S.program.find(function(p){ return p.gun===bugunGun&&p.ogrenciId==ogrId; });
@@ -799,7 +792,7 @@ if(!S.yoklamaFiltre) S.yoklamaFiltre='';
 render();
 
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/derspaneli/service-worker.js').catch(function(e){ console.log(e); });
+  navigator.serviceWorker.register('./service-worker.js').catch(function(e){ console.log(e); });
 }
 </script>
 </body>
