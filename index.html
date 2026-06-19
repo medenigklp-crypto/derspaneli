@@ -453,10 +453,12 @@ function tabOgrenciler(){
     var borc=topK-ode;
     var acik=S.acikOgrenci===o.id;
     html+='<div class="oc">';
+    // Kart basligi - tiklanabilir
     html+='<div class="och" onclick="toggleOgr('+o.id+')">';
     html+='<div class="fb">';
     html+='<div><p class="fsemi">'+o.ad+'</p>';
-    html+='<p class="txs tgr">'+o.telefon+' | '+o.sinif+'. Sinif</p>';
+    html+='<p class="txs tgr">'+o.telefon+(o.telegram?' | '+o.telegram:'')+'</p>';
+    html+='<p class="txs tgr">'+o.sinif+'. Sinif</p>';
     html+='<p class="txs tin">'+(S.showMoney?o.ucret+' TL/saat':'...')+'</p>';
     html+='</div>';
     html+='<div style="text-align:right;">';
@@ -466,6 +468,21 @@ function tabOgrenciler(){
     }
     html+='<span style="font-size:16px;">'+(acik?'&#9650;':'&#9660;')+'</span>';
     html+='</div></div></div>';
+    // Mesaj butonlari
+    html+='<div style="display:flex;gap:4px;flex-wrap:wrap;padding:8px 12px;background:#f0fdf4;border-top:1px solid #e5e7eb;">';
+    if(o.telefon){
+      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="ders" onclick="mesajGonder(this,'wa')">WhatsApp Ders</button>';
+      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="odev" onclick="mesajGonder(this,'wa')">WhatsApp Odev</button>';
+      html+='<button class="btn bsm" style="background:#25D366;color:#fff;" data-ogr="'+o.id+'" data-tip="odeme" onclick="mesajGonder(this,'wa')">WhatsApp Odeme</button>';
+    }
+    if(o.telegram){
+      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="ders" onclick="mesajGonder(this,'tg')">Telegram Ders</button>';
+      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="odev" onclick="mesajGonder(this,'tg')">Telegram Odev</button>';
+      html+='<button class="btn bsm" style="background:#2AABEE;color:#fff;" data-ogr="'+o.id+'" data-tip="odeme" onclick="mesajGonder(this,'tg')">Telegram Odeme</button>';
+    }
+    if(!o.telefon&&!o.telegram) html+='<p class="txs tgr" style="padding:4px;">Telefon veya Telegram ekleyin</p>';
+    html+='</div>';
+    // Acilir detay
     if(acik){
       html+='<div class="ocb">';
       html+='<div class="fb" style="margin-bottom:8px;">';
@@ -639,7 +656,8 @@ function showOgrModal(d){
   html+='<div class="fb" style="margin-bottom:16px;"><h3>'+(editOgrId?'Duzenle':'Yeni Ogrenci')+'</h3>';
   html+='<button onclick="closeModal(\'omBg\')" style="background:none;border:none;font-size:24px;cursor:pointer;">x</button></div>';
   html+='<div class="fg"><label>Ad Soyad</label><input id="oAd" value="'+d.ad+'" placeholder="Ahmet Yilmaz"></div>';
-  html+='<div class="fg"><label>Telefon</label><input id="oTel" type="tel" value="'+(d.telefon||'')+'" placeholder="0555 123 4567"></div>';
+  html+='<div class="fg"><label>Telefon (WhatsApp)</label><input id="oTel" type="tel" value="'+(d.telefon||'')+'" placeholder="0555 123 4567"></div>';
+  html+='<div class="fg"><label>Telegram (@kullaniciadi)</label><input id="oTgram" value="'+(d.telegram||'')+'" placeholder="@ahmetyilmaz"></div>';
   html+='<div class="fg"><label>Sinif</label><input id="oSinif" value="'+(d.sinif||'')+'" placeholder="10"></div>';
   html+='<div class="fg"><label>1 Ders Saati Ucreti (TL)</label><input id="oUcret" type="number" value="'+(d.ucret||'')+'" placeholder="2000"></div>';
   html+='<p class="txs tgr" style="margin-bottom:12px;">45 dk = 1 ders saati. 90 dk ders = 2 x ucret.</p>';
@@ -653,7 +671,7 @@ function saveOgr(){
   var ad=document.getElementById('oAd').value.trim();
   if(!ad){ toast('Ad girin!','#f59e0b'); return; }
   if(!canAdd('student')&&!editOgrId){ openUpgrade(); return; }
-  var obj={ad:ad,telefon:document.getElementById('oTel').value,sinif:document.getElementById('oSinif').value,ucret:document.getElementById('oUcret').value};
+  var obj={ad:ad,telefon:document.getElementById('oTel').value,telegram:document.getElementById('oTgram').value,sinif:document.getElementById('oSinif').value,ucret:document.getElementById('oUcret').value};
   if(editOgrId){
     S.ogrenciler=S.ogrenciler.map(function(o){ return o.id===editOgrId?Object.assign({},obj,{id:editOgrId}):o; });
   } else { obj.id=Date.now(); S.ogrenciler.push(obj); }
@@ -712,6 +730,44 @@ function saveDeneme(){
   if(!oid||!ad){ toast('Ogrenci ve deneme adi zorunlu!','#f59e0b'); return; }
   S.denemeler.push({id:Date.now(),ogrenciId:Number(oid),ad:ad,tarih:document.getElementById('dnTar').value,tyt:document.getElementById('dnTyt').value||'-',ayt:document.getElementById('dnAyt').value||'-',not:document.getElementById('dnNot').value});
   save('denemeler'); closeModal('dnBg'); toast('Deneme eklendi!','#22c55e'); render();
+}
+
+function mesajGonder(el, platform){
+  var ogrId = Number(el.getAttribute('data-ogr'));
+  var tip = el.getAttribute('data-tip');
+  var ogr = getOgr(ogrId);
+  if(!ogr) return;
+
+  // Ogrencinin yakin dersi bul
+  var bugunGun = gunAdi(todayStr());
+  var yarinGun = gunAdi(tomorrowStr());
+  var bugunDers = S.program.find(function(p){ return p.gun===bugunGun&&p.ogrenciId==ogrId; });
+  var yarinDers = S.program.find(function(p){ return p.gun===yarinGun&&p.ogrenciId==ogrId; });
+  var sonOdev = S.odevler.filter(function(o){ return o.ogrenciId==ogrId&&o.durum!=='tamamlandi'; }).slice(-1)[0];
+  var yok = S.yoklama.filter(function(y){ return y.ogrenciId==ogrId&&y.durum==='geldi'&&!y.odendi; });
+  var borc = yok.reduce(function(s,y){ return s+Number(y.ucret||0); },0);
+
+  var msg = '';
+  if(tip==='ders'){
+    if(yarinDers) msg = 'Merhaba, '+ogr.ad+' nin yarin saat '+yarinDers.baslangic+' daki dersi icin hatirlatma.';
+    else if(bugunDers) msg = 'Merhaba, '+ogr.ad+' nin bugun saat '+bugunDers.baslangic+' daki dersi icin hatirlatma.';
+    else msg = 'Merhaba, '+ogr.ad+' nin yakinda dersi bulunmaktadir.';
+  } else if(tip==='odev'){
+    if(sonOdev) msg = 'Merhaba, '+ogr.ad+' nin tamamlamasi gereken odevi var: '+sonOdev.konu;
+    else msg = 'Merhaba, '+ogr.ad+' nin tum odevleri tamamlanmistir, tebrikler!';
+  } else if(tip==='odeme'){
+    if(borc>0) msg = 'Merhaba, '+ogr.ad+' icin '+borc+' TL odeme beklemektedir. Bilgilerinize sunariz.';
+    else msg = 'Merhaba, '+ogr.ad+' icin bekleyen odeme bulunmamaktadir.';
+  }
+
+  if(platform==='wa'){
+    var tel = ogr.telefon.replace(/\D/g,'');
+    if(!tel.startsWith('90')) tel = tel.startsWith('0')?'90'+tel.slice(1):'90'+tel;
+    window.open('https://wa.me/'+tel+'?text='+encodeURIComponent(msg),'_blank');
+  } else if(platform==='tg'){
+    var tg = ogr.telegram.replace('@','');
+    window.open('https://t.me/'+tg+'?text='+encodeURIComponent(msg),'_blank');
+  }
 }
 
 function closeModal(id){ var el=document.getElementById(id); if(el) el.remove(); }
