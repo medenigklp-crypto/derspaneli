@@ -12,8 +12,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#EEF2FF;min-height:100vh;padding-bottom:80px;}
-#splash{position:fixed;inset:0;background:#4F46E5;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .6s;}
-#splash h1{color:#fff;font-size:28px;font-weight:bold;}
 .card{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:16px;margin:0 12px 12px;}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;}
 .stat{border-radius:16px;padding:16px;color:#fff;position:relative;overflow:hidden;}
@@ -87,7 +85,6 @@ td.has-lesson{background:#e0e7ff;font-weight:bold;font-size:10px;}
 </head>
 <body>
 
-<div id="splash"><h1>DERS PANEL&#304;</h1></div>
 
 <div id="app"></div>
 
@@ -614,12 +611,7 @@ load();
 render();
 
 // Splash
-// Splash
-function hideSplash(){
-  var s = document.getElementById('splash');
-  if(s){ s.style.opacity='0'; setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); },600); }
-}
-setTimeout(hideSplash, 1200);
+
 
 // Service Worker
 if('serviceWorker' in navigator){
