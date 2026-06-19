@@ -120,7 +120,13 @@ function tomorrowStr(){
   return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 }
 function gunAdi(tarih){
-  return ['Pazar','Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi'][new Date(tarih).getDay()];
+  // Tam gun adlari - program kayitlariyla eslesmeli
+  var tam=['Pazar','Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi'];
+  var kisalt=['Paz','Pzt','Sal','Car','Per','Cum','Cmt'];
+  var idx=new Date(tarih).getDay();
+  // Programda hangi format kullanilmis kontrol et
+  var tamKullaniliyor=S.program.some(function(p){ return tam.indexOf(p.gun)>=0; });
+  return tamKullaniliyor?tam[idx]:tam[idx];
 }
 function getOgr(id){ return S.ogrenciler.find(function(o){ return o.id==id; }); }
 function canAdd(t){
@@ -164,8 +170,15 @@ function ucret(plan,ogr){
 }
 function bugunProgram(){
   var g=gunAdi(todayStr());
-  return S.program.filter(function(p){ return p.gun===g; })
-    .sort(function(a,b){ return (a.baslangic||'').localeCompare(b.baslangic||''); });
+  // Turkce karakter eslesme haritasi
+  var esles={
+    'Carsamba':'Çarşamba','Persembe':'Perşembe',
+    'Pazartesi':'Pazartesi','Sali':'Salı','Cuma':'Cuma',
+    'Cumartesi':'Cumartesi','Pazar':'Pazar'
+  };
+  return S.program.filter(function(p){
+    return p.gun===g || p.gun===esles[g] || Object.keys(esles).find(function(k){ return esles[k]===p.gun&&k===g; });
+  }).sort(function(a,b){ return (a.baslangic||'').localeCompare(b.baslangic||''); });
 }
 function getYok(pid,tarih){
   return S.yoklama.find(function(y){ return y.programId===pid&&y.tarih===tarih; });
