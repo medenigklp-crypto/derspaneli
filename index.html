@@ -331,6 +331,76 @@ function buildTakvim(){
 }
 
 function buildProgram(){
+  var gornum = S.programGornum || 'liste';
+  var html='<div class="fb" style="margin-bottom:12px;">';
+  html+='<p class="font-bold">Haftalik Program</p>';
+  html+='<button class="btn btn-primary btn-sm" onclick="openProgramModal()">+ Ekle</button></div>';
+
+  // Gornum secici
+  html+='<div style="display:flex;background:#f3f4f6;border-radius:10px;padding:3px;gap:3px;margin-bottom:12px;">';
+  html+='<button onclick="S.programGornum='liste';render();" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;'+(gornum==='liste'?'background:#4F46E5;color:#fff;':'background:transparent;color:#6b7280;')+'">Liste</button>';
+  html+='<button onclick="S.programGornum='tablo';render();" style="flex:1;padding:6px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;'+(gornum==='tablo'?'background:#4F46E5;color:#fff;':'background:transparent;color:#6b7280;')+'">Haftalik Tablo</button>';
+  html+='</div>';
+
+  if(S.program.length===0) return html+'<div class="empty">Henuz program yok<br><small>Yil boyu sabit programinizi ekleyin</small></div>';
+
+  if(gornum==='tablo'){
+    return html + buildProgramTablo();
+  }
+  return html + buildProgramListe();
+}
+
+function buildProgramTablo(){
+  var gunler=['Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi','Pazar'];
+  var gunKisa=['Pzt','Sal','Car','Per','Cum','Cmt','Paz'];
+  var bugunGun=gunAdiTR(todayStr());
+
+  // Tum saatleri topla
+  var saatler={};
+  S.program.forEach(function(p){ saatler[p.baslangic]=1; });
+  var saatList=Object.keys(saatler).sort();
+
+  if(saatList.length===0) return '<div class="empty">Program bos</div>';
+
+  var html='<div style="overflow-x:auto;">';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:11px;min-width:320px;">';
+  html+='<thead><tr>';
+  html+='<th style="border:1px solid #e5e7eb;padding:6px 4px;background:#f9fafb;font-weight:600;min-width:40px;">Saat</th>';
+  gunler.forEach(function(gun,i){
+    var isToday=gun===bugunGun;
+    html+='<th style="border:1px solid #e5e7eb;padding:6px 2px;'+(isToday?'background:#e0e7ff;color:#4F46E5;':'background:#f9fafb;')+' font-weight:600;">'+gunKisa[i]+'</th>';
+  });
+  html+='</tr></thead><tbody>';
+
+  saatList.forEach(function(saat){
+    html+='<tr>';
+    html+='<td style="border:1px solid #e5e7eb;padding:5px 4px;text-align:center;font-weight:600;color:#4F46E5;white-space:nowrap;">'+saat+'</td>';
+    gunler.forEach(function(gun){
+      var isToday=gun===bugunGun;
+      var dersler=S.program.filter(function(p){ return p.gun===gun && p.baslangic===saat; });
+      if(dersler.length>0){
+        var d=dersler[0];
+        var ogr=getOgr(d.ogrenciId);
+        var ds=dersSaatiHesapla(d.baslangic,d.bitis);
+        html+='<td style="border:1px solid #e5e7eb;padding:4px 2px;background:'+(isToday?'#e0e7ff':'#eef2ff')+';text-align:center;cursor:pointer;" onclick="setTab('bugun')">';
+        html+='<p style="font-weight:700;font-size:11px;">'+(ogr?ogr.ad.split(' ')[0]:'?')+'</p>';
+        html+='<p style="font-size:9px;color:#6b7280;">'+d.bitis+'</p>';
+        html+='<p style="font-size:9px;color:#4F46E5;">'+ds+'saat</p>';
+        html+='</td>';
+      } else {
+        html+='<td style="border:1px solid #e5e7eb;padding:4px 2px;text-align:center;'+(isToday?'background:#f5f7ff;':'')+'"></td>';
+      }
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+
+  // Renk aciklamasi
+  html+='<p class="text-xs text-gray" style="margin-top:8px;text-align:center;">Mavi sutun = bugun. Karta tikla = bugun sekmesi.</p>';
+  return html;
+}
+
+function buildProgramListe(){
   var html='<div class="fb" style="margin-bottom:12px;">';
   html+='<p class="font-bold">Haftalik Program</p>';
   html+='<button class="btn btn-primary btn-sm" onclick="openProgramModal()">+ Ekle</button></div>';
