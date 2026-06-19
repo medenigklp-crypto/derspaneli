@@ -1,7 +1,7 @@
 {
   "name": "Ders Paneli",
   "short_name": "DersPanel",
-  "start_url": "/derspanel/",
+  "start_url": "/derspaneli/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4F46E5",
@@ -23,5 +23,3 @@
     }
   ]
 }
-
-
