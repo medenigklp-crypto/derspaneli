@@ -614,12 +614,12 @@ load();
 render();
 
 // Splash
-window.addEventListener('load', function(){
-  setTimeout(function(){
-    var s = document.getElementById('splash');
-    if(s){ s.style.opacity='0'; setTimeout(function(){ s.remove(); },600); }
-  }, 1200);
-});
+// Splash
+function hideSplash(){
+  var s = document.getElementById('splash');
+  if(s){ s.style.opacity='0'; setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); },600); }
+}
+setTimeout(hideSplash, 1200);
 
 // Service Worker
 if('serviceWorker' in navigator){
