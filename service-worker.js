@@ -1,6 +1,5 @@
-const CACHE_NAME = "derspanel-v2";
+const CACHE_NAME = "derspanel-v3";
 
-// Yeni küçük harfli proje adınıza göre yollar güncellendi
 const urlsToCache = [
   "/derspaneli/",
   "/derspaneli/index.html",
