@@ -131,6 +131,12 @@ function sendWA(tel,msg){
   if(!t.startsWith('90')) t=t.startsWith('0')?'90'+t.slice(1):'90'+t;
   window.open('https://wa.me/'+t+'?text='+encodeURIComponent(msg),'_blank');
 }
+function waBtn(el){
+  var tel=el.getAttribute('data-tel');
+  var saat=el.getAttribute('data-saat');
+  sendWA(tel,'Merhaba, bugun saat '+saat+' daki ders icin hatirlatma.');
+}
+
 function toast(msg,color){
   var el=document.createElement('div');
   el.className='toast'; el.style.background=color||'#1f2937'; el.textContent=msg;
@@ -249,7 +255,7 @@ function buildBugun(){
     html+='<button class="btn btn-green btn-sm" onclick="yoklamaKaydet('+plan.id+',\'geldi\')">Geldi</button>';
     html+='<button class="btn btn-red btn-sm" onclick="yoklamaKaydet('+plan.id+',\'gelmedi\')">Gelmedi</button>';
     html+='<button class="btn btn-orange btn-sm" onclick="yoklamaKaydet('+plan.id+',\'ertelendi\')">Ertelendi</button>';
-    if(ogr&&ogr.telefon) html+='<button class="btn btn-sm" style="background:#dcfce7;color:#15803d;" onclick="sendWA(\''+ogr.telefon+'\',\'Merhaba, bugun '+plan.baslangic+\' daki ders icin hatirlatma.\')">WA</button>';
+    if(ogr&&ogr.telefon) html+='<button class="btn btn-sm" style="background:#dcfce7;color:#15803d;" data-tel="'+ogr.telefon+'" data-saat="'+plan.baslangic+'" onclick="waBtn(this)">WA</button>';
     html+='</div></div>';
   });
   return html;
