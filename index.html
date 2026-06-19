@@ -147,6 +147,12 @@ function sendWhatsApp(tel, msg){
   window.open('https://wa.me/'+t+'?text='+encodeURIComponent(msg),'_blank');
 }
 
+function sendWA(btn){
+  var tel = btn.getAttribute('data-tel');
+  var msg = btn.getAttribute('data-msg');
+  sendWhatsApp(tel, msg);
+}
+
 function toast(msg, color){
   var el = document.createElement('div');
   el.className = 'toast';
@@ -225,7 +231,7 @@ function buildApp(){
       html += '<p class="text-xs text-gray">'+(ogr?ogr.ad:'Ogrenci yok')+'</p></div>';
       html += '<div class="row-btns">';
       html += '<button class="btn btn-green btn-sm" onclick="dersGerceklesti('+plan.id+')">Geldi</button>';
-      if(ogr&&ogr.telefon) html += '<button class="btn btn-sm" style="background:#dcfce7;color:#15803d;" onclick="sendWhatsApp(\''+ogr.telefon+'\',\'Merhaba, '+plan.baslangic+\' dersimiz icin hatirlatma\')">WA</button>';
+      if(ogr&&ogr.telefon) html += '<button class="btn btn-sm" style="background:#dcfce7;color:#15803d;" onclick="sendWA(this)" data-tel="'+ogr.telefon+'" data-msg="Merhaba hatirlatma">WA</button>';
       html += '</div></div>';
     });
   }
