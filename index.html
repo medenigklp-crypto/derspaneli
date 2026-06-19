@@ -16,7 +16,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;}
 .stat{border-radius:16px;padding:16px;color:#fff;position:relative;overflow:hidden;}
 .stat p{font-size:11px;opacity:.85;}
-.stat h2{font-size:26px;font-weight:bold;}
+.stat h2{font-size:24px;font-weight:bold;}
 .s1{background:linear-gradient(135deg,#6366f1,#4338ca);}
 .s2{background:linear-gradient(135deg,#22c55e,#15803d);}
 .s3{background:linear-gradient(135deg,#3b82f6,#1d4ed8);}
@@ -32,27 +32,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-orange{background:#f97316;color:#fff;}
 .btn-sm{padding:6px 10px;font-size:11px;border-radius:8px;}
 .tabs{display:flex;background:#fff;border-radius:12px;padding:4px;gap:2px;margin:0 12px 12px;overflow-x:auto;}
-.tab{flex:1;min-width:52px;padding:8px 4px;border:none;border-radius:10px;font-size:10px;font-weight:600;cursor:pointer;background:transparent;color:#6b7280;white-space:nowrap;}
+.tab{flex:1;min-width:50px;padding:8px 2px;border:none;border-radius:10px;font-size:10px;font-weight:600;cursor:pointer;background:transparent;color:#6b7280;white-space:nowrap;}
 .tab.active{background:#4F46E5;color:#fff;}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:100;}
 .modal{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;}
 .modal h3{font-size:18px;font-weight:bold;margin-bottom:16px;}
-.form-group{margin-bottom:12px;}
-.form-group label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:4px;}
-.form-group input,.form-group select,.form-group textarea{width:100%;border:1.5px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:14px;outline:none;}
+.fg{margin-bottom:12px;}
+.fg label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:4px;}
+.fg input,.fg select,.fg textarea{width:100%;border:1.5px solid #e5e7eb;border-radius:10px;padding:10px 12px;font-size:14px;outline:none;}
 .item{border:1.5px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:8px;background:#fff;}
 .item.geldi{border-color:#86efac;background:#f0fdf4;}
 .item.gelmedi{border-color:#fca5a5;background:#fff1f2;}
 .item.ertelendi{border-color:#fcd34d;background:#fffbeb;}
-.flex-between{display:flex;align-items:center;justify-content:space-between;}
+.fb{display:flex;align-items:center;justify-content:space-between;}
 .text-sm{font-size:13px;}
 .text-xs{font-size:11px;}
 .text-gray{color:#6b7280;}
 .text-indigo{color:#4F46E5;}
 .text-green{color:#16a34a;}
+.text-red{color:#dc2626;}
 .font-bold{font-weight:700;}
 .font-semi{font-weight:600;}
-.row-btns{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
+.rbtn{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
 .empty{text-align:center;padding:32px;color:#9ca3af;font-size:14px;}
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:12px 20px;border-radius:12px;color:#fff;font-size:14px;font-weight:600;z-index:200;pointer-events:none;white-space:nowrap;}
 .header{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;}
@@ -61,49 +62,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .badge{font-size:11px;padding:4px 8px;border-radius:8px;font-weight:600;}
 .badge-free{background:#f3f4f6;color:#374151;}
 .badge-premium{background:#ede9fe;color:#6d28d9;}
-.quick-btns{display:flex;gap:8px;padding:0 12px 12px;flex-wrap:wrap;}
-.quick-btns .btn{flex:1;min-width:80px;font-size:12px;}
+.qbtns{display:flex;gap:8px;padding:0 12px 12px;flex-wrap:wrap;}
+.qbtns .btn{flex:1;min-width:80px;font-size:12px;}
 .ys{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;}
 .ys-geldi{background:#dcfce7;color:#15803d;}
 .ys-gelmedi{background:#fee2e2;color:#dc2626;}
 .ys-ertelendi{background:#fef3c7;color:#d97706;}
 .ys-bekliyor{background:#f3f4f6;color:#6b7280;}
-/* Takvim */
 .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;}
 .cal-day-name{font-size:10px;color:#6b7280;font-weight:600;padding:4px 0;}
-.cal-day{font-size:12px;padding:6px 2px;border-radius:8px;cursor:pointer;position:relative;min-height:32px;}
+.cal-day{font-size:12px;padding:5px 2px;border-radius:8px;cursor:pointer;min-height:30px;}
 .cal-day.today{background:#4F46E5;color:#fff;font-weight:700;}
-.cal-day.has-lesson{font-weight:600;}
-.cal-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;margin:0 auto;margin-top:2px;}
+.cal-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;margin:0 auto;margin-top:1px;}
 .cal-dot.yesil{background:#22c55e;}
-/* Haftalik ozet */
-.ozet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
-.ozet-item{background:#f9fafb;border-radius:12px;padding:10px;text-align:center;}
-.ozet-item h3{font-size:22px;font-weight:bold;}
+.ozet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.ozet-item{background:#f9fafb;border-radius:10px;padding:8px;text-align:center;}
+.ozet-item h3{font-size:20px;font-weight:bold;}
 .ozet-item p{font-size:10px;color:#6b7280;}
-.ozet-toplam h3{color:#4F46E5;}
-.ozet-yapilan h3{color:#22c55e;}
-.ozet-iptal h3{color:#ef4444;}
-.ozet-kalan h3{color:#f59e0b;}
+.ogr-card{border:1.5px solid #e5e7eb;border-radius:16px;margin-bottom:12px;overflow:hidden;}
+.ogr-card-head{padding:12px;background:#fff;cursor:pointer;}
+.ogr-card-body{padding:12px;background:#f9fafb;border-top:1px solid #e5e7eb;}
+.borc-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #e5e7eb;}
+.borc-row:last-child{border-bottom:none;}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
-var state = {
+var S={
   ogrenciler:[],program:[],yoklama:[],odevler:[],denemeler:[],
   isPremium:false,showMoney:true,activeTab:'bugun',
-  calAy: new Date().getMonth(), calYil: new Date().getFullYear(),
-  yoklamaFiltre:'', LIMITS:{student:5,program:20}
+  calAy:new Date().getMonth(),calYil:new Date().getFullYear(),
+  calSeciliGun:null,yoklamaFiltre:'',acikOgrenci:null,
+  LIMITS:{student:5,program:30}
 };
 
 function load(){
   ['ogrenciler','program','yoklama','odevler','denemeler','isPremium'].forEach(function(k){
-    try{ var v=localStorage.getItem('dp_'+k); if(v) state[k]=JSON.parse(v); }catch(e){}
+    try{ var v=localStorage.getItem('dp_'+k); if(v) S[k]=JSON.parse(v); }catch(e){}
   });
 }
-function save(k){ try{ localStorage.setItem('dp_'+k,JSON.stringify(state[k])); }catch(e){} }
+function save(k){ try{ localStorage.setItem('dp_'+k,JSON.stringify(S[k])); }catch(e){} }
 function pad(n){ return String(n).padStart(2,'0'); }
 function todayStr(){
   var d=new Date();
@@ -117,15 +117,15 @@ function gunAdiTR(tarih){
   var g=['Pazar','Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi'];
   return g[new Date(tarih).getDay()];
 }
-function getOgrenci(id){ return state.ogrenciler.find(function(o){ return o.id==id; }); }
-function getOgrenciAd(id){ var o=getOgrenci(id); return o?o.ad:'Bilinmeyen'; }
+function getOgr(id){ return S.ogrenciler.find(function(o){ return o.id==id; }); }
+function getOgrAd(id){ var o=getOgr(id); return o?o.ad:'?'; }
 function canAdd(t){
-  if(state.isPremium) return true;
-  if(t==='student') return state.ogrenciler.length<state.LIMITS.student;
-  if(t==='program') return state.program.length<state.LIMITS.program;
+  if(S.isPremium) return true;
+  if(t==='student') return S.ogrenciler.length<S.LIMITS.student;
+  if(t==='program') return S.program.length<S.LIMITS.program;
   return true;
 }
-function sendWhatsApp(tel,msg){
+function sendWA(tel,msg){
   if(!tel){ toast('Telefon yok!','#f59e0b'); return; }
   var t=tel.replace(/\D/g,'');
   if(!t.startsWith('90')) t=t.startsWith('0')?'90'+t.slice(1):'90'+t;
@@ -137,30 +137,47 @@ function toast(msg,color){
   document.body.appendChild(el);
   setTimeout(function(){ el.remove(); },2500);
 }
+
+// Ders saati hesapla (45 dk = 1 ders saati, yukari yuvarla)
+function dersSaatiHesapla(bas,bit){
+  if(!bas||!bit) return 1;
+  var b=bas.split(':'); var e=bit.split(':');
+  var dk=(Number(e[0])*60+Number(e[1]))-(Number(b[0])*60+Number(b[1]));
+  if(dk<=0) return 1;
+  return Math.ceil(dk/45);
+}
+
+// Ucret hesapla
+function ucretHesapla(plan,ogr){
+  if(!ogr) return 0;
+  var ds=dersSaatiHesapla(plan.baslangic,plan.bitis);
+  return ds*Number(ogr.ucret||0);
+}
+
 function getBugunProgram(){
   var g=gunAdiTR(todayStr());
-  return state.program.filter(function(p){ return p.gun===g; })
+  return S.program.filter(function(p){ return p.gun===g; })
     .sort(function(a,b){ return (a.baslangic||'').localeCompare(b.baslangic||''); });
 }
 function getYoklama(pid,tarih){
-  return state.yoklama.find(function(y){ return y.programId===pid && y.tarih===tarih; });
+  return S.yoklama.find(function(y){ return y.programId===pid&&y.tarih===tarih; });
 }
 function yoklamaKaydet(pid,durum){
   var tarih=todayStr();
+  var plan=S.program.find(function(p){ return p.id===pid; });
+  var ogr=plan?getOgr(plan.ogrenciId):null;
+  var ucret=(durum==='geldi'&&plan&&ogr)?ucretHesapla(plan,ogr):0;
   var mevcut=getYoklama(pid,tarih);
-  var plan=state.program.find(function(p){ return p.id===pid; });
-  var ogr=plan?getOgrenci(plan.ogrenciId):null;
   if(mevcut){
-    state.yoklama=state.yoklama.map(function(y){
-      return(y.programId===pid&&y.tarih===tarih)?Object.assign({},y,{durum:durum,ucret:(durum==='geldi'&&ogr)?Number(ogr.ucret||0):0}):y;
+    S.yoklama=S.yoklama.map(function(y){
+      return(y.programId===pid&&y.tarih===tarih)?Object.assign({},y,{durum:durum,ucret:ucret}):y;
     });
   } else {
-    state.yoklama.push({id:Date.now(),programId:pid,tarih:tarih,durum:durum,ogrenciId:plan?plan.ogrenciId:null,ucret:(durum==='geldi'&&ogr)?Number(ogr.ucret||0):0,odendi:false});
+    S.yoklama.push({id:Date.now(),programId:pid,tarih:tarih,durum:durum,ogrenciId:plan?plan.ogrenciId:null,ucret:ucret,odendi:false});
   }
   save('yoklama');
-  var msgs={geldi:'Geldi!','#22c55e':true,gelmedi:'Gelmedi!',ertelendi:'Ertelendi!'};
   var colors={geldi:'#22c55e',gelmedi:'#ef4444',ertelendi:'#f59e0b'};
-  toast(durum==='geldi'?'Geldi!':durum==='gelmedi'?'Gelmedi!':'Ertelendi!', colors[durum]);
+  toast(durum==='geldi'?'Geldi! &#8378;'+ucret:durum==='gelmedi'?'Gelmedi!':'Ertelendi!',colors[durum]);
   render();
 }
 
@@ -168,206 +185,170 @@ function render(){ document.getElementById('app').innerHTML=buildApp(); }
 
 function buildApp(){
   var bugun=todayStr();
-  var bugunP=getBugunProgram();
-  var bugunGeldi=bugunP.filter(function(p){ var y=getYoklama(p.id,bugun); return y&&y.durum==='geldi'; }).length;
-  var toplamK=state.yoklama.filter(function(y){ return y.durum==='geldi'; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
-  var bugunK=state.yoklama.filter(function(y){ return y.durum==='geldi'&&y.tarih===bugun; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
-  var bekleyen=state.yoklama.filter(function(y){ return y.durum==='geldi'&&!y.odendi; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
-  var sm=state.showMoney;
-  var html='';
+  var bp=getBugunProgram();
+  var bgld=bp.filter(function(p){ var y=getYoklama(p.id,bugun); return y&&y.durum==='geldi'; }).length;
+  var topK=S.yoklama.filter(function(y){ return y.durum==='geldi'; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
+  var bK=S.yoklama.filter(function(y){ return y.durum==='geldi'&&y.tarih===bugun; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
+  var bek=S.yoklama.filter(function(y){ return y.durum==='geldi'&&!y.odendi; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
+  var sm=S.showMoney;
 
+  var html='';
   html+='<div class="header"><div><h1>Ders Paneli</h1><p>'+new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'})+'</p></div>';
-  html+='<span class="badge '+(state.isPremium?'badge-premium':'badge-free')+'">'+(state.isPremium?'Premium':'Ucretsiz')+'</span></div>';
+  html+='<span class="badge '+(S.isPremium?'badge-premium':'badge-free')+'">'+(S.isPremium?'Premium':'Ucretsiz')+'</span></div>';
 
   html+='<div class="stat-grid">';
-  html+='<div class="stat s1"><p>Bugun</p><h2>'+bugunP.length+'</h2><p>'+bugunGeldi+' geldi</p></div>';
-  html+='<div class="stat s2"><p>Toplam</p><h2>'+(sm?'&#8378;'+toplamK.toFixed(0):'...')+'</h2><p>kazanc</p></div>';
-  html+='<div class="stat s3"><p>Bugun</p><h2>'+(sm?'&#8378;'+bugunK.toFixed(0):'...')+'</h2><p>kazanildi</p></div>';
-  html+='<div class="stat s4"><button onclick="toggleMoney()" style="position:absolute;top:6px;right:6px;background:none;border:none;cursor:pointer;font-size:14px;color:#fff;">'+(sm?'&#128065;':'&#128584;')+'</button><p>Bekleyen</p><h2>'+(sm?'&#8378;'+bekleyen.toFixed(0):'...')+'</h2><p>odeme</p></div>';
+  html+='<div class="stat s1"><p>Bugun</p><h2>'+bp.length+'</h2><p>'+bgld+' geldi</p></div>';
+  html+='<div class="stat s2"><p>Toplam</p><h2>'+(sm?'&#8378;'+topK.toFixed(0):'...')+'</h2><p>kazanc</p></div>';
+  html+='<div class="stat s3"><p>Bugun</p><h2>'+(sm?'&#8378;'+bK.toFixed(0):'...')+'</h2><p>kazanildi</p></div>';
+  html+='<div class="stat s4"><button onclick="toggleMoney()" style="position:absolute;top:6px;right:6px;background:none;border:none;cursor:pointer;font-size:14px;color:#fff;">'+(sm?'&#128065;':'&#128584;')+'</button><p>Bekleyen</p><h2>'+(sm?'&#8378;'+bek.toFixed(0):'...')+'</h2><p>odeme</p></div>';
   html+='</div>';
 
-  html+='<div class="quick-btns">';
+  html+='<div class="qbtns">';
   html+='<button class="btn btn-primary" onclick="setTab(\'program\')">Program</button>';
-  html+='<button class="btn btn-dark" onclick="openOgrenciModal()">+ Ogrenci</button>';
-  html+='<button class="btn btn-green" onclick="sendTomorrowReminders()">Hatirlatma</button>';
+  html+='<button class="btn btn-dark" onclick="openOgrModal()">+ Ogrenci</button>';
+  html+='<button class="btn btn-green" onclick="sendTomorrow()">Hatirlatma</button>';
   html+='</div>';
 
   html+='<div class="tabs">';
   [['bugun','Bugun'],['takvim','Takvim'],['program','Program'],['yoklama','Yoklama'],['ogrenciler','Ogrenciler'],['odevler','Odevler'],['denemeler','Denemeler']].forEach(function(t){
-    html+='<button class="tab'+(state.activeTab===t[0]?' active':'')+'" onclick="setTab(\''+t[0]+'\')">'+t[1]+'</button>';
+    html+='<button class="tab'+(S.activeTab===t[0]?' active':'')+'" onclick="setTab(\''+t[0]+'\')">'+t[1]+'</button>';
   });
   html+='</div>';
 
-  html+='<div class="card" id="tab-content">';
-  if(state.activeTab==='bugun') html+=buildBugunTab();
-  else if(state.activeTab==='takvim') html+=buildTakvimTab();
-  else if(state.activeTab==='program') html+=buildProgramTab();
-  else if(state.activeTab==='yoklama') html+=buildYoklamaTab();
-  else if(state.activeTab==='ogrenciler') html+=buildOgrencilerTab();
-  else if(state.activeTab==='odevler') html+=buildOdevlerTab();
-  else if(state.activeTab==='denemeler') html+=buildDenemelerTab();
+  html+='<div class="card">';
+  if(S.activeTab==='bugun') html+=buildBugun();
+  else if(S.activeTab==='takvim') html+=buildTakvim();
+  else if(S.activeTab==='program') html+=buildProgram();
+  else if(S.activeTab==='yoklama') html+=buildYoklama();
+  else if(S.activeTab==='ogrenciler') html+=buildOgrenciler();
+  else if(S.activeTab==='odevler') html+=buildOdevler();
+  else if(S.activeTab==='denemeler') html+=buildDenemeler();
   html+='</div>';
   return html;
 }
 
-function buildBugunTab(){
+function buildBugun(){
   var bugun=todayStr();
-  var bugunP=getBugunProgram();
+  var bp=getBugunProgram();
   var html='<p class="font-bold" style="margin-bottom:12px;">Bugunun Dersleri</p>';
-  if(bugunP.length===0){
-    html+='<div class="empty">Bugun ders yok<br><small>Program sekmesinden ders ekleyin</small></div>';
-    return html;
-  }
-  bugunP.forEach(function(plan){
-    var ogr=getOgrenci(plan.ogrenciId);
+  if(bp.length===0) return html+'<div class="empty">Bugun ders yok</div>';
+  bp.forEach(function(plan){
+    var ogr=getOgr(plan.ogrenciId);
     var y=getYoklama(plan.id,bugun);
-    var durum=y?y.durum:'bekliyor';
-    var cls='item'+(durum!=='bekliyor'?' '+durum:'');
-    html+='<div class="'+cls+'">';
-    html+='<div class="flex-between" style="margin-bottom:8px;">';
-    html+='<div>';
-    html+='<p class="font-semi">'+(ogr?ogr.ad:'?')+'</p>';
-    html+='<p class="text-xs text-gray">'+plan.baslangic+' - '+plan.bitis+'</p>';
-    if(state.showMoney&&ogr) html+='<p class="text-xs text-indigo">&#8378;'+ogr.ucret+' /ders</p>';
+    var dur=y?y.durum:'bekliyor';
+    var ds=dersSaatiHesapla(plan.baslangic,plan.bitis);
+    var ucr=ucretHesapla(plan,ogr);
+    html+='<div class="item'+(dur!=='bekliyor'?' '+dur:'')+'">';
+    html+='<div class="fb" style="margin-bottom:8px;">';
+    html+='<div><p class="font-semi">'+(ogr?ogr.ad:'?')+'</p>';
+    html+='<p class="text-xs text-gray">'+plan.baslangic+' - '+plan.bitis+' ('+ds+' ders saati)</p>';
+    if(S.showMoney) html+='<p class="text-xs text-indigo font-semi">&#8378;'+ucr+'</p>';
     html+='</div>';
-    var sc='ys ys-'+durum;
-    var st=durum==='geldi'?'Geldi':durum==='gelmedi'?'Gelmedi':durum==='ertelendi'?'Ertelendi':'Bekliyor';
-    html+='<span class="'+sc+'">'+st+'</span></div>';
-    html+='<div class="row-btns">';
+    html+='<span class="ys ys-'+dur+'">'+(dur==='geldi'?'Geldi':dur==='gelmedi'?'Gelmedi':dur==='ertelendi'?'Ertelendi':'Bekliyor')+'</span></div>';
+    html+='<div class="rbtn">';
     html+='<button class="btn btn-green btn-sm" onclick="yoklamaKaydet('+plan.id+',\'geldi\')">Geldi</button>';
     html+='<button class="btn btn-red btn-sm" onclick="yoklamaKaydet('+plan.id+',\'gelmedi\')">Gelmedi</button>';
     html+='<button class="btn btn-orange btn-sm" onclick="yoklamaKaydet('+plan.id+',\'ertelendi\')">Ertelendi</button>';
-    if(ogr&&ogr.telefon) html+='<button class="btn btn-sm" style="background:#dcfce7;color:#15803d;" onclick="waHat(\''+ogr.telefon+'\',\''+plan.baslangic+'\')">WA</button>';
+    if(ogr&&ogr.telefon) html+='<button class="btn btn-sm" style="background:#dcfce7;color:#15803d;" onclick="sendWA(\''+ogr.telefon+'\',\'Merhaba, bugun '+plan.baslangic+\' daki ders icin hatirlatma.\')">WA</button>';
     html+='</div></div>';
   });
   return html;
 }
 
-function waHat(tel,saat){ sendWhatsApp(tel,'Merhaba, bugun saat '+saat+' daki dersimiz icin hatirlatma.'); }
-
-function buildTakvimTab(){
-  var ay=state.calAy, yil=state.calYil;
+function buildTakvim(){
+  var ay=S.calAy, yil=S.calYil;
   var ayAdlari=['Ocak','Subat','Mart','Nisan','Mayis','Haziran','Temmuz','Agustos','Eylul','Ekim','Kasim','Aralik'];
-  var gunAdlari=['Pzt','Sal','Car','Per','Cum','Cmt','Paz'];
   var bugun=todayStr();
-
-  // Haftalik ozet (bu hafta)
   var simdi=new Date();
   var haftaBas=new Date(simdi);
-  var gun=simdi.getDay(); var fark=gun===0?-6:1-gun;
-  haftaBas.setDate(simdi.getDate()+fark);
+  var gn=simdi.getDay(); haftaBas.setDate(simdi.getDate()+(gn===0?-6:1-gn));
   var haftaBit=new Date(haftaBas); haftaBit.setDate(haftaBas.getDate()+6);
-  var haftaBasStr=haftaBas.getFullYear()+'-'+pad(haftaBas.getMonth()+1)+'-'+pad(haftaBas.getDate());
-  var haftaBitStr=haftaBit.getFullYear()+'-'+pad(haftaBit.getMonth()+1)+'-'+pad(haftaBit.getDate());
-
-  // Bu haftaki program gunleri
-  var haftaGunleri=['Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi','Pazar'];
+  var hbStr=haftaBas.getFullYear()+'-'+pad(haftaBas.getMonth()+1)+'-'+pad(haftaBas.getDate());
+  var heStr=haftaBit.getFullYear()+'-'+pad(haftaBit.getMonth()+1)+'-'+pad(haftaBit.getDate());
+  var gunler=['Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi','Pazar'];
   var haftaToplam=0;
   for(var gi=0;gi<7;gi++){
-    var gTarih=new Date(haftaBas); gTarih.setDate(haftaBas.getDate()+gi);
-    var gStr=gTarih.getFullYear()+'-'+pad(gTarih.getMonth()+1)+'-'+pad(gTarih.getDate());
-    var gAd=haftaGunleri[gi];
-    haftaToplam+=state.program.filter(function(p){ return p.gun===gAd; }).length;
+    var gt=new Date(haftaBas); gt.setDate(haftaBas.getDate()+gi);
+    haftaToplam+=S.program.filter(function(p){ return p.gun===gunler[gi]; }).length;
   }
-  var haftaYapilan=state.yoklama.filter(function(y){ return y.tarih>=haftaBasStr&&y.tarih<=haftaBitStr&&y.durum==='geldi'; }).length;
-  var haftaIptal=state.yoklama.filter(function(y){ return y.tarih>=haftaBasStr&&y.tarih<=haftaBitStr&&y.durum==='gelmedi'; }).length;
-  var haftaKalan=Math.max(0,haftaToplam-haftaYapilan-haftaIptal);
+  var hYap=S.yoklama.filter(function(y){ return y.tarih>=hbStr&&y.tarih<=heStr&&y.durum==='geldi'; }).length;
+  var hIpt=S.yoklama.filter(function(y){ return y.tarih>=hbStr&&y.tarih<=heStr&&y.durum==='gelmedi'; }).length;
+  var hKal=Math.max(0,haftaToplam-hYap-hIpt);
 
   var html='';
-  // Ozet
-  html+='<p class="font-semi text-xs text-gray" style="margin-bottom:6px;">Bu Hafta ('+haftaBasStr.slice(5)+' - '+haftaBitStr.slice(5)+')</p>';
+  html+='<p class="text-xs text-gray font-semi" style="margin-bottom:6px;">Bu Hafta ('+hbStr.slice(5)+' - '+heStr.slice(5)+')</p>';
   html+='<div class="ozet-grid">';
-  html+='<div class="ozet-item ozet-toplam"><h3>'+haftaToplam+'</h3><p>Toplam</p></div>';
-  html+='<div class="ozet-item ozet-yapilan"><h3>'+haftaYapilan+'</h3><p>Yapilan</p></div>';
-  html+='<div class="ozet-item ozet-iptal"><h3>'+haftaIptal+'</h3><p>Iptal</p></div>';
-  html+='<div class="ozet-item ozet-kalan"><h3>'+haftaKalan+'</h3><p>Kalan</p></div>';
+  html+='<div class="ozet-item"><h3 style="color:#4F46E5;">'+haftaToplam+'</h3><p>Toplam</p></div>';
+  html+='<div class="ozet-item"><h3 style="color:#22c55e;">'+hYap+'</h3><p>Yapilan</p></div>';
+  html+='<div class="ozet-item"><h3 style="color:#ef4444;">'+hIpt+'</h3><p>Iptal</p></div>';
+  html+='<div class="ozet-item"><h3 style="color:#f59e0b;">'+hKal+'</h3><p>Kalan</p></div>';
   html+='</div>';
 
-  // Takvim navigasyon
   html+='<div class="cal-header">';
   html+='<button class="btn btn-gray btn-sm" onclick="calNav(-1)">&#8592;</button>';
   html+='<span class="font-bold">'+ayAdlari[ay]+' '+yil+'</span>';
   html+='<button class="btn btn-gray btn-sm" onclick="calNav(1)">&#8594;</button>';
   html+='</div>';
 
-  // Gun isimleri
   html+='<div class="cal-grid">';
-  gunAdlari.forEach(function(g){ html+='<div class="cal-day-name">'+g+'</div>'; });
-
-  // Ilk gun offset
-  var ilkGun=new Date(yil,ay,1).getDay();
-  var offset=ilkGun===0?6:ilkGun-1;
-  var sonGun=new Date(yil,ay+1,0).getDate();
-
-  for(var i=0;i<offset;i++) html+='<div></div>';
-
-  for(var d=1;d<=sonGun;d++){
-    var tarih=yil+'-'+pad(ay+1)+'-'+pad(d);
-    var gAd2=gunAdiTR(tarih);
-    var dersSayisi=state.program.filter(function(p){ return p.gun===gAd2; }).length;
-    var geldiSayisi=state.yoklama.filter(function(y){ return y.tarih===tarih&&y.durum==='geldi'; }).length;
-    var isToday=tarih===bugun;
-    var cls='cal-day'+(isToday?' today':'')+(dersSayisi>0?' has-lesson':'');
-    html+='<div class="'+cls+'" onclick="calGunSec(\''+tarih+'\')">'+d;
-    if(dersSayisi>0){
-      html+='<div class="cal-dot'+(geldiSayisi>0?' yesil':'')+'" title="'+dersSayisi+' ders"></div>';
-    }
+  ['Pzt','Sal','Car','Per','Cum','Cmt','Paz'].forEach(function(g){ html+='<div class="cal-day-name">'+g+'</div>'; });
+  var ilk=new Date(yil,ay,1).getDay();
+  var off=ilk===0?6:ilk-1;
+  var son=new Date(yil,ay+1,0).getDate();
+  for(var i=0;i<off;i++) html+='<div></div>';
+  for(var d=1;d<=son;d++){
+    var tar=yil+'-'+pad(ay+1)+'-'+pad(d);
+    var gAd=gunAdiTR(tar);
+    var dSay=S.program.filter(function(p){ return p.gun===gAd; }).length;
+    var gSay=S.yoklama.filter(function(y){ return y.tarih===tar&&y.durum==='geldi'; }).length;
+    var isTdy=tar===bugun;
+    html+='<div class="cal-day'+(isTdy?' today':'')+(dSay>0?' has-lesson':'')+'" onclick="calGun(\''+tar+'\')" style="'+(S.calSeciliGun===tar&&!isTdy?'background:#e0e7ff;':'')+'">'+d;
+    if(dSay>0) html+='<div class="cal-dot'+(gSay>0?' yesil':'')+'"></div>';
     html+='</div>';
   }
   html+='</div>';
 
-  // Secili gun dersleri
-  if(state.calSeciliGun){
-    var sg=state.calSeciliGun;
+  if(S.calSeciliGun){
+    var sg=S.calSeciliGun;
     var sgAd=gunAdiTR(sg);
-    var sgProgram=state.program.filter(function(p){ return p.gun===sgAd; });
+    var sgP=S.program.filter(function(p){ return p.gun===sgAd; })
+      .sort(function(a,b){ return (a.baslangic||'').localeCompare(b.baslangic||''); });
     html+='<p class="font-semi" style="margin:12px 0 6px;">'+sg+' Dersleri</p>';
-    if(sgProgram.length===0){
-      html+='<p class="text-xs text-gray">Bu gun ders yok</p>';
-    } else {
-      sgProgram.forEach(function(plan){
-        var ogr=getOgrenci(plan.ogrenciId);
-        var y2=getYoklama(plan.id,sg);
-        var d2=y2?y2.durum:'bekliyor';
-        html+='<div class="item flex-between" style="padding:8px 12px;">';
-        html+='<div><p class="font-semi text-sm">'+(ogr?ogr.ad:'?')+'</p>';
-        html+='<p class="text-xs text-gray">'+plan.baslangic+'-'+plan.bitis+'</p></div>';
-        html+='<span class="ys ys-'+d2+'">'+(d2==='geldi'?'Geldi':d2==='gelmedi'?'Gelmedi':d2==='ertelendi'?'Ertelendi':'Bekliyor')+'</span>';
-        html+='</div>';
-      });
-    }
+    if(sgP.length===0){ html+='<p class="text-xs text-gray">Bu gun ders yok</p>'; }
+    else sgP.forEach(function(plan){
+      var ogr=getOgr(plan.ogrenciId);
+      var y2=getYoklama(plan.id,sg);
+      var d2=y2?y2.durum:'bekliyor';
+      var ds=dersSaatiHesapla(plan.baslangic,plan.bitis);
+      html+='<div class="item fb" style="padding:8px 12px;">';
+      html+='<div><p class="font-semi text-sm">'+(ogr?ogr.ad:'?')+'</p>';
+      html+='<p class="text-xs text-gray">'+plan.baslangic+'-'+plan.bitis+' ('+ds+' saat)</p></div>';
+      html+='<span class="ys ys-'+d2+'">'+(d2==='geldi'?'Geldi':d2==='gelmedi'?'Gelmedi':d2==='ertelendi'?'Ertelendi':'Bekliyor')+'</span>';
+      html+='</div>';
+    });
   }
   return html;
 }
 
-function calNav(dir){
-  state.calAy+=dir;
-  if(state.calAy>11){ state.calAy=0; state.calYil++; }
-  if(state.calAy<0){ state.calAy=11; state.calYil--; }
-  render();
-}
-function calGunSec(tarih){ state.calSeciliGun=tarih; render(); }
-
-function buildProgramTab(){
-  var html='<div class="flex-between" style="margin-bottom:12px;">';
+function buildProgram(){
+  var html='<div class="fb" style="margin-bottom:12px;">';
   html+='<p class="font-bold">Haftalik Program</p>';
   html+='<button class="btn btn-primary btn-sm" onclick="openProgramModal()">+ Ekle</button></div>';
   var gunler=['Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi','Pazar'];
-  if(state.program.length===0){
-    html+='<div class="empty">Henuz program yok<br><small>Yil boyu sabit programinizi ekleyin</small></div>';
-    return html;
-  }
+  if(S.program.length===0) return html+'<div class="empty">Henuz program yok<br><small>Yil boyu sabit programinizi ekleyin</small></div>';
   gunler.forEach(function(gun){
-    var gp=state.program.filter(function(p){ return p.gun===gun; })
+    var gp=S.program.filter(function(p){ return p.gun===gun; })
       .sort(function(a,b){ return (a.baslangic||'').localeCompare(b.baslangic||''); });
     if(gp.length===0) return;
     html+='<p class="font-semi text-sm" style="margin:10px 0 6px;color:#4F46E5;">'+gun+'</p>';
     gp.forEach(function(plan){
-      var ogr=getOgrenci(plan.ogrenciId);
-      html+='<div class="item flex-between">';
+      var ogr=getOgr(plan.ogrenciId);
+      var ds=dersSaatiHesapla(plan.baslangic,plan.bitis);
+      var ucr=ucretHesapla(plan,ogr);
+      html+='<div class="item fb">';
       html+='<div><p class="font-semi">'+(ogr?ogr.ad:'?')+'</p>';
       html+='<p class="text-xs text-gray">'+plan.baslangic+' - '+plan.bitis+'</p>';
-      if(state.showMoney&&ogr) html+='<p class="text-xs text-indigo">&#8378;'+ogr.ucret+'/ders</p>';
+      html+='<p class="text-xs text-indigo">'+ds+' ders saati'+(S.showMoney?' = &#8378;'+ucr:'')+'</p>';
       html+='</div>';
       html+='<button class="btn btn-red btn-sm" onclick="programSil('+plan.id+')">Sil</button>';
       html+='</div>';
@@ -376,25 +357,26 @@ function buildProgramTab(){
   return html;
 }
 
-function buildYoklamaTab(){
-  var html='<div class="flex-between" style="margin-bottom:12px;">';
+function buildYoklama(){
+  var html='<div class="fb" style="margin-bottom:12px;">';
   html+='<p class="font-bold">Yoklama Gecmisi</p>';
-  html+='<select onchange="state.yoklamaFiltre=this.value;render();" style="border:1.5px solid #e5e7eb;border-radius:8px;padding:4px 8px;font-size:12px;">';
+  html+='<select onchange="S.yoklamaFiltre=this.value;render();" style="border:1.5px solid #e5e7eb;border-radius:8px;padding:4px 8px;font-size:12px;">';
   html+='<option value="">Tum Ogrenciler</option>';
-  state.ogrenciler.forEach(function(o){
-    html+='<option value="'+o.id+'"'+(state.yoklamaFiltre==o.id?' selected':'')+'>'+o.ad+'</option>';
+  S.ogrenciler.forEach(function(o){
+    html+='<option value="'+o.id+'"'+(S.yoklamaFiltre==o.id?' selected':'')+'>'+o.ad+'</option>';
   });
   html+='</select></div>';
-  var list=state.yoklama.slice().reverse();
-  if(state.yoklamaFiltre) list=list.filter(function(y){ return y.ogrenciId==state.yoklamaFiltre; });
+  var list=S.yoklama.slice().reverse();
+  if(S.yoklamaFiltre) list=list.filter(function(y){ return y.ogrenciId==S.yoklamaFiltre; });
   if(list.length===0) return html+'<div class="empty">Henuz yoklama yapilmamis</div>';
   list.forEach(function(y){
-    var ogr=getOgrenci(y.ogrenciId);
-    var plan=state.program.find(function(p){ return p.id===y.programId; });
-    html+='<div class="item flex-between">';
+    var ogr=getOgr(y.ogrenciId);
+    var plan=S.program.find(function(p){ return p.id===y.programId; });
+    var ds=plan?dersSaatiHesapla(plan.baslangic,plan.bitis):1;
+    html+='<div class="item fb">';
     html+='<div><p class="font-semi text-sm">'+(ogr?ogr.ad:'?')+'</p>';
-    html+='<p class="text-xs text-gray">'+y.tarih+(plan?' - '+plan.baslangic:'')+'</p>';
-    if(y.durum==='geldi'&&state.showMoney) html+='<p class="text-xs text-green">&#8378;'+y.ucret+'</p>';
+    html+='<p class="text-xs text-gray">'+y.tarih+(plan?' '+plan.baslangic+'-'+plan.bitis:'')+'</p>';
+    if(y.durum==='geldi') html+='<p class="text-xs text-indigo">'+ds+' ders saati'+(S.showMoney?' = &#8378;'+y.ucret:'')+'</p>';
     html+='</div>';
     html+='<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">';
     html+='<span class="ys ys-'+y.durum+'">'+(y.durum==='geldi'?'Geldi':y.durum==='gelmedi'?'Gelmedi':'Ertelendi')+'</span>';
@@ -404,48 +386,91 @@ function buildYoklamaTab(){
   return html;
 }
 
-function yokOde(id){
-  state.yoklama=state.yoklama.map(function(y){ return y.id===id?Object.assign({},y,{odendi:!y.odendi}):y; });
-  save('yoklama'); render();
-}
+function buildOgrenciler(){
+  var html='<div class="fb" style="margin-bottom:12px;">';
+  html+='<p class="font-bold">Ogrenciler ('+S.ogrenciler.length+')</p>';
+  html+='<button class="btn btn-primary btn-sm" onclick="openOgrModal()">+ Yeni</button></div>';
+  if(S.ogrenciler.length===0) return html+'<div class="empty">Henuz ogrenci eklenmemis</div>';
 
-function buildOgrencilerTab(){
-  var html='<div class="flex-between" style="margin-bottom:12px;">';
-  html+='<p class="font-bold">Ogrenciler ('+state.ogrenciler.length+')</p>';
-  html+='<button class="btn btn-primary btn-sm" onclick="openOgrenciModal()">+ Yeni</button></div>';
-  if(state.ogrenciler.length===0) return html+'<div class="empty">Henuz ogrenci eklenmemis</div>';
-  state.ogrenciler.forEach(function(o){
-    var geldi=state.yoklama.filter(function(y){ return y.ogrenciId==o.id&&y.durum==='geldi'; }).length;
-    var topK=state.yoklama.filter(function(y){ return y.ogrenciId==o.id&&y.durum==='geldi'; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
-    html+='<div class="item"><div class="flex-between">';
-    html+='<div><p class="font-semi">'+o.ad+'</p>';
-    html+='<p class="text-xs text-gray">'+o.telefon+'</p>';
-    html+='<p class="text-xs text-gray">'+o.sinif+'. Sinif</p>';
-    html+='<p class="text-xs text-indigo">'+(state.showMoney?o.ucret+' TL/ders':'...')+' &bull; '+geldi+' ders</p>';
-    if(state.showMoney) html+='<p class="text-xs text-green">Toplam: &#8378;'+topK+'</p>';
+  S.ogrenciler.forEach(function(o){
+    var yok=S.yoklama.filter(function(y){ return y.ogrenciId==o.id&&y.durum==='geldi'; });
+    var topK=yok.reduce(function(s,y){ return s+Number(y.ucret||0); },0);
+    var odenen=yok.filter(function(y){ return y.odendi; }).reduce(function(s,y){ return s+Number(y.ucret||0); },0);
+    var borc=topK-odenen;
+    var acik=S.acikOgrenci===o.id;
+
+    html+='<div class="ogr-card">';
+    html+='<div class="ogr-card-head" onclick="toggleOgrenci('+o.id+')">';
+    html+='<div class="fb">';
+    html+='<div>';
+    html+='<p class="font-semi">'+o.ad+'</p>';
+    html+='<p class="text-xs text-gray">'+o.telefon+' | '+o.sinif+'. Sinif</p>';
+    html+='<p class="text-xs text-indigo">'+(S.showMoney?o.ucret+' TL/ders saati':'...')+'</p>';
     html+='</div>';
-    html+='<div class="row-btns">';
-    html+='<button class="btn btn-gray btn-sm" onclick="editOgrenci('+o.id+')">Duzenle</button>';
-    html+='<button class="btn btn-red btn-sm" onclick="delOgrenci('+o.id+')">Sil</button>';
+    html+='<div style="text-align:right;">';
+    if(S.showMoney){
+      html+='<p class="text-xs text-green font-semi">Odenen: &#8378;'+odenen+'</p>';
+      html+='<p class="text-xs text-red font-semi">Borc: &#8378;'+borc+'</p>';
+    }
+    html+='<span style="font-size:16px;">'+(acik?'&#9650;':'&#9660;')+'</span>';
     html+='</div></div></div>';
+
+    if(acik){
+      html+='<div class="ogr-card-body">';
+      html+='<div class="fb" style="margin-bottom:8px;">';
+      html+='<p class="font-semi text-sm">Odeme Gecmisi</p>';
+      html+='<div class="rbtn">';
+      html+='<button class="btn btn-gray btn-sm" onclick="editOgr('+o.id+')">Duzenle</button>';
+      html+='<button class="btn btn-red btn-sm" onclick="delOgr('+o.id+')">Sil</button>';
+      html+='</div></div>';
+
+      var ogrYok=S.yoklama.filter(function(y){ return y.ogrenciId==o.id&&y.durum==='geldi'; }).slice().reverse();
+      if(ogrYok.length===0){
+        html+='<p class="text-xs text-gray">Henuz ders yapilmamis</p>';
+      } else {
+        ogrYok.forEach(function(y){
+          var plan=S.program.find(function(p){ return p.id===y.programId; });
+          var ds=plan?dersSaatiHesapla(plan.baslangic,plan.bitis):1;
+          html+='<div class="borc-row">';
+          html+='<div><p class="text-sm">'+y.tarih+'</p>';
+          html+='<p class="text-xs text-gray">'+(plan?plan.baslangic+'-'+plan.bitis:'')+' ('+ds+' saat)</p></div>';
+          html+='<div style="text-align:right;">';
+          if(S.showMoney) html+='<p class="text-sm font-semi">&#8378;'+y.ucret+'</p>';
+          html+='<button class="btn btn-sm '+(y.odendi?'btn-green':'btn-yellow')+'" onclick="yokOde('+y.id+')">'+(y.odendi?'Odendi':'Bekliyor')+'</button>';
+          html+='</div></div>';
+        });
+
+        // Toplam ozet
+        html+='<div style="background:#f0fdf4;border-radius:10px;padding:10px;margin-top:10px;">';
+        html+='<div class="fb"><span class="text-sm">Toplam Ders:</span><span class="font-semi text-sm">'+yok.length+'</span></div>';
+        if(S.showMoney){
+          html+='<div class="fb"><span class="text-sm">Toplam Tutar:</span><span class="font-semi text-sm">&#8378;'+topK+'</span></div>';
+          html+='<div class="fb"><span class="text-sm">Odenen:</span><span class="font-semi text-sm text-green">&#8378;'+odenen+'</span></div>';
+          html+='<div class="fb" style="border-top:1px solid #e5e7eb;padding-top:6px;margin-top:6px;"><span class="font-semi">Kalan Borc:</span><span class="font-bold text-red">&#8378;'+borc+'</span></div>';
+        }
+        html+='</div>';
+      }
+      html+='</div>';
+    }
+    html+='</div>';
   });
   return html;
 }
 
-function buildOdevlerTab(){
-  var html='<div class="flex-between" style="margin-bottom:12px;">';
-  html+='<p class="font-bold">Odevler ('+state.odevler.length+')</p>';
+function buildOdevler(){
+  var html='<div class="fb" style="margin-bottom:12px;">';
+  html+='<p class="font-bold">Odevler ('+S.odevler.length+')</p>';
   html+='<button class="btn btn-primary btn-sm" onclick="openOdevModal()">+ Yeni</button></div>';
-  if(state.odevler.length===0) return html+'<div class="empty">Henuz odev eklenmemis</div>';
-  state.odevler.forEach(function(o){
+  if(S.odevler.length===0) return html+'<div class="empty">Henuz odev eklenmemis</div>';
+  S.odevler.forEach(function(o){
     var rc=o.durum==='tamamlandi'?'#22c55e':o.durum==='eksik'?'#f59e0b':'#ef4444';
     var rt=o.durum==='tamamlandi'?'Tamamlandi':o.durum==='eksik'?'Eksik':'Yapilmadi';
-    html+='<div class="item"><div class="flex-between"><div>';
-    html+='<p class="font-semi text-sm">'+getOgrenciAd(o.ogrenciId)+'</p>';
+    html+='<div class="item"><div class="fb"><div>';
+    html+='<p class="font-semi text-sm">'+getOgrAd(o.ogrenciId)+'</p>';
     html+='<p class="text-sm">'+o.konu+'</p>';
     html+='<p class="text-xs" style="color:'+rc+';font-weight:600;">'+rt+'</p>';
     if(o.aciklama) html+='<p class="text-xs text-gray">'+o.aciklama+'</p>';
-    html+='</div><div class="row-btns">';
+    html+='</div><div class="rbtn">';
     html+='<button class="btn btn-sm" style="background:#fee2e2;color:#dc2626;" onclick="odevD('+o.id+',\'yapilmadi\')">X</button>';
     html+='<button class="btn btn-sm" style="background:#fef3c7;color:#d97706;" onclick="odevD('+o.id+',\'eksik\')">!</button>';
     html+='<button class="btn btn-sm" style="background:#dcfce7;color:#16a34a;" onclick="odevD('+o.id+',\'tamamlandi\')">V</button>';
@@ -455,32 +480,26 @@ function buildOdevlerTab(){
   return html;
 }
 
-function buildDenemelerTab(){
-  var html='<div class="flex-between" style="margin-bottom:12px;">';
+function buildDenemeler(){
+  var html='<div class="fb" style="margin-bottom:12px;">';
   html+='<p class="font-bold">Deneme Takibi</p>';
   html+='<button class="btn btn-primary btn-sm" onclick="openDenemeModal()">+ Ekle</button></div>';
-  if(state.denemeler.length===0) return html+'<div class="empty">Henuz deneme eklenmemis</div>';
-
-  // Ogrenci bazli grupla
+  if(S.denemeler.length===0) return html+'<div class="empty">Henuz deneme eklenmemis</div>';
   var ogrs={};
-  state.denemeler.forEach(function(d){
-    if(!ogrs[d.ogrenciId]) ogrs[d.ogrenciId]=[];
-    ogrs[d.ogrenciId].push(d);
-  });
-
+  S.denemeler.forEach(function(d){ if(!ogrs[d.ogrenciId]) ogrs[d.ogrenciId]=[]; ogrs[d.ogrenciId].push(d); });
   Object.keys(ogrs).forEach(function(oid){
-    var ogr=getOgrenci(oid);
+    var ogr=getOgr(oid);
     html+='<p class="font-semi" style="margin:10px 0 6px;color:#4F46E5;">'+(ogr?ogr.ad:'?')+'</p>';
     ogrs[oid].sort(function(a,b){ return a.tarih.localeCompare(b.tarih); }).forEach(function(d){
-      html+='<div class="item">';
-      html+='<div class="flex-between"><div>';
+      html+='<div class="item"><div class="fb"><div>';
       html+='<p class="font-semi text-sm">'+d.ad+'</p>';
       html+='<p class="text-xs text-gray">'+d.tarih+'</p>';
-      html+='<div style="display:flex;gap:8px;margin-top:4px;">';
+      html+='<div style="display:flex;gap:6px;margin-top:4px;">';
       html+='<span class="text-xs" style="background:#ede9fe;color:#6d28d9;padding:2px 6px;border-radius:6px;">TYT: '+d.tyt+'</span>';
       html+='<span class="text-xs" style="background:#dbeafe;color:#1d4ed8;padding:2px 6px;border-radius:6px;">AYT: '+d.ayt+'</span>';
-      if(d.not) html+='<span class="text-xs text-gray">'+d.not+'</span>';
-      html+='</div></div>';
+      html+='</div>';
+      if(d.not) html+='<p class="text-xs text-gray" style="margin-top:2px;">'+d.not+'</p>';
+      html+='</div>';
       html+='<button class="btn btn-red btn-sm" onclick="delDeneme('+d.id+')">Sil</button>';
       html+='</div></div>';
     });
@@ -489,22 +508,26 @@ function buildDenemelerTab(){
 }
 
 // Actions
-function setTab(t){ state.activeTab=t; render(); }
-function toggleMoney(){ state.showMoney=!state.showMoney; render(); }
-function programSil(id){ if(!confirm('Silinsin mi?')) return; state.program=state.program.filter(function(p){ return p.id!==id; }); save('program'); render(); }
-function delOgrenci(id){ if(!confirm('Silinsin mi?')) return; state.ogrenciler=state.ogrenciler.filter(function(o){ return o.id!==id; }); save('ogrenciler'); render(); }
-function odevD(id,d){ state.odevler=state.odevler.map(function(o){ return o.id===id?Object.assign({},o,{durum:d}):o; }); save('odevler'); render(); }
-function delOdev(id){ if(!confirm('Silinsin mi?')) return; state.odevler=state.odevler.filter(function(o){ return o.id!==id; }); save('odevler'); render(); }
-function delDeneme(id){ if(!confirm('Silinsin mi?')) return; state.denemeler=state.denemeler.filter(function(d){ return d.id!==id; }); save('denemeler'); render(); }
+function setTab(t){ S.activeTab=t; render(); }
+function toggleMoney(){ S.showMoney=!S.showMoney; render(); }
+function calNav(d){ S.calAy+=d; if(S.calAy>11){S.calAy=0;S.calYil++;} if(S.calAy<0){S.calAy=11;S.calYil--;} render(); }
+function calGun(t){ S.calSeciliGun=S.calSeciliGun===t?null:t; render(); }
+function toggleOgrenci(id){ S.acikOgrenci=S.acikOgrenci===id?null:id; render(); }
+function yokOde(id){ S.yoklama=S.yoklama.map(function(y){ return y.id===id?Object.assign({},y,{odendi:!y.odendi}):y; }); save('yoklama'); render(); }
+function programSil(id){ if(!confirm('Silinsin mi?')) return; S.program=S.program.filter(function(p){ return p.id!==id; }); save('program'); render(); }
+function delOgr(id){ if(!confirm('Silinsin mi?')) return; S.ogrenciler=S.ogrenciler.filter(function(o){ return o.id!==id; }); save('ogrenciler'); render(); }
+function odevD(id,d){ S.odevler=S.odevler.map(function(o){ return o.id===id?Object.assign({},o,{durum:d}):o; }); save('odevler'); render(); }
+function delOdev(id){ if(!confirm('Silinsin mi?')) return; S.odevler=S.odevler.filter(function(o){ return o.id!==id; }); save('odevler'); render(); }
+function delDeneme(id){ if(!confirm('Silinsin mi?')) return; S.denemeler=S.denemeler.filter(function(d){ return d.id!==id; }); save('denemeler'); render(); }
 
-function sendTomorrowReminders(){
+function sendTomorrow(){
   var yarin=tomorrowStr();
-  var yarinGun=gunAdiTR(yarin);
-  var list=state.program.filter(function(p){ return p.gun===yarinGun; });
+  var yGun=gunAdiTR(yarin);
+  var list=S.program.filter(function(p){ return p.gun===yGun; });
   if(list.length===0){ toast('Yarin ders yok','#f59e0b'); return; }
   list.forEach(function(plan){
-    var ogr=getOgrenci(plan.ogrenciId);
-    if(ogr&&ogr.telefon) sendWhatsApp(ogr.telefon,'Merhaba, yarin saat '+plan.baslangic+' daki dersimiz icin hatirlatma.');
+    var ogr=getOgr(plan.ogrenciId);
+    if(ogr&&ogr.telefon) sendWA(ogr.telefon,'Merhaba, yarin saat '+plan.baslangic+' daki dersimiz icin hatirlatma.');
   });
   toast(list.length+' hatirlatma gonderildi','#22c55e');
 }
@@ -512,17 +535,16 @@ function sendTomorrowReminders(){
 // Modal - Program
 function openProgramModal(){
   if(!canAdd('program')){ openUpgrade(); return; }
-  if(state.ogrenciler.length===0){ toast('Once ogrenci ekleyin!','#f59e0b'); return; }
+  if(S.ogrenciler.length===0){ toast('Once ogrenci ekleyin!','#f59e0b'); return; }
   var saatler=[];
   for(var i=7;i<=22;i++){ saatler.push(pad(i)+':00'); saatler.push(pad(i)+':30'); }
-
   var html='<div class="modal-bg" id="pmBg"><div class="modal">';
-  html+='<div class="flex-between" style="margin-bottom:16px;"><h3>Yeni Program</h3>';
+  html+='<div class="fb" style="margin-bottom:16px;"><h3>Yeni Program</h3>';
   html+='<button onclick="closeModal(\'pmBg\')" style="background:none;border:none;font-size:24px;cursor:pointer;">x</button></div>';
-  html+='<div class="form-group"><label>Ogrenci *</label><select id="pmO"><option value="">Secin</option>';
-  state.ogrenciler.forEach(function(o){ html+='<option value="'+o.id+'">'+o.ad+'</option>'; });
+  html+='<div class="fg"><label>Ogrenci *</label><select id="pmO"><option value="">Secin</option>';
+  S.ogrenciler.forEach(function(o){ html+='<option value="'+o.id+'">'+o.ad+'</option>'; });
   html+='</select></div>';
-  html+='<div class="form-group"><label>Gun *</label><select id="pmG"><option value="">Secin</option>';
+  html+='<div class="fg"><label>Gun *</label><select id="pmG"><option value="">Secin</option>';
   ['Pazartesi','Sali','Carsamba','Persembe','Cuma','Cumartesi','Pazar'].forEach(function(g){ html+='<option>'+g+'</option>'; });
   html+='</select></div>';
   html+='<div style="display:flex;gap:8px;margin-bottom:12px;">';
@@ -534,12 +556,12 @@ function openProgramModal(){
   html+='<select id="pmBit" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px;font-size:13px;"><option value="">Sec</option>';
   saatler.forEach(function(s){ html+='<option>'+s+'</option>'; });
   html+='</select></div></div>';
+  html+='<p class="text-xs text-gray" style="margin-bottom:8px;">Not: 1 ders saati = 45 dakika. Ucret otomatik hesaplanir.</p>';
   html+='<div style="display:flex;gap:8px;"><button class="btn btn-primary" style="flex:1;" onclick="saveProgram()">Kaydet</button>';
   html+='<button class="btn btn-gray" style="flex:1;" onclick="closeModal(\'pmBg\')">Iptal</button></div>';
   html+='</div></div>';
   document.body.insertAdjacentHTML('beforeend',html);
 }
-
 function saveProgram(){
   var o=document.getElementById('pmO').value;
   var g=document.getElementById('pmG').value;
@@ -547,22 +569,29 @@ function saveProgram(){
   var bit=document.getElementById('pmBit').value;
   if(!o||!g||!bas||!bit){ toast('Tum alanlari doldurun','#f59e0b'); return; }
   if(bas>=bit){ toast('Bitis baslangictan once!','#ef4444'); return; }
-  state.program.push({id:Date.now(),ogrenciId:Number(o),gun:g,baslangic:bas,bitis:bit});
-  save('program'); closeModal('pmBg'); toast('Program eklendi!','#22c55e'); render();
+  var ogr=getOgr(Number(o));
+  var ds=dersSaatiHesapla(bas,bit);
+  var ucr=ds*Number(ogr?ogr.ucret||0:0);
+  S.program.push({id:Date.now(),ogrenciId:Number(o),gun:g,baslangic:bas,bitis:bit});
+  save('program');
+  closeModal('pmBg');
+  toast(ds+' ders saati = &#8378;'+ucr,'#22c55e');
+  render();
 }
 
 // Modal - Ogrenci
 var editOgrId=null;
-function openOgrenciModal(){ editOgrId=null; showOgrModal({ad:'',telefon:'',sinif:'',ucret:''}); }
-function editOgrenci(id){ var o=state.ogrenciler.find(function(x){ return x.id===id; }); if(o){ editOgrId=id; showOgrModal(o); } }
+function openOgrModal(){ editOgrId=null; showOgrModal({ad:'',telefon:'',sinif:'',ucret:''}); }
+function editOgr(id){ var o=S.ogrenciler.find(function(x){ return x.id===id; }); if(o){ editOgrId=id; showOgrModal(o); } }
 function showOgrModal(d){
   var html='<div class="modal-bg" id="omBg"><div class="modal">';
-  html+='<div class="flex-between" style="margin-bottom:16px;"><h3>'+(editOgrId?'Duzenle':'Yeni Ogrenci')+'</h3>';
+  html+='<div class="fb" style="margin-bottom:16px;"><h3>'+(editOgrId?'Duzenle':'Yeni Ogrenci')+'</h3>';
   html+='<button onclick="closeModal(\'omBg\')" style="background:none;border:none;font-size:24px;cursor:pointer;">x</button></div>';
-  html+='<div class="form-group"><label>Ad Soyad *</label><input id="oAd" value="'+d.ad+'" placeholder="Ahmet Yilmaz"></div>';
-  html+='<div class="form-group"><label>Telefon</label><input id="oTel" type="tel" value="'+(d.telefon||'')+'" placeholder="0555 123 4567"></div>';
-  html+='<div class="form-group"><label>Sinif</label><input id="oSinif" value="'+(d.sinif||'')+'" placeholder="10"></div>';
-  html+='<div class="form-group"><label>Ders Ucreti (TL)</label><input id="oUcret" type="number" value="'+(d.ucret||'')+'" placeholder="500"></div>';
+  html+='<div class="fg"><label>Ad Soyad *</label><input id="oAd" value="'+d.ad+'" placeholder="Ahmet Yilmaz"></div>';
+  html+='<div class="fg"><label>Telefon</label><input id="oTel" type="tel" value="'+(d.telefon||'')+'" placeholder="0555 123 4567"></div>';
+  html+='<div class="fg"><label>Sinif</label><input id="oSinif" value="'+(d.sinif||'')+'" placeholder="10"></div>';
+  html+='<div class="fg"><label>1 Ders Saati Ucreti (TL)</label><input id="oUcret" type="number" value="'+(d.ucret||'')+'" placeholder="2000"></div>';
+  html+='<p class="text-xs text-gray" style="margin-bottom:12px;">45 dakika = 1 ders saati. 90 dakika ders = 2 x ucret.</p>';
   html+='<div style="display:flex;gap:8px;"><button class="btn btn-primary" style="flex:1;" onclick="saveOgr()">Kaydet</button>';
   html+='<button class="btn btn-gray" style="flex:1;" onclick="closeModal(\'omBg\')">Iptal</button></div>';
   html+='</div></div>';
@@ -574,22 +603,22 @@ function saveOgr(){
   if(!canAdd('student')&&!editOgrId){ openUpgrade(); return; }
   var obj={ad:ad,telefon:document.getElementById('oTel').value,sinif:document.getElementById('oSinif').value,ucret:document.getElementById('oUcret').value};
   if(editOgrId){
-    state.ogrenciler=state.ogrenciler.map(function(o){ return o.id===editOgrId?Object.assign({},obj,{id:editOgrId}):o; });
-  } else { obj.id=Date.now(); state.ogrenciler.push(obj); }
+    S.ogrenciler=S.ogrenciler.map(function(o){ return o.id===editOgrId?Object.assign({},obj,{id:editOgrId}):o; });
+  } else { obj.id=Date.now(); S.ogrenciler.push(obj); }
   save('ogrenciler'); closeModal('omBg'); render();
 }
 
 // Modal - Odev
 function openOdevModal(){
-  if(state.ogrenciler.length===0){ toast('Once ogrenci ekleyin!','#f59e0b'); return; }
+  if(S.ogrenciler.length===0){ toast('Once ogrenci ekleyin!','#f59e0b'); return; }
   var html='<div class="modal-bg" id="odvBg"><div class="modal">';
-  html+='<div class="flex-between" style="margin-bottom:16px;"><h3>Yeni Odev</h3>';
+  html+='<div class="fb" style="margin-bottom:16px;"><h3>Yeni Odev</h3>';
   html+='<button onclick="closeModal(\'odvBg\')" style="background:none;border:none;font-size:24px;cursor:pointer;">x</button></div>';
-  html+='<div class="form-group"><label>Ogrenci *</label><select id="ovO"><option value="">Secin</option>';
-  state.ogrenciler.forEach(function(o){ html+='<option value="'+o.id+'">'+o.ad+'</option>'; });
+  html+='<div class="fg"><label>Ogrenci *</label><select id="ovO"><option value="">Secin</option>';
+  S.ogrenciler.forEach(function(o){ html+='<option value="'+o.id+'">'+o.ad+'</option>'; });
   html+='</select></div>';
-  html+='<div class="form-group"><label>Konu *</label><input id="ovK" placeholder="Turev Sorulari"></div>';
-  html+='<div class="form-group"><label>Aciklama</label><textarea id="ovA" rows="2" placeholder="Kitap sayfa 45-50"></textarea></div>';
+  html+='<div class="fg"><label>Konu *</label><input id="ovK" placeholder="Turev Sorulari"></div>';
+  html+='<div class="fg"><label>Aciklama</label><textarea id="ovA" rows="2" placeholder="Kitap sayfa 45-50"></textarea></div>';
   html+='<div style="display:flex;gap:8px;"><button class="btn btn-primary" style="flex:1;" onclick="saveOdev()">Ekle</button>';
   html+='<button class="btn btn-gray" style="flex:1;" onclick="closeModal(\'odvBg\')">Iptal</button></div>';
   html+='</div></div>';
@@ -599,27 +628,27 @@ function saveOdev(){
   var oid=document.getElementById('ovO').value;
   var k=document.getElementById('ovK').value.trim();
   if(!oid||!k){ toast('Ogrenci ve konu zorunlu!','#f59e0b'); return; }
-  state.odevler.push({id:Date.now(),ogrenciId:Number(oid),konu:k,aciklama:document.getElementById('ovA').value,durum:'yapilmadi'});
+  S.odevler.push({id:Date.now(),ogrenciId:Number(oid),konu:k,aciklama:document.getElementById('ovA').value,durum:'yapilmadi'});
   save('odevler'); closeModal('odvBg'); render();
 }
 
 // Modal - Deneme
 function openDenemeModal(){
-  if(state.ogrenciler.length===0){ toast('Once ogrenci ekleyin!','#f59e0b'); return; }
+  if(S.ogrenciler.length===0){ toast('Once ogrenci ekleyin!','#f59e0b'); return; }
   var html='<div class="modal-bg" id="dnBg"><div class="modal">';
-  html+='<div class="flex-between" style="margin-bottom:16px;"><h3>Deneme Ekle</h3>';
+  html+='<div class="fb" style="margin-bottom:16px;"><h3>Deneme Ekle</h3>';
   html+='<button onclick="closeModal(\'dnBg\')" style="background:none;border:none;font-size:24px;cursor:pointer;">x</button></div>';
-  html+='<div class="form-group"><label>Ogrenci *</label><select id="dnO"><option value="">Secin</option>';
-  state.ogrenciler.forEach(function(o){ html+='<option value="'+o.id+'">'+o.ad+'</option>'; });
+  html+='<div class="fg"><label>Ogrenci *</label><select id="dnO"><option value="">Secin</option>';
+  S.ogrenciler.forEach(function(o){ html+='<option value="'+o.id+'">'+o.ad+'</option>'; });
   html+='</select></div>';
-  html+='<div class="form-group"><label>Deneme Adi *</label><input id="dnAd" placeholder="TYT Deneme 1"></div>';
-  html+='<div class="form-group"><label>Tarih</label><input id="dnTar" type="date" value="'+todayStr()+'"></div>';
+  html+='<div class="fg"><label>Deneme Adi *</label><input id="dnAd" placeholder="TYT Deneme 1"></div>';
+  html+='<div class="fg"><label>Tarih</label><input id="dnTar" type="date" value="'+todayStr()+'"></div>';
   html+='<div style="display:flex;gap:8px;margin-bottom:12px;">';
   html+='<div style="flex:1"><label class="text-xs font-semi" style="display:block;margin-bottom:4px;">TYT Net</label>';
   html+='<input id="dnTyt" type="number" step="0.5" placeholder="85.5" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px;font-size:13px;"></div>';
   html+='<div style="flex:1"><label class="text-xs font-semi" style="display:block;margin-bottom:4px;">AYT Net</label>';
   html+='<input id="dnAyt" type="number" step="0.5" placeholder="60.0" style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px;font-size:13px;"></div></div>';
-  html+='<div class="form-group"><label>Not</label><input id="dnNot" placeholder="Matematik dusuk"></div>';
+  html+='<div class="fg"><label>Not</label><input id="dnNot" placeholder="Matematik dusuk"></div>';
   html+='<div style="display:flex;gap:8px;"><button class="btn btn-primary" style="flex:1;" onclick="saveDeneme()">Ekle</button>';
   html+='<button class="btn btn-gray" style="flex:1;" onclick="closeModal(\'dnBg\')">Iptal</button></div>';
   html+='</div></div>';
@@ -629,7 +658,7 @@ function saveDeneme(){
   var oid=document.getElementById('dnO').value;
   var ad=document.getElementById('dnAd').value.trim();
   if(!oid||!ad){ toast('Ogrenci ve deneme adi zorunlu!','#f59e0b'); return; }
-  state.denemeler.push({id:Date.now(),ogrenciId:Number(oid),ad:ad,tarih:document.getElementById('dnTar').value,tyt:document.getElementById('dnTyt').value||'-',ayt:document.getElementById('dnAyt').value||'-',not:document.getElementById('dnNot').value});
+  S.denemeler.push({id:Date.now(),ogrenciId:Number(oid),ad:ad,tarih:document.getElementById('dnTar').value,tyt:document.getElementById('dnTyt').value||'-',ayt:document.getElementById('dnAyt').value||'-',not:document.getElementById('dnNot').value});
   save('denemeler'); closeModal('dnBg'); toast('Deneme eklendi!','#22c55e'); render();
 }
 
@@ -642,15 +671,14 @@ function openUpgrade(){
   html+='</div></div>';
   document.body.insertAdjacentHTML('beforeend',html);
 }
-function activatePremium(){ state.isPremium=true; save('isPremium'); closeModal('upBg'); toast('Premium aktif!','#6d28d9'); render(); }
+function activatePremium(){ S.isPremium=true; save('isPremium'); closeModal('upBg'); toast('Premium aktif!','#6d28d9'); render(); }
 
 load();
-if(!state.yoklamaFiltre) state.yoklamaFiltre='';
+if(!S.yoklamaFiltre) S.yoklamaFiltre='';
 render();
 
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/derspaneli/service-worker.js')
-    .catch(function(e){ console.error('SW:',e); });
+  navigator.serviceWorker.register('/derspaneli/service-worker.js').catch(function(e){ console.error('SW:',e); });
 }
 </script>
 </body>
